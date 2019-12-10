@@ -1,5 +1,6 @@
 import { Todo } from "../model/todo.model";
+import { Observable } from "rxjs";
 
 export abstract class TodoRepository {
-  abstract getAllTodos(): Array<Todo>;
+  abstract getAllTodos(): Observable<Array<Todo>>;
 }
