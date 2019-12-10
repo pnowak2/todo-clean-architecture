@@ -4,7 +4,7 @@ import { TodoRepository } from "../todo/domain/repository/todo.repository";
 import { TodoInMemoryRepository } from "../todo/data/repository/todo.inmemory.repository";
 import { TodoRestfulRepository } from "../todo/data/repository/todo.restful.repository";
 
-export class App {
+export class ConsoleApp {
   run() {
     const memoryRepo: TodoRepository = new TodoInMemoryRepository();
     const restfulRepo: TodoRepository = new TodoRestfulRepository();
