@@ -8,7 +8,7 @@ export class App {
   run() {
     const memoryRepo: TodoRepository = new TodoInMemoryRepository();
     const restfulRepo: TodoRepository = new TodoRestfulRepository();
-    const uc: GetAllTodosUseCase = new GetAllTodosUseCase(restfulRepo);
+    const uc: GetAllTodosUseCase = new GetAllTodosUseCase(memoryRepo);
     const presenter: TodoPresenter = new TodoPresenter(uc);
 
     presenter.todos$.subscribe(todos => {
@@ -16,5 +16,6 @@ export class App {
     });
 
     presenter.getAllTodos();
+    presenter.onDestroy();
   }
 }
