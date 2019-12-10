@@ -1,7 +1,7 @@
 import { TodoRepository } from "../../../domain/repository/todo.repository";
 import { Todo } from "../../../domain/model/todo.model";
 import { from, Observable } from "rxjs";
-import { map, tap } from "rxjs/operators";
+import { map, tap, filter } from "rxjs/operators";
 import * as axios from "axios";
 import { TodoRestfulRepositoryMapper } from "./todo.mapper";
 
@@ -15,5 +15,11 @@ export class TodoRestfulRepository implements TodoRepository {
         map(res => res.data.body.todos),
         map(todos => todos.map(this.mapper.mapFrom))
       );
+  }
+
+  searchTodos(keyword: string): Observable<Array<Todo>> {
+    return this.getAllTodos().pipe(
+      map(todos=> todos.filter(todo => todo.name.includes(keyword)))
+    );
   }
 }
