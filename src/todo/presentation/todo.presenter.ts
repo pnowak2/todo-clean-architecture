@@ -3,6 +3,7 @@ import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 import { Todo } from "../domain/model/todo.model";
 import { SearchTodosUseCase } from "../domain/usecase/search-todos.usecase";
+import { AddTodoUseCase } from "../domain/usecase/add-todo.usecase";
 
 export class TodoPresenter {
   todos$: Subject<Array<Todo>> = new Subject<Array<Todo>>();
@@ -10,7 +11,8 @@ export class TodoPresenter {
 
   constructor(
     private getAllTodosUC: GetAllTodosUseCase,
-    private searchTodosUC: SearchTodosUseCase
+    private searchTodosUC: SearchTodosUseCase,
+    private addTodoUC: AddTodoUseCase
   ) { }
 
   getAllTodos() {
@@ -25,6 +27,13 @@ export class TodoPresenter {
       .execute(keyword)
       .pipe(takeUntil(this.destroy$))
       .subscribe(this.todos$);
+  }
+
+  addTodo(name: string) {
+    this.addTodoUC
+      .execute(name)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe();
   }
 
   onDestroy() {
