@@ -28,6 +28,12 @@ export class TodoRestfulRepository implements TodoRepository {
     return of(todo);
   }
 
+  getTodoById(id: string): Observable<Todo> {
+    return this.getAllTodos().pipe(
+      map(todos => todos.find(todo => todo.id === id))
+    )
+  }
+
   removeTodo(id: string): Observable<Todo> {
     return of(null);
   }

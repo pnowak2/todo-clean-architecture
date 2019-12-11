@@ -6,4 +6,5 @@ export abstract class TodoRepository {
   abstract searchTodos(keyword: string): Observable<Array<Todo>>;
   abstract addTodo(name: string): Observable<Todo>;
   abstract removeTodo(id: string): Observable<Todo>;
+  abstract getTodoById(id: string): Observable<Todo>;
 }

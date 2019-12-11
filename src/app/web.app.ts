@@ -6,19 +6,22 @@ import { TodoInMemoryRepository } from "../todo/data/repository/inmemory/todo.in
 import { TodoRestfulRepository } from "../todo/data/repository/restful/todo.restful.repository";
 import { SearchTodosUseCase } from "../todo/domain/usecase/search-todos.usecase";
 import { AddTodoUseCase } from "../todo/domain/usecase/add-todo.usecase";
+import { GetTodoByIdUseCase } from "../todo/domain/usecase/get-todo-by-id.usecase";
 
 export class WebApp {
   run() {
-    const memoryRepo: TodoRepository = new TodoInMemoryRepository();
+    const inMemoryRepo: TodoRepository = new TodoInMemoryRepository();
     const restfulRepo: TodoRepository = new TodoRestfulRepository();
-    const getAllTodosUC: GetAllTodosUseCase = new GetAllTodosUseCase(memoryRepo);
-    const searchTodosUC: SearchTodosUseCase = new SearchTodosUseCase(memoryRepo);
-    const addTodoUC: AddTodoUseCase = new AddTodoUseCase(memoryRepo);
+    const getAllTodosUC: GetAllTodosUseCase = new GetAllTodosUseCase(inMemoryRepo);
+    const searchTodosUC: SearchTodosUseCase = new SearchTodosUseCase(inMemoryRepo);
+    const addTodoUC: AddTodoUseCase = new AddTodoUseCase(inMemoryRepo);
+    const getTodoByIdUC: GetTodoByIdUseCase = new GetTodoByIdUseCase(inMemoryRepo);
 
     const presenter: TodoPresenter = new TodoPresenter(
       getAllTodosUC,
       searchTodosUC,
-      addTodoUC
+      addTodoUC,
+      getTodoByIdUC
     );
 
     presenter.todos$.subscribe(todos => {

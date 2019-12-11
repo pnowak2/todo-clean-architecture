@@ -1,7 +1,7 @@
 import { TodoRepository } from "../../../domain/repository/todo.repository";
 import { Todo } from "../../../domain/model/todo.model";
 import { Observable, of } from "rxjs";
-import { map } from "rxjs/operators";
+import { map, find } from "rxjs/operators";
 
 const todos = [
   new Todo({ id: '1', name: 'todo 1' }),
@@ -26,6 +26,10 @@ export class TodoInMemoryRepository implements TodoRepository {
 
     todos.push(todo);
     return of(todo);
+  }
+
+  getTodoById(id: string): Observable<Todo> {
+    return of(todos.find(todo => todo.id === id));
   }
 
   removeTodo(id: string): Observable<Todo> {
