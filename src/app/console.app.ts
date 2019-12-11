@@ -6,22 +6,28 @@ import { TodoRestfulRepository } from "../todo/data/repository/restful/todo.rest
 import { SearchTodosUseCase } from "../todo/domain/usecase/search-todos.usecase";
 
 export class ConsoleApp {
-  run() {
+  presenter: TodoPresenter;
+
+  constructor() {
     const memoryRepo: TodoRepository = new TodoInMemoryRepository();
     const restfulRepo: TodoRepository = new TodoRestfulRepository();
     const getAllTodosUC: GetAllTodosUseCase = new GetAllTodosUseCase(memoryRepo);
     const searchTodosUC: SearchTodosUseCase = new SearchTodosUseCase(memoryRepo);
-    const presenter: TodoPresenter = new TodoPresenter(
+
+    this.presenter = new TodoPresenter(
       getAllTodosUC,
       searchTodosUC
     );
 
-    presenter.todos$.subscribe(todos => {
+    this.presenter.todos$.subscribe(todos => {
       console.log('todos:', todos);
     });
+  }
 
-    presenter.getAllTodos();
-    presenter.searchTodos('2');
-    // presenter.onDestroy();
+  run() {
+    // this.presenter.getAllTodos();
+    this.presenter.searchTodos('2');
+    
+    this.presenter.onDestroy();
   }
 }
