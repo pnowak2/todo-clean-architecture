@@ -1,13 +1,15 @@
 import { GetAllTodosUseCase } from "../domain/usecase/get-all-todos.usecase";
 import { Subject } from "rxjs";
-import { takeUntil } from "rxjs/operators";
-import { Todo } from "../domain/model/todo.model";
+import { takeUntil, map } from "rxjs/operators";
 import { SearchTodosUseCase } from "../domain/usecase/search-todos.usecase";
 import { AddTodoUseCase } from "../domain/usecase/add-todo.usecase";
+import { TodoViewModelMapper } from "./todo.mapper";
+import { TodoViewModel } from "./todo.viewmodel";
 
 export class TodoPresenter {
-  todos$: Subject<Array<Todo>> = new Subject<Array<Todo>>();
+  todos$: Subject<Array<TodoViewModel>> = new Subject<Array<TodoViewModel>>();
   destroy$: Subject<any> = new Subject<any>();
+  mapper = new TodoViewModelMapper();
 
   constructor(
     private getAllTodosUC: GetAllTodosUseCase,
@@ -18,21 +20,30 @@ export class TodoPresenter {
   getAllTodos() {
     this.getAllTodosUC
       .execute()
-      .pipe(takeUntil(this.destroy$))
+      .pipe(
+        map(todos => todos.map(this.mapper.mapFrom)),
+        takeUntil(this.destroy$)
+      )
       .subscribe(this.todos$);
   }
 
   searchTodos(keyword: string) {
     this.searchTodosUC
       .execute(keyword)
-      .pipe(takeUntil(this.destroy$))
+      .pipe(
+        map(todos => todos.map(this.mapper.mapFrom)),
+        takeUntil(this.destroy$)
+      )
       .subscribe(this.todos$);
   }
 
   addTodo(name: string) {
     this.addTodoUC
       .execute(name)
-      .pipe(takeUntil(this.destroy$))
+      .pipe(
+        map(this.mapper.mapFrom),
+        takeUntil(this.destroy$)
+      )
       .subscribe();
   }
 

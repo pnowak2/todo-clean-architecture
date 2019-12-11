@@ -1,7 +1,7 @@
 import { TodoRepository } from "../../../domain/repository/todo.repository";
 import { Todo } from "../../../domain/model/todo.model";
 import { from, Observable, of } from "rxjs";
-import { map, tap } from "rxjs/operators";
+import { map } from "rxjs/operators";
 import * as axios from "axios";
 import { TodoRestfulRepositoryMapper } from "./todo.mapper";
 
