@@ -28,11 +28,10 @@ export class ConsoleApp {
   }
 
   run() {
-
     this.presenter.addTodo('added 1');
     this.presenter.addTodo('added 2');
-    this.presenter.getAllTodos();
-    // this.presenter.searchTodos('2');
+    // this.presenter.getAllTodos();
+    this.presenter.searchTodos('2');
     
     this.presenter.onDestroy();
   }
