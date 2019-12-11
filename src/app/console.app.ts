@@ -32,6 +32,10 @@ export class ConsoleApp {
     this.presenter.todo$.subscribe(todos => {
       console.log('todo:', todos);
     });
+
+    this.presenter.errorMessage$.subscribe(error => {
+      console.log('got error:', error);
+    });
   }
 
   run() {
@@ -40,7 +44,7 @@ export class ConsoleApp {
     // this.presenter.getAllTodos();
     this.presenter.searchTodos('2');
 
-    this.presenter.getTodo('1');
+    this.presenter.getTodo('3');
     
     this.presenter.onDestroy();
   }
