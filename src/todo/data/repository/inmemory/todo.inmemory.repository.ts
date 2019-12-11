@@ -4,9 +4,9 @@ import { Observable, of } from "rxjs";
 import { map } from "rxjs/operators";
 
 const todos = [
-  { name: 'todo 1' },
-  { name: 'todo 2' },
-  { name: 'todo 3' },
+  new Todo({ id: '1', name: 'todo 1' }),
+  new Todo({ id: '2', name: 'todo 2' }),
+  new Todo({ id: '3', name: 'todo 3' }),
 ];
 
 export class TodoInMemoryRepository implements TodoRepository {
@@ -21,9 +21,14 @@ export class TodoInMemoryRepository implements TodoRepository {
   }
 
   addTodo(name: string): Observable<Todo> {
-    const todo = { name };
+    const id = '1';
+    const todo: Todo = { id, name };
 
     todos.push(todo);
     return of(todo);
+  }
+
+  removeTodo(id: string): Observable<Todo> {
+    return of(null);
   }
 }

@@ -8,6 +8,6 @@ export class TodoViewModelMapper implements Mapper<Todo, TodoViewModel> {
   }
 
   mapTo(input: TodoViewModel): Todo {
-    return { name: input.username };
+    return { id: undefined, name: input.username };
   }
 } 

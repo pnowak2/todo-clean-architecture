@@ -23,7 +23,12 @@ export class TodoRestfulRepository implements TodoRepository {
   }
 
   addTodo(name: string): Observable<Todo> {
-    const todo = { name };
+    const id = '1';
+    const todo = { id, name };
     return of(todo);
+  }
+
+  removeTodo(id: string): Observable<Todo> {
+    return of(null);
   }
 }

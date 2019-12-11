@@ -1,3 +1,13 @@
+export interface TodoProps {
+  id: string
+  name?: string
+}
+
 export class Todo {
-  constructor(public name: string) { }
+  id: string;
+  name: string;
+
+  constructor(params: TodoProps) { 
+    Object.assign(this, params);
+  }
 }

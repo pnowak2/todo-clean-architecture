@@ -3,7 +3,7 @@ import { Mapper } from "../../../../base/mapper";
 
 export class TodoRestfulRepositoryMapper implements Mapper<string, Todo> {
   mapFrom(input: any): Todo {
-    return { name: input };
+    return { id: '1', name: input };
   }
 
   mapTo(input: Todo): string {
