@@ -1,19 +1,19 @@
-import { TodoPresenter } from "../features/todo/presentation/todo.presenter";
-import { GetAllTodosUseCase } from "../features/todo/domain/usecase/get-all-todos.usecase";
-import { TodoRepository } from "../features/todo/domain/repository/todo.repository";
-import { TodoInMemoryRepository } from "../features/todo/data/repository/inmemory/todo.inmemory.repository";
-import { SearchTodosUseCase } from "../features/todo/domain/usecase/search-todos.usecase";
-import { AddTodoUseCase } from "../features/todo/domain/usecase/add-todo.usecase";
-import { GetTodoByIdUseCase } from "../features/todo/domain/usecase/get-todo-by-id.usecase";
-import { UserRepository } from "../features/user/domain/repository/user.repository";
-import { UserInMemoryRepository } from "../features/user/data/repository/inmemory/user.inmemory.repository";
-import { GetAllUsersUseCase } from "../features/user/domain/usecase/get-all-users.usecase";
-import { UserPresenter } from "../features/user/presentation/user.presenter";
-import { RemoveTodoUseCase } from "../features/todo/domain/usecase/remove-todo-id.usecase";
-import { MarkTodoAsCompletedUseCase } from "../features/todo/domain/usecase/mark-todo-as-complete.usecase";
-import { MarkTodoAsIncompletedUseCase } from "../features/todo/domain/usecase/mark-todo-as-incomplete.usecase";
-import { GetCompletedTodosUseCase } from "../features/todo/domain/usecase/get-completed-todos.usecase";
-import { GetIncompletedTodosUseCase } from "../features/todo/domain/usecase/get-incompleted-todos.usecase";
+import { TodoPresenter } from "../../features/todo/presentation/todo.presenter";
+import { GetAllTodosUseCase } from "../../features/todo/domain/usecase/get-all-todos.usecase";
+import { TodoRepository } from "../../features/todo/domain/repository/todo.repository";
+import { TodoInMemoryRepository } from "../../features/todo/data/repository/inmemory/todo.inmemory.repository";
+import { SearchTodosUseCase } from "../../features/todo/domain/usecase/search-todos.usecase";
+import { AddTodoUseCase } from "../../features/todo/domain/usecase/add-todo.usecase";
+import { GetTodoByIdUseCase } from "../../features/todo/domain/usecase/get-todo-by-id.usecase";
+import { UserRepository } from "../../features/user/domain/repository/user.repository";
+import { UserInMemoryRepository } from "../../features/user/data/repository/inmemory/user.inmemory.repository";
+import { GetAllUsersUseCase } from "../../features/user/domain/usecase/get-all-users.usecase";
+import { UserPresenter } from "../../features/user/presentation/user.presenter";
+import { RemoveTodoUseCase } from "../../features/todo/domain/usecase/remove-todo-id.usecase";
+import { MarkTodoAsCompletedUseCase } from "../../features/todo/domain/usecase/mark-todo-as-complete.usecase";
+import { MarkTodoAsIncompletedUseCase } from "../../features/todo/domain/usecase/mark-todo-as-incomplete.usecase";
+import { GetCompletedTodosUseCase } from "../../features/todo/domain/usecase/get-completed-todos.usecase";
+import { GetIncompletedTodosUseCase } from "../../features/todo/domain/usecase/get-incompleted-todos.usecase";
 
 export class ConsoleApp {
   todoPresenter: TodoPresenter;
@@ -72,7 +72,7 @@ export class ConsoleApp {
     this.todoPresenter.markTodoAsCompleted('2')
     this.todoPresenter.markTodoAsCompleted('3')
     // this.todoPresenter.searchTodos('2');
-    this.todoPresenter.getTodo('2');
+    this.todoPresenter.getTodo('3');
 
     // this.todoPresenter.getCompletedTodos();
     this.todoPresenter.getIncompletedTodos();

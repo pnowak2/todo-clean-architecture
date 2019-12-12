@@ -1,3 +1,3 @@
-import { ConsoleApp } from "./app/console.app";
+import { ConsoleApp } from "./app/console/console.app";
 
 new ConsoleApp().run();
