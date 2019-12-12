@@ -2,7 +2,6 @@ import { TodoPresenter } from "../features/todo/presentation/todo.presenter";
 import { GetAllTodosUseCase } from "../features/todo/domain/usecase/get-all-todos.usecase";
 import { TodoRepository } from "../features/todo/domain/repository/todo.repository";
 import { TodoInMemoryRepository } from "../features/todo/data/repository/inmemory/todo.inmemory.repository";
-import { TodoRestfulRepository } from "../features/todo/data/repository/restful/todo.restful.repository";
 import { SearchTodosUseCase } from "../features/todo/domain/usecase/search-todos.usecase";
 import { AddTodoUseCase } from "../features/todo/domain/usecase/add-todo.usecase";
 import { GetTodoByIdUseCase } from "../features/todo/domain/usecase/get-todo-by-id.usecase";
@@ -21,7 +20,6 @@ export class ConsoleApp {
   userPresenter: UserPresenter;
 
   constructor() {
-    const restfulTodoRepo: TodoRepository = new TodoRestfulRepository();
     const inMemoryTodoRepo: TodoRepository = new TodoInMemoryRepository();
     const getAllTodosUC: GetAllTodosUseCase = new GetAllTodosUseCase(inMemoryTodoRepo);
     const getCompletedTodosUC: GetCompletedTodosUseCase = new GetCompletedTodosUseCase(inMemoryTodoRepo);

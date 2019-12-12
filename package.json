@@ -1,21 +1,22 @@
 {
-  "name": "todo-clean",
+  "name": "todo-clean-architecture",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "tsc && node dist/index.js"
+    "start": "webpack && node dist/bundle.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.19.0",
-    "node-fetch": "^2.6.0",
     "rxjs": "^6.5.3"
   },
   "devDependencies": {
     "@types/node": "^12.12.16",
-    "rxjs": "^6.5.3"
+    "rxjs": "^6.5.3",
+    "ts-loader": "^6.2.1",
+    "typescript": "^3.7.3",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10"
   }
 }
