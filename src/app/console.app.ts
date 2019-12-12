@@ -13,6 +13,8 @@ import { UserPresenter } from "../features/user/presentation/user.presenter";
 import { RemoveTodoUseCase } from "../features/todo/domain/usecase/remove-todo-id.usecase";
 import { MarkTodoAsCompletedUseCase } from "../features/todo/domain/usecase/mark-todo-as-complete.usecase";
 import { MarkTodoAsIncompletedUseCase } from "../features/todo/domain/usecase/mark-todo-as-incomplete.usecase";
+import { GetCompletedTodosUseCase } from "../features/todo/domain/usecase/get-completed-todos.usecase";
+import { GetIncompletedTodosUseCase } from "../features/todo/domain/usecase/get-incompleted-todos.usecase";
 
 export class ConsoleApp {
   todoPresenter: TodoPresenter;
@@ -22,6 +24,8 @@ export class ConsoleApp {
     const restfulTodoRepo: TodoRepository = new TodoRestfulRepository();
     const inMemoryTodoRepo: TodoRepository = new TodoInMemoryRepository();
     const getAllTodosUC: GetAllTodosUseCase = new GetAllTodosUseCase(inMemoryTodoRepo);
+    const getCompletedTodosUC: GetCompletedTodosUseCase = new GetCompletedTodosUseCase(inMemoryTodoRepo);
+    const getIncompletedTodosUC: GetIncompletedTodosUseCase = new GetIncompletedTodosUseCase(inMemoryTodoRepo);
     const searchTodosUC: SearchTodosUseCase = new SearchTodosUseCase(inMemoryTodoRepo);
     const addTodoUC: AddTodoUseCase = new AddTodoUseCase(inMemoryTodoRepo);
     const getTodoByIdUC: GetTodoByIdUseCase = new GetTodoByIdUseCase(inMemoryTodoRepo);
@@ -31,6 +35,8 @@ export class ConsoleApp {
 
     this.todoPresenter = new TodoPresenter(
       getAllTodosUC,
+      getCompletedTodosUC,
+      getIncompletedTodosUC,
       searchTodosUC,
       addTodoUC,
       getTodoByIdUC,
@@ -64,11 +70,14 @@ export class ConsoleApp {
     this.todoPresenter.addTodo('added 1');
     this.todoPresenter.addTodo('added 2');
     this.todoPresenter.removeTodo('1');
-    this.todoPresenter.removeTodo('3');
+    // this.todoPresenter.removeTodo('3');
     this.todoPresenter.markTodoAsCompleted('2')
-    this.todoPresenter.getAllTodos();
-    this.todoPresenter.searchTodos('2');
+    this.todoPresenter.markTodoAsCompleted('3')
+    // this.todoPresenter.searchTodos('2');
     this.todoPresenter.getTodo('3');
+
+    // this.todoPresenter.getCompletedTodos();
+    this.todoPresenter.getIncompletedTodos();
     
     this.userPresenter.getAllUsers();
 

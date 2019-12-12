@@ -16,29 +16,31 @@ export class TodoRestfulRepository implements TodoRepository {
       );
   }
 
+  getCompletedTodos(): Observable<Array<Todo>> {
+    throw new Error('not implemented');
+  }
+
+  getIncompletedTodos(): Observable<Array<Todo>> {
+    throw new Error('not implemented');
+  }
+
   searchTodos(keyword: string): Observable<Array<Todo>> {
-    return this.getAllTodos().pipe(
-      map(todos=> todos.filter(todo => todo.name.includes(keyword)))
-    );
+    throw new Error('not implemented');
   }
 
   addTodo(name: string): Observable<Todo> {
-    const id = '1';
-    const todo = { id, name };
-    return of(todo);
+    throw new Error('not implemented');
   }
 
   getTodoById(id: string): Observable<Todo> {
-    return this.getAllTodos().pipe(
-      map(todos => todos.find(todo => todo.id === id))
-    )
+    throw new Error('not implemented');
   }
 
   removeTodo(id: string): Observable<Todo> {
-    return of(null);
+    throw new Error('not implemented');
   }
 
   markTodoAsCompleted(id: string, isCompleted: boolean): Observable<Todo> {
-    return of(null);
+    throw new Error('not implemented');
   }
 }

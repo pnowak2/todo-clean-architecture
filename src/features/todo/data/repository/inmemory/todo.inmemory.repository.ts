@@ -14,6 +14,14 @@ export class TodoInMemoryRepository implements TodoRepository {
     return of(todos);
   }
 
+  getCompletedTodos(): Observable<Array<Todo>> {
+    return of(todos.filter(todo => todo.completed));
+  }
+
+  getIncompletedTodos(): Observable<Array<Todo>> {
+    return of(todos.filter(todo => !todo.completed));
+  }
+
   searchTodos(keyword: string): Observable<Array<Todo>> {
     return this.getAllTodos().pipe(
       map(todos => todos.filter(todo => todo.name.includes(keyword)))

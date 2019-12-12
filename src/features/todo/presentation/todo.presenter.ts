@@ -9,6 +9,8 @@ import { GetTodoByIdUseCase } from "../domain/usecase/get-todo-by-id.usecase";
 import { RemoveTodoUseCase } from "../domain/usecase/remove-todo-id.usecase";
 import { MarkTodoAsCompletedUseCase } from "../domain/usecase/mark-todo-as-complete.usecase";
 import { MarkTodoAsIncompletedUseCase } from "../domain/usecase/mark-todo-as-incomplete.usecase";
+import { GetCompletedTodosUseCase } from "../domain/usecase/get-completed-todos.usecase";
+import { GetIncompletedTodosUseCase } from "../domain/usecase/get-incompleted-todos.usecase";
 
 export class TodoPresenter {
   todos$: Subject<Array<TodoViewModel>> = new Subject<Array<TodoViewModel>>();
@@ -19,6 +21,8 @@ export class TodoPresenter {
 
   constructor(
     private getAllTodosUC: GetAllTodosUseCase,
+    private getCompletedTodosUC: GetCompletedTodosUseCase,
+    private getIncompletedTodosUC: GetIncompletedTodosUseCase,
     private searchTodosUC: SearchTodosUseCase,
     private addTodoUC: AddTodoUseCase,
     private getTodoByIdUC: GetTodoByIdUseCase,
@@ -29,6 +33,26 @@ export class TodoPresenter {
 
   getAllTodos() {
     this.getAllTodosUC
+      .execute()
+      .pipe(
+        map(todos => todos.map(this.mapper.mapFrom)),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(this.todos$);
+  }
+
+  getCompletedTodos() {
+    this.getCompletedTodosUC
+      .execute()
+      .pipe(
+        map(todos => todos.map(this.mapper.mapFrom)),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(this.todos$);
+  }
+
+  getIncompletedTodos() {
+    this.getIncompletedTodosUC
       .execute()
       .pipe(
         map(todos => todos.map(this.mapper.mapFrom)),

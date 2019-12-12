@@ -10,12 +10,16 @@ import { GetTodoByIdUseCase } from "../features/todo/domain/usecase/get-todo-by-
 import { RemoveTodoUseCase } from "../features/todo/domain/usecase/remove-todo-id.usecase";
 import { MarkTodoAsCompletedUseCase } from "../features/todo/domain/usecase/mark-todo-as-complete.usecase";
 import { MarkTodoAsIncompletedUseCase } from "../features/todo/domain/usecase/mark-todo-as-incomplete.usecase";
+import { GetCompletedTodosUseCase } from "../features/todo/domain/usecase/get-completed-todos.usecase";
+import { GetIncompletedTodosUseCase } from "../features/todo/domain/usecase/get-incompleted-todos.usecase";
 
 export class WebApp {
   run() {
     const restfulRepo: TodoRepository = new TodoRestfulRepository();
     const inMemoryTodoRepo: TodoRepository = new TodoInMemoryRepository();
     const getAllTodosUC: GetAllTodosUseCase = new GetAllTodosUseCase(inMemoryTodoRepo);
+    const getCompletedTodosUC: GetCompletedTodosUseCase = new GetCompletedTodosUseCase(inMemoryTodoRepo);
+    const getIncompletedTodosUC: GetIncompletedTodosUseCase = new GetIncompletedTodosUseCase(inMemoryTodoRepo);
     const searchTodosUC: SearchTodosUseCase = new SearchTodosUseCase(inMemoryTodoRepo);
     const addTodoUC: AddTodoUseCase = new AddTodoUseCase(inMemoryTodoRepo);
     const getTodoByIdUC: GetTodoByIdUseCase = new GetTodoByIdUseCase(inMemoryTodoRepo);
@@ -25,6 +29,8 @@ export class WebApp {
 
     const presenter: TodoPresenter = new TodoPresenter(
       getAllTodosUC,
+      getCompletedTodosUC,
+      getIncompletedTodosUC,
       searchTodosUC,
       addTodoUC,
       getTodoByIdUC,
