@@ -7,21 +7,30 @@ import { TodoRestfulRepository } from "../features/todo/data/repository/restful/
 import { SearchTodosUseCase } from "../features/todo/domain/usecase/search-todos.usecase";
 import { AddTodoUseCase } from "../features/todo/domain/usecase/add-todo.usecase";
 import { GetTodoByIdUseCase } from "../features/todo/domain/usecase/get-todo-by-id.usecase";
+import { RemoveTodoUseCase } from "../features/todo/domain/usecase/remove-todo-id.usecase";
+import { MarkTodoAsCompletedUseCase } from "../features/todo/domain/usecase/mark-todo-as-complete.usecase";
+import { MarkTodoAsIncompletedUseCase } from "../features/todo/domain/usecase/mark-todo-as-incomplete.usecase";
 
 export class WebApp {
   run() {
-    const inMemoryRepo: TodoRepository = new TodoInMemoryRepository();
     const restfulRepo: TodoRepository = new TodoRestfulRepository();
-    const getAllTodosUC: GetAllTodosUseCase = new GetAllTodosUseCase(inMemoryRepo);
-    const searchTodosUC: SearchTodosUseCase = new SearchTodosUseCase(inMemoryRepo);
-    const addTodoUC: AddTodoUseCase = new AddTodoUseCase(inMemoryRepo);
-    const getTodoByIdUC: GetTodoByIdUseCase = new GetTodoByIdUseCase(inMemoryRepo);
+    const inMemoryTodoRepo: TodoRepository = new TodoInMemoryRepository();
+    const getAllTodosUC: GetAllTodosUseCase = new GetAllTodosUseCase(inMemoryTodoRepo);
+    const searchTodosUC: SearchTodosUseCase = new SearchTodosUseCase(inMemoryTodoRepo);
+    const addTodoUC: AddTodoUseCase = new AddTodoUseCase(inMemoryTodoRepo);
+    const getTodoByIdUC: GetTodoByIdUseCase = new GetTodoByIdUseCase(inMemoryTodoRepo);
+    const removeTodoUC: RemoveTodoUseCase = new RemoveTodoUseCase(inMemoryTodoRepo);
+    const markTodoAsCompletedUC: MarkTodoAsCompletedUseCase = new MarkTodoAsCompletedUseCase(inMemoryTodoRepo);
+    const markTodoAsIncompletedUC: MarkTodoAsIncompletedUseCase = new MarkTodoAsIncompletedUseCase(inMemoryTodoRepo);
 
     const presenter: TodoPresenter = new TodoPresenter(
       getAllTodosUC,
       searchTodosUC,
       addTodoUC,
-      getTodoByIdUC
+      getTodoByIdUC,
+      removeTodoUC,
+      markTodoAsCompletedUC,
+      markTodoAsIncompletedUC
     );
 
     presenter.todos$.subscribe(todos => {

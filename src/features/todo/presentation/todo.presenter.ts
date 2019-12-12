@@ -6,6 +6,9 @@ import { AddTodoUseCase } from "../domain/usecase/add-todo.usecase";
 import { TodoViewModelMapper } from "./todo.mapper";
 import { TodoViewModel } from "./todo.viewmodel";
 import { GetTodoByIdUseCase } from "../domain/usecase/get-todo-by-id.usecase";
+import { RemoveTodoUseCase } from "../domain/usecase/remove-todo-id.usecase";
+import { MarkTodoAsCompletedUseCase } from "../domain/usecase/mark-todo-as-complete.usecase";
+import { MarkTodoAsIncompletedUseCase } from "../domain/usecase/mark-todo-as-incomplete.usecase";
 
 export class TodoPresenter {
   todos$: Subject<Array<TodoViewModel>> = new Subject<Array<TodoViewModel>>();
@@ -18,7 +21,10 @@ export class TodoPresenter {
     private getAllTodosUC: GetAllTodosUseCase,
     private searchTodosUC: SearchTodosUseCase,
     private addTodoUC: AddTodoUseCase,
-    private getTodoByIdUC: GetTodoByIdUseCase
+    private getTodoByIdUC: GetTodoByIdUseCase,
+    private removeTodoUC: RemoveTodoUseCase,
+    private markTodoAsCompletedUC: MarkTodoAsCompletedUseCase,
+    private markTodoAsIncompletedUC: MarkTodoAsIncompletedUseCase
   ) { }
 
   getAllTodos() {
@@ -63,6 +69,36 @@ export class TodoPresenter {
         }),
       )
       .subscribe(this.todo$);
+  }
+
+  removeTodo(id: string) {
+    this.removeTodoUC
+      .execute(id)
+      .pipe(
+        map(this.mapper.mapFrom),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
+  }
+
+  markTodoAsCompleted(id: string) {
+    this.markTodoAsCompletedUC
+      .execute(id)
+      .pipe(
+        map(this.mapper.mapFrom),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
+  }
+
+  markTodoAsInCompleted(id: string) {
+    this.markTodoAsIncompletedUC
+      .execute(id)
+      .pipe(
+        map(this.mapper.mapFrom),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
   }
 
   onDestroy() {

@@ -37,4 +37,8 @@ export class TodoRestfulRepository implements TodoRepository {
   removeTodo(id: string): Observable<Todo> {
     return of(null);
   }
+
+  markTodoAsCompleted(id: string, isCompleted: boolean): Observable<Todo> {
+    return of(null);
+  }
 }

@@ -10,23 +10,33 @@ import { UserRepository } from "../features/user/domain/repository/user.reposito
 import { UserInMemoryRepository } from "../features/user/data/repository/inmemory/user.inmemory.repository";
 import { GetAllUsersUseCase } from "../features/user/domain/usecase/get-all-users.usecase";
 import { UserPresenter } from "../features/user/presentation/user.presenter";
+import { RemoveTodoUseCase } from "../features/todo/domain/usecase/remove-todo-id.usecase";
+import { MarkTodoAsCompletedUseCase } from "../features/todo/domain/usecase/mark-todo-as-complete.usecase";
+import { MarkTodoAsIncompletedUseCase } from "../features/todo/domain/usecase/mark-todo-as-incomplete.usecase";
 
 export class ConsoleApp {
   todoPresenter: TodoPresenter;
   userPresenter: UserPresenter;
 
   constructor() {
-    const inMemoryTodoRepo: TodoRepository = new TodoInMemoryRepository();
     const restfulTodoRepo: TodoRepository = new TodoRestfulRepository();
+    const inMemoryTodoRepo: TodoRepository = new TodoInMemoryRepository();
     const getAllTodosUC: GetAllTodosUseCase = new GetAllTodosUseCase(inMemoryTodoRepo);
     const searchTodosUC: SearchTodosUseCase = new SearchTodosUseCase(inMemoryTodoRepo);
     const addTodoUC: AddTodoUseCase = new AddTodoUseCase(inMemoryTodoRepo);
     const getTodoByIdUC: GetTodoByIdUseCase = new GetTodoByIdUseCase(inMemoryTodoRepo);
+    const removeTodoUC: RemoveTodoUseCase = new RemoveTodoUseCase(inMemoryTodoRepo);
+    const markTodoAsCompletedUC: MarkTodoAsCompletedUseCase = new MarkTodoAsCompletedUseCase(inMemoryTodoRepo);
+    const markTodoAsIncompletedUC: MarkTodoAsIncompletedUseCase = new MarkTodoAsIncompletedUseCase(inMemoryTodoRepo);
+
     this.todoPresenter = new TodoPresenter(
       getAllTodosUC,
       searchTodosUC,
       addTodoUC,
-      getTodoByIdUC
+      getTodoByIdUC,
+      removeTodoUC,
+      markTodoAsCompletedUC,
+      markTodoAsIncompletedUC
     );
 
     const inMemoryUserRepo: UserRepository = new UserInMemoryRepository();
@@ -53,6 +63,9 @@ export class ConsoleApp {
   run() {
     this.todoPresenter.addTodo('added 1');
     this.todoPresenter.addTodo('added 2');
+    this.todoPresenter.removeTodo('1');
+    this.todoPresenter.removeTodo('3');
+    this.todoPresenter.markTodoAsCompleted('2')
     this.todoPresenter.getAllTodos();
     this.todoPresenter.searchTodos('2');
     this.todoPresenter.getTodo('3');

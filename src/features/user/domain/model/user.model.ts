@@ -1,13 +1,8 @@
-export interface UserProps {
-  id: string
-  username: string
-}
-
 export class User {
   id: string;
   username: string;
 
-  constructor(params: UserProps) { 
+  constructor(params: User) { 
     Object.assign(this, params);
   }
 }

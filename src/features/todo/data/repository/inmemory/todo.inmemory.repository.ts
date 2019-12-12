@@ -33,6 +33,18 @@ export class TodoInMemoryRepository implements TodoRepository {
   }
 
   removeTodo(id: string): Observable<Todo> {
-    return of(null);
+    const idx = todos.findIndex(todo => todo.id === id);
+    const todo = todos.find(todo => todo.id === id);
+
+    todos.splice(idx ,1);
+
+    return of(todo);
+  }
+
+  markTodoAsCompleted(id: string, isCompleted: boolean): Observable<Todo> {
+    const todo = todos.find(todo => todo.id === id);
+    todo.completed = isCompleted;
+
+    return of(todo);
   }
 }

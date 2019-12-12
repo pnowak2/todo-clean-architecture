@@ -7,4 +7,5 @@ export abstract class TodoRepository {
   abstract addTodo(name: string): Observable<Todo>;
   abstract removeTodo(id: string): Observable<Todo>;
   abstract getTodoById(id: string): Observable<Todo>;
+  abstract markTodoAsCompleted(id: string, isCompleted: boolean): Observable<Todo>;
 }

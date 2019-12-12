@@ -1,13 +1,9 @@
-export interface TodoProps {
-  id: string
-  name?: string
-}
-
 export class Todo {
   id: string;
   name: string;
+  completed?: boolean;
 
-  constructor(params: TodoProps) { 
+  constructor(params: Todo) { 
     Object.assign(this, params);
   }
 }
