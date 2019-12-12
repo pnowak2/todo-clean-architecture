@@ -72,7 +72,7 @@ export class ConsoleApp {
     this.todoPresenter.markTodoAsCompleted('2')
     this.todoPresenter.markTodoAsCompleted('3')
     // this.todoPresenter.searchTodos('2');
-    this.todoPresenter.getTodo('3');
+    this.todoPresenter.getTodo('2');
 
     // this.todoPresenter.getCompletedTodos();
     this.todoPresenter.getIncompletedTodos();

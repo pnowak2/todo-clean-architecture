@@ -1,4 +1,5 @@
 const path = require('path');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: './src/index.ts',
@@ -20,4 +21,13 @@ module.exports = {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
   },
+  plugins: [
+    new HtmlWebpackPlugin({
+      hash: true,
+      title: 'My Awesome application',
+      myPageHeader: 'Hello World',
+      template: './index.html',
+      filename: './index.html' //relative to root of the application
+    })
+  ]
 };
