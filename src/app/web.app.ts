@@ -1,12 +1,12 @@
 
-import { TodoPresenter } from "../todo/presentation/todo.presenter";
-import { GetAllTodosUseCase } from "../todo/domain/usecase/get-all-todos.usecase";
-import { TodoRepository } from "../todo/domain/repository/todo.repository";
-import { TodoInMemoryRepository } from "../todo/data/repository/inmemory/todo.inmemory.repository";
-import { TodoRestfulRepository } from "../todo/data/repository/restful/todo.restful.repository";
-import { SearchTodosUseCase } from "../todo/domain/usecase/search-todos.usecase";
-import { AddTodoUseCase } from "../todo/domain/usecase/add-todo.usecase";
-import { GetTodoByIdUseCase } from "../todo/domain/usecase/get-todo-by-id.usecase";
+import { TodoPresenter } from "../features/todo/presentation/todo.presenter";
+import { GetAllTodosUseCase } from "../features/todo/domain/usecase/get-all-todos.usecase";
+import { TodoRepository } from "../features/todo/domain/repository/todo.repository";
+import { TodoInMemoryRepository } from "../features/todo/data/repository/inmemory/todo.inmemory.repository";
+import { TodoRestfulRepository } from "../features/todo/data/repository/restful/todo.restful.repository";
+import { SearchTodosUseCase } from "../features/todo/domain/usecase/search-todos.usecase";
+import { AddTodoUseCase } from "../features/todo/domain/usecase/add-todo.usecase";
+import { GetTodoByIdUseCase } from "../features/todo/domain/usecase/get-todo-by-id.usecase";
 
 export class WebApp {
   run() {

@@ -1,5 +1,5 @@
 import { Todo } from "../../../domain/model/todo.model";
-import { Mapper } from "../../../../base/mapper";
+import { Mapper } from "../../../../../base/mapper";
 
 export class TodoRestfulRepositoryMapper implements Mapper<string, Todo> {
   mapFrom(input: any): Todo {

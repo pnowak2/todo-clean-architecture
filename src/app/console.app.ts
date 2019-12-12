@@ -1,51 +1,65 @@
-import { TodoPresenter } from "../todo/presentation/todo.presenter";
-import { GetAllTodosUseCase } from "../todo/domain/usecase/get-all-todos.usecase";
-import { TodoRepository } from "../todo/domain/repository/todo.repository";
-import { TodoInMemoryRepository } from "../todo/data/repository/inmemory/todo.inmemory.repository";
-import { TodoRestfulRepository } from "../todo/data/repository/restful/todo.restful.repository";
-import { SearchTodosUseCase } from "../todo/domain/usecase/search-todos.usecase";
-import { AddTodoUseCase } from "../todo/domain/usecase/add-todo.usecase";
-import { GetTodoByIdUseCase } from "../todo/domain/usecase/get-todo-by-id.usecase";
+import { TodoPresenter } from "../features/todo/presentation/todo.presenter";
+import { GetAllTodosUseCase } from "../features/todo/domain/usecase/get-all-todos.usecase";
+import { TodoRepository } from "../features/todo/domain/repository/todo.repository";
+import { TodoInMemoryRepository } from "../features/todo/data/repository/inmemory/todo.inmemory.repository";
+import { TodoRestfulRepository } from "../features/todo/data/repository/restful/todo.restful.repository";
+import { SearchTodosUseCase } from "../features/todo/domain/usecase/search-todos.usecase";
+import { AddTodoUseCase } from "../features/todo/domain/usecase/add-todo.usecase";
+import { GetTodoByIdUseCase } from "../features/todo/domain/usecase/get-todo-by-id.usecase";
+import { UserRepository } from "../features/user/domain/repository/user.repository";
+import { UserInMemoryRepository } from "../features/user/data/repository/inmemory/user.inmemory.repository";
+import { GetAllUsersUseCase } from "../features/user/domain/usecase/get-all-users.usecase";
+import { UserPresenter } from "../features/user/presentation/user.presenter";
 
 export class ConsoleApp {
-  presenter: TodoPresenter;
+  todoPresenter: TodoPresenter;
+  userPresenter: UserPresenter;
 
   constructor() {
-    const inMemoryRepo: TodoRepository = new TodoInMemoryRepository();
-    const restfulRepo: TodoRepository = new TodoRestfulRepository();
-    const getAllTodosUC: GetAllTodosUseCase = new GetAllTodosUseCase(inMemoryRepo);
-    const searchTodosUC: SearchTodosUseCase = new SearchTodosUseCase(inMemoryRepo);
-    const addTodoUC: AddTodoUseCase = new AddTodoUseCase(inMemoryRepo);
-    const getTodoByIdUC: GetTodoByIdUseCase = new GetTodoByIdUseCase(inMemoryRepo);
-
-    this.presenter = new TodoPresenter(
+    const inMemoryTodoRepo: TodoRepository = new TodoInMemoryRepository();
+    const restfulTodoRepo: TodoRepository = new TodoRestfulRepository();
+    const getAllTodosUC: GetAllTodosUseCase = new GetAllTodosUseCase(inMemoryTodoRepo);
+    const searchTodosUC: SearchTodosUseCase = new SearchTodosUseCase(inMemoryTodoRepo);
+    const addTodoUC: AddTodoUseCase = new AddTodoUseCase(inMemoryTodoRepo);
+    const getTodoByIdUC: GetTodoByIdUseCase = new GetTodoByIdUseCase(inMemoryTodoRepo);
+    this.todoPresenter = new TodoPresenter(
       getAllTodosUC,
       searchTodosUC,
       addTodoUC,
       getTodoByIdUC
     );
 
-    this.presenter.todos$.subscribe(todos => {
+    const inMemoryUserRepo: UserRepository = new UserInMemoryRepository();
+    const getAllUsersUC: GetAllUsersUseCase = new GetAllUsersUseCase(inMemoryUserRepo);
+    this.userPresenter = new UserPresenter(getAllUsersUC);
+
+    this.todoPresenter.todos$.subscribe(todos => {
       console.log('todos:', todos);
     });
 
-    this.presenter.todo$.subscribe(todos => {
+    this.todoPresenter.todo$.subscribe(todos => {
       console.log('todo:', todos);
     });
 
-    this.presenter.errorMessage$.subscribe(error => {
+    this.todoPresenter.errorMessage$.subscribe(error => {
       console.log('got error:', error);
     });
+
+    this.userPresenter.users$.subscribe(users => {
+      console.log('users:', users);
+    })
   }
 
   run() {
-    this.presenter.addTodo('added 1');
-    this.presenter.addTodo('added 2');
-    // this.presenter.getAllTodos();
-    this.presenter.searchTodos('2');
-
-    this.presenter.getTodo('3');
+    this.todoPresenter.addTodo('added 1');
+    this.todoPresenter.addTodo('added 2');
+    this.todoPresenter.getAllTodos();
+    this.todoPresenter.searchTodos('2');
+    this.todoPresenter.getTodo('3');
     
-    this.presenter.onDestroy();
+    this.userPresenter.getAllUsers();
+
+    this.todoPresenter.onDestroy();
+    this.userPresenter.onDestroy();
   }
 }
