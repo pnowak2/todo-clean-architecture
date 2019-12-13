@@ -11,8 +11,9 @@ import { MarkTodoAsCompletedUseCase } from "../domain/usecase/mark-todo-as-compl
 import { MarkTodoAsIncompletedUseCase } from "../domain/usecase/mark-todo-as-incomplete.usecase";
 import { GetCompletedTodosUseCase } from "../domain/usecase/get-completed-todos.usecase";
 import { GetIncompletedTodosUseCase } from "../domain/usecase/get-incompleted-todos.usecase";
+import { Presenter } from "../../../core/presentation/presenter";
 
-export class TodoPresenter {
+export class TodoPresenter extends Presenter {
   todos$: Subject<Array<TodoViewModel>> = new Subject<Array<TodoViewModel>>();
   todo$: Subject<TodoViewModel> = new Subject<TodoViewModel>();
   errorMessage$: Subject<string> = new Subject<string>();
@@ -29,7 +30,9 @@ export class TodoPresenter {
     private removeTodoUC: RemoveTodoUseCase,
     private markTodoAsCompletedUC: MarkTodoAsCompletedUseCase,
     private markTodoAsIncompletedUC: MarkTodoAsIncompletedUseCase
-  ) { }
+  ) {
+    super();
+  }
 
   getAllTodos() {
     this.getAllTodosUC
@@ -87,9 +90,9 @@ export class TodoPresenter {
       .pipe(
         map(this.mapper.mapFrom),
         takeUntil(this.destroy$),
-        catchError(err => { 
+        catchError(err => {
           this.errorMessage$.next(`Error occured: ${err}`);
-          return empty() 
+          return empty()
         }),
       )
       .subscribe(this.todo$);

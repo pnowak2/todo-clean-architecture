@@ -3,15 +3,18 @@ import { UserViewModel } from "./user.viewmodel";
 import { UserViewModelMapper } from "./user.mapper";
 import { GetAllUsersUseCase } from "../domain/usecase/get-all-users.usecase";
 import { map, takeUntil } from "rxjs/operators";
+import { Presenter } from "../../../core/presentation/presenter";
 
-export class UserPresenter {
+export class UserPresenter extends Presenter {
   users$: Subject<Array<UserViewModel>> = new Subject<Array<UserViewModel>>();
   private destroy$: Subject<any> = new Subject<any>();
   private mapper = new UserViewModelMapper();
 
   constructor(
     private getAllUsersUC: GetAllUsersUseCase
-  ) { }
+  ) {
+    super();
+  }
 
   getAllUsers() {
     this.getAllUsersUC
