@@ -14,6 +14,8 @@ import { MarkTodoAsCompletedUseCase } from "../../features/todo/domain/usecase/m
 import { MarkTodoAsIncompletedUseCase } from "../../features/todo/domain/usecase/mark-todo-as-incomplete.usecase";
 import { GetCompletedTodosUseCase } from "../../features/todo/domain/usecase/get-completed-todos.usecase";
 import { GetIncompletedTodosUseCase } from "../../features/todo/domain/usecase/get-incompleted-todos.usecase";
+import { TodoLocalStorageRepository } from "../../features/todo/data/repository/localstorage/todo.localstorage.repository";
+import { LocalStorageService } from "../../base/service/localstorage.service";
 
 export class ConsoleApp {
   todoPresenter: TodoPresenter;
@@ -21,11 +23,16 @@ export class ConsoleApp {
 
   constructor() {
     const inMemoryTodoRepo: TodoRepository = new TodoInMemoryRepository();
-    const getAllTodosUC: GetAllTodosUseCase = new GetAllTodosUseCase(inMemoryTodoRepo);
+    const localStorageTodoRepo: TodoRepository = new TodoLocalStorageRepository(
+      new LocalStorageService(window.localStorage)
+    );
+
+    const getAllTodosUC: GetAllTodosUseCase = new GetAllTodosUseCase(localStorageTodoRepo);
+    const addTodoUC: AddTodoUseCase = new AddTodoUseCase(localStorageTodoRepo);
+
     const getCompletedTodosUC: GetCompletedTodosUseCase = new GetCompletedTodosUseCase(inMemoryTodoRepo);
     const getIncompletedTodosUC: GetIncompletedTodosUseCase = new GetIncompletedTodosUseCase(inMemoryTodoRepo);
     const searchTodosUC: SearchTodosUseCase = new SearchTodosUseCase(inMemoryTodoRepo);
-    const addTodoUC: AddTodoUseCase = new AddTodoUseCase(inMemoryTodoRepo);
     const getTodoByIdUC: GetTodoByIdUseCase = new GetTodoByIdUseCase(inMemoryTodoRepo);
     const removeTodoUC: RemoveTodoUseCase = new RemoveTodoUseCase(inMemoryTodoRepo);
     const markTodoAsCompletedUC: MarkTodoAsCompletedUseCase = new MarkTodoAsCompletedUseCase(inMemoryTodoRepo);
@@ -74,9 +81,9 @@ export class ConsoleApp {
     // this.todoPresenter.searchTodos('2');
     this.todoPresenter.getTodo('3');
 
-    // this.todoPresenter.getCompletedTodos();
-    this.todoPresenter.getIncompletedTodos();
-    
+    this.todoPresenter.getCompletedTodos();
+    // this.todoPresenter.getIncompletedTodos();
+
     this.userPresenter.getAllUsers();
 
     this.todoPresenter.onDestroy();
