@@ -13,4 +13,5 @@ Give following Presentation layers
 Provide alternative view frameworks
 
 * RxJS + STATE streams (https://medium.com/angular-in-depth/angular-you-may-not-need-ngrx-e80546cc56ee)
+* https://auth0.com/blog/ngrx-facades-pros-and-cons/
 * Redux / MobX
