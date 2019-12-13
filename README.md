@@ -1,3 +1,6 @@
+*Other project i started*
+https://github.com/benarso/angular-cleaner-architecture/blob/master/src/app/todo/presentation/presenter/todo-presenter.service.ts
+
 *Opened Tabs*
 
 https://www.toptal.com/android/benefits-of-clean-architecture-android
@@ -68,3 +71,9 @@ https://github.com/benarso/angular-cleaner-architecture/blob/master/src/app/todo
 completable usecase idea of side effects run maybe ? (subscribes automatically)
 https://github.com/bufferapp/android-clean-architecture-boilerplate/blob/master/domain/src/main/java/org/buffer/android/boilerplate/domain/interactor/CompletableUseCase.kt
 
+
+*Tools to try*
+
+Mono repos
+https://nx.dev/angular/tutorial/01-create-application
+https://nx.dev/angular/getting-started/getting-started
