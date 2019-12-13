@@ -12,5 +12,5 @@ Give following Presentation layers
 
 Provide alternative view frameworks
 
-* RxJS streams (https://medium.com/angular-in-depth/angular-you-may-not-need-ngrx-e80546cc56ee)
+* RxJS + STATE streams (https://medium.com/angular-in-depth/angular-you-may-not-need-ngrx-e80546cc56ee)
 * Redux / MobX
