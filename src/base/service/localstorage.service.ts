@@ -1,7 +1,6 @@
-import { ICache } from "../../../../base/cache";
-import { LocalStorageRepository } from "../../../domain/repository/localstorage.repository";
+import { ICache } from "../cache";
 
-export class LocalStorageBrowserRepository implements LocalStorageRepository {
+export class LocalStorageService {
   private cache: ICache;
 
   constructor(
