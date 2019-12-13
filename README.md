@@ -52,3 +52,19 @@ https://www.toptal.com/android/benefits-of-clean-architecture-android
 https://dev.to/phodal/clean-architecture-for-frontend-in-action-1aop
 
 https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html
+
+
+*Notes*
+
+singleusecase, observableusecase
+https://github.com/benarso/angular-cleaner-architecture/tree/master/src/app/core/domain
+
+consider using viewmodel as models of view, separate from domain models
+consider using presenter instead of facade
+
+https://github.com/benarso/angular-cleaner-architecture/blob/master/src/app/todo/presentation/presenter/todo-presenter.service.ts
+
+
+completable usecase idea of side effects run maybe ? (subscribes automatically)
+https://github.com/bufferapp/android-clean-architecture-boilerplate/blob/master/domain/src/main/java/org/buffer/android/boilerplate/domain/interactor/CompletableUseCase.kt
+
