@@ -9,6 +9,18 @@ https://nx.dev/angular/tutorial/01-create-application
 
 https://nx.dev/angular/getting-started/getting-started
 
+*From mail sent to myself*
+
+https://github.com/benarso/angular-cleaner-architecture/tree/master/src/app/todo/presentation
+
+https://github.com/benarso/angular-cleaner-architecture/tree/master/src/app/todo/presentation
+
+https://github.com/pnowak2/angular-architecture-ideas/blob/master/src/app/tutorial/data/repository/flexible-pokemon.repository.ts
+
+https://github.com/pnowak2/angular-architecture-ideas/tree/master/src/app
+
+https://jasonwatmore.com/post/2019/02/13/react-rxjs-communicating-between-components-with-observable-subject
+
 *Opened Tabs*
 
 https://www.toptal.com/android/benefits-of-clean-architecture-android
