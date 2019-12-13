@@ -1,6 +1,10 @@
-import { ICache } from "../cache";
+import { LocalStorageService } from '../../domain/service/localstorage.service';
 
-export class LocalStorageService {
+interface ICache {
+  [key: string]: any;
+}
+
+export class LocalStorageBrowserService implements LocalStorageService {
   private cache: ICache;
 
   constructor(

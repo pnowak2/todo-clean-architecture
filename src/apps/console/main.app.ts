@@ -15,7 +15,7 @@ import { MarkTodoAsIncompletedUseCase } from "../../features/todo/domain/usecase
 import { GetCompletedTodosUseCase } from "../../features/todo/domain/usecase/get-completed-todos.usecase";
 import { GetIncompletedTodosUseCase } from "../../features/todo/domain/usecase/get-incompleted-todos.usecase";
 import { TodoLocalStorageRepository } from "../../features/todo/data/repository/localstorage/todo.localstorage.repository";
-import { LocalStorageService } from "../../base/service/localstorage.service";
+import { LocalStorageBrowserService } from "../../core/data/service/localstorage-browser.service";
 
 export class ConsoleApp {
   todoPresenter: TodoPresenter;
@@ -24,7 +24,7 @@ export class ConsoleApp {
   constructor() {
     const inMemoryTodoRepo: TodoRepository = new TodoInMemoryRepository();
     const localStorageTodoRepo: TodoRepository = new TodoLocalStorageRepository(
-      new LocalStorageService(window.localStorage)
+      new LocalStorageBrowserService(window.localStorage)
     );
 
     const getAllTodosUC: GetAllTodosUseCase = new GetAllTodosUseCase(localStorageTodoRepo);

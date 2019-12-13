@@ -1,8 +1,7 @@
+import { Observable, of } from "rxjs";
 import { TodoRepository } from "../../../domain/repository/todo.repository";
 import { Todo } from "../../../domain/model/todo.model";
-import { Observable, of } from "rxjs";
-import { LocalStorageService } from "../../../../../base/service/localstorage.service";
-import { map } from "rxjs/operators";
+import { LocalStorageService } from '../../../../../core/domain/service/localstorage.service';
 
 export class TodoLocalStorageRepository implements TodoRepository {
   constructor(private localStorageService: LocalStorageService) { }

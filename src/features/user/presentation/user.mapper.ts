@@ -1,4 +1,4 @@
-import { Mapper } from "../../../base/mapper";
+import { Mapper } from "../../../core/domain/model/mapper";
 import { User } from "../domain/model/user.model";
 import { UserViewModel } from "./user.viewmodel";
 

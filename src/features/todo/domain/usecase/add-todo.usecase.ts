@@ -1,5 +1,5 @@
 import { Observable } from "rxjs";
-import { UseCase } from "../../../../base/usecase";
+import { UseCase } from "../../../../core/domain/usecase/usecase";
 import { Todo } from "../model/todo.model";
 import { TodoRepository } from "../repository/todo.repository";
 
