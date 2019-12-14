@@ -4,7 +4,7 @@ import { Observable, of } from "rxjs";
 import { map, find } from "rxjs/operators";
 
 const todos = [
-  new Todo({ id: '1', name: 'todo 1' }),
+  new Todo({ id: '1', name: 'todo 1', completed: true }),
   new Todo({ id: '2', name: 'todo 2' }),
   new Todo({ id: '3', name: 'todo 3' }),
 ];

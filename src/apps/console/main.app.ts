@@ -36,8 +36,16 @@ export class ConsoleApp {
 
       todos.forEach(todo => {
         const liEl = document.createElement('li');
+
+        const checkboxEl = document.createElement('input');
+        checkboxEl.type = 'checkbox';
+        checkboxEl.checked = todo.completed;
+
         const inputEl = document.createElement('input');
+        inputEl.id = todo.id;
         inputEl.value = todo.name;
+
+        liEl.appendChild(checkboxEl);
         liEl.appendChild(inputEl);
 
         todosEl.appendChild(liEl);
