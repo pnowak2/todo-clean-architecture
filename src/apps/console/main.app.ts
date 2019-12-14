@@ -2,91 +2,62 @@ import { TodoPresenter } from "../../features/todo/presentation/todo.presenter";
 import { GetAllTodosUseCase } from "../../features/todo/domain/usecase/get-all-todos.usecase";
 import { TodoRepository } from "../../features/todo/domain/repository/todo.repository";
 import { TodoInMemoryRepository } from "../../features/todo/data/repository/inmemory/todo.inmemory.repository";
-import { SearchTodosUseCase } from "../../features/todo/domain/usecase/search-todos.usecase";
-import { AddTodoUseCase } from "../../features/todo/domain/usecase/add-todo.usecase";
-import { GetTodoByIdUseCase } from "../../features/todo/domain/usecase/get-todo-by-id.usecase";
-import { UserRepository } from "../../features/user/domain/repository/user.repository";
-import { UserInMemoryRepository } from "../../features/user/data/repository/inmemory/user.inmemory.repository";
-import { GetAllUsersUseCase } from "../../features/user/domain/usecase/get-all-users.usecase";
-import { UserPresenter } from "../../features/user/presentation/user.presenter";
-import { RemoveTodoUseCase } from "../../features/todo/domain/usecase/remove-todo-id.usecase";
-import { MarkTodoAsCompletedUseCase } from "../../features/todo/domain/usecase/mark-todo-as-complete.usecase";
-import { MarkTodoAsIncompletedUseCase } from "../../features/todo/domain/usecase/mark-todo-as-incomplete.usecase";
-import { GetCompletedTodosUseCase } from "../../features/todo/domain/usecase/get-completed-todos.usecase";
-import { GetIncompletedTodosUseCase } from "../../features/todo/domain/usecase/get-incompleted-todos.usecase";
+import { Observable } from "rxjs";
+import { Todo } from "../../features/todo/presentation/state/todos.state";
 import { TodoLocalStorageRepository } from "../../features/todo/data/repository/localstorage/todo.localstorage.repository";
+import { LocalStorageService } from "../../core/domain/service/localstorage.service";
 import { LocalStorageBrowserService } from "../../core/data/service/localstorage-browser.service";
+import { AddTodoUseCase } from "../../features/todo/domain/usecase/add-todo.usecase";
 
 export class ConsoleApp {
+  todos$: Observable<Array<Todo>>;
+  todosCount$: Observable<number>;
+
   todoPresenter: TodoPresenter;
-  userPresenter: UserPresenter;
 
   constructor() {
+    // Dependency injection configuration
     const inMemoryTodoRepo: TodoRepository = new TodoInMemoryRepository();
-    const localStorageTodoRepo: TodoRepository = new TodoLocalStorageRepository(
-      new LocalStorageBrowserService(window.localStorage)
-    );
-
-    const getAllTodosUC: GetAllTodosUseCase = new GetAllTodosUseCase(localStorageTodoRepo);
-    const addTodoUC: AddTodoUseCase = new AddTodoUseCase(localStorageTodoRepo);
-
-    const getCompletedTodosUC: GetCompletedTodosUseCase = new GetCompletedTodosUseCase(inMemoryTodoRepo);
-    const getIncompletedTodosUC: GetIncompletedTodosUseCase = new GetIncompletedTodosUseCase(inMemoryTodoRepo);
-    const searchTodosUC: SearchTodosUseCase = new SearchTodosUseCase(inMemoryTodoRepo);
-    const getTodoByIdUC: GetTodoByIdUseCase = new GetTodoByIdUseCase(inMemoryTodoRepo);
-    const removeTodoUC: RemoveTodoUseCase = new RemoveTodoUseCase(inMemoryTodoRepo);
-    const markTodoAsCompletedUC: MarkTodoAsCompletedUseCase = new MarkTodoAsCompletedUseCase(inMemoryTodoRepo);
-    const markTodoAsIncompletedUC: MarkTodoAsIncompletedUseCase = new MarkTodoAsIncompletedUseCase(inMemoryTodoRepo);
-
+    const getAllTodosUC: GetAllTodosUseCase = new GetAllTodosUseCase(inMemoryTodoRepo);
+    const addTodoUC: AddTodoUseCase = new AddTodoUseCase(inMemoryTodoRepo);
     this.todoPresenter = new TodoPresenter(
       getAllTodosUC,
-      getCompletedTodosUC,
-      getIncompletedTodosUC,
-      searchTodosUC,
-      addTodoUC,
-      getTodoByIdUC,
-      removeTodoUC,
-      markTodoAsCompletedUC,
-      markTodoAsIncompletedUC
+      addTodoUC
     );
 
-    const inMemoryUserRepo: UserRepository = new UserInMemoryRepository();
-    const getAllUsersUC: GetAllUsersUseCase = new GetAllUsersUseCase(inMemoryUserRepo);
-    this.userPresenter = new UserPresenter(getAllUsersUC);
+    // View observables binding
+    this.todos$ = this.todoPresenter.todos$;
+    this.todosCount$ = this.todoPresenter.todosCount$;
 
-    this.todoPresenter.todos$.subscribe(todos => {
-      console.log('todos:', todos);
+    // Presenter reactive subscriptions 
+    this.todos$.subscribe(todos => {
+      const todosEl = document.querySelector('#todos');
+      todosEl.innerHTML = '';
+
+      todos.forEach(todo => {
+        const todoEl = document.createElement('li');
+        todoEl.textContent = todo.name;
+        todosEl.appendChild(todoEl);
+      });
     });
 
-    this.todoPresenter.todo$.subscribe(todos => {
-      console.log('todo:', todos);
+    this.todosCount$.subscribe(todosCount => {
+      const todosCountEl = document.querySelector('#todosCount');
+      todosCountEl.textContent = todosCount + '';
     });
-
-    this.todoPresenter.errorMessage$.subscribe(error => {
-      console.log('got error:', error);
-    });
-
-    this.userPresenter.users$.subscribe(users => {
-      console.log('users:', users);
-    })
   }
 
   run() {
-    this.todoPresenter.addTodo('added 1');
-    this.todoPresenter.addTodo('added 2');
-    this.todoPresenter.removeTodo('1');
-    // this.todoPresenter.removeTodo('3');
-    this.todoPresenter.markTodoAsCompleted('2')
-    this.todoPresenter.markTodoAsCompleted('3')
-    // this.todoPresenter.searchTodos('2');
-    this.todoPresenter.getTodo('3');
+    // UI Events/Code
 
-    this.todoPresenter.getCompletedTodos();
-    // this.todoPresenter.getIncompletedTodos();
+    this.todoPresenter.getAllTodos();
 
-    this.userPresenter.getAllUsers();
+    document.querySelector('#getAllTodos').addEventListener('click', () => {
+      this.todoPresenter.getAllTodos();
+    });
 
-    this.todoPresenter.onDestroy();
-    this.userPresenter.onDestroy();
+    document.querySelector('#addTodo').addEventListener('click', () => {
+      this.todoPresenter.addTodo('Hello!');
+    });
   }
 }
