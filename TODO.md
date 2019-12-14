@@ -1,6 +1,7 @@
 Publish it
 
 * On npm as separate packages with domain / data for use by all apps
+  https://itnext.io/step-by-step-building-and-publishing-an-npm-typescript-package-44fe7164964c
 
 Give following Presentation layers
 
