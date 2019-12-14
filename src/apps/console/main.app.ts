@@ -11,6 +11,7 @@ import { GetIncompletedTodosUseCase } from "../../features/todo/domain/usecase/g
 export class ConsoleApp {
   todos$: Observable<Array<Todo>>;
   todosCount$: Observable<number>;
+  incompletedTodosCount$: Observable<number>;
 
   todoPresenter: TodoPresenter;
 
@@ -31,6 +32,7 @@ export class ConsoleApp {
     // View observables binding
     this.todos$ = this.todoPresenter.todos$;
     this.todosCount$ = this.todoPresenter.todosCount$;
+    this.incompletedTodosCount$ = this.todoPresenter.incompletedTodosCount$;
 
     // Presenter reactive subscriptions 
     this.todos$.subscribe(todos => {
@@ -57,6 +59,11 @@ export class ConsoleApp {
 
     this.todosCount$.subscribe(todosCount => {
       const todosCountEl = document.querySelector('#todosCount');
+      todosCountEl.textContent = todosCount + '';
+    });
+
+    this.incompletedTodosCount$.subscribe(todosCount => {
+      const todosCountEl = document.querySelector('#incompletedTodosCount');
       todosCountEl.textContent = todosCount + '';
     });
   }

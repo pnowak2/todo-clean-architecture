@@ -23,6 +23,11 @@ export class TodoPresenter extends Presenter {
     map(todos => todos.length)
   );
 
+  incompletedTodosCount$: Observable<number> = this.todos$.pipe(
+    map(todos => todos.filter(todo => !todo.completed)),
+    map(todos => todos.length)
+  );
+
   constructor(
     private getAllTodosUC: GetAllTodosUseCase,
     private getCompletedTodosUC: GetCompletedTodosUseCase,
