@@ -68,7 +68,16 @@ export class ConsoleApp {
     });
 
     document.querySelector('#addTodo').addEventListener('click', () => {
-      this.todoPresenter.addTodo('Hello!');
+      const inputEl = document.querySelector('#addTodoInput') as HTMLInputElement;
+      this.todoPresenter.addTodo(inputEl.value);
+
+      inputEl.value = '';
+      inputEl.focus();
+    });
+
+    document.querySelector('#addTodoInput').addEventListener('click', (evt: MouseEvent) => {
+      const inputEl = evt.target as HTMLInputElement;
+      console.log(inputEl.value);
     });
   }
 }
