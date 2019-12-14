@@ -4,10 +4,9 @@ import { TodoRepository } from "../../features/todo/domain/repository/todo.repos
 import { TodoInMemoryRepository } from "../../features/todo/data/repository/inmemory/todo.inmemory.repository";
 import { Observable } from "rxjs";
 import { Todo } from "../../features/todo/presentation/state/todos.state";
-import { TodoLocalStorageRepository } from "../../features/todo/data/repository/localstorage/todo.localstorage.repository";
-import { LocalStorageService } from "../../core/domain/service/localstorage.service";
-import { LocalStorageBrowserService } from "../../core/data/service/localstorage-browser.service";
 import { AddTodoUseCase } from "../../features/todo/domain/usecase/add-todo.usecase";
+import { GetCompletedTodosUseCase } from "../../features/todo/domain/usecase/get-completed-todos.usecase";
+import { GetIncompletedTodosUseCase } from "../../features/todo/domain/usecase/get-incompleted-todos.usecase";
 
 export class ConsoleApp {
   todos$: Observable<Array<Todo>>;
@@ -19,9 +18,13 @@ export class ConsoleApp {
     // Dependency injection configuration
     const inMemoryTodoRepo: TodoRepository = new TodoInMemoryRepository();
     const getAllTodosUC: GetAllTodosUseCase = new GetAllTodosUseCase(inMemoryTodoRepo);
+    const getCompletedTodosUC: GetCompletedTodosUseCase = new GetCompletedTodosUseCase(inMemoryTodoRepo);
+    const getIncompletedTodosUC: GetIncompletedTodosUseCase = new GetIncompletedTodosUseCase(inMemoryTodoRepo);
     const addTodoUC: AddTodoUseCase = new AddTodoUseCase(inMemoryTodoRepo);
     this.todoPresenter = new TodoPresenter(
       getAllTodosUC,
+      getCompletedTodosUC,
+      getIncompletedTodosUC,
       addTodoUC
     );
 
@@ -65,6 +68,14 @@ export class ConsoleApp {
 
     document.querySelector('#getAllTodos').addEventListener('click', () => {
       this.todoPresenter.getAllTodos();
+    });
+
+    document.querySelector('#getCompletedTodos').addEventListener('click', () => {
+      this.todoPresenter.getCompletedTodos();
+    });
+
+    document.querySelector('#getIncompletedTodos').addEventListener('click', () => {
+      this.todoPresenter.getIncompletedTodos();
     });
 
     document.querySelector('#addTodo').addEventListener('click', () => {

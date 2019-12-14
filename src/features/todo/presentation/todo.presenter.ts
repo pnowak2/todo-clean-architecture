@@ -5,6 +5,8 @@ import { TodoViewModelMapper } from "./todo.mapper";
 import { Presenter } from "../../../core/presentation/presenter";
 import { TodoState, Todo } from "./state/todos.state";
 import { AddTodoUseCase } from "../domain/usecase/add-todo.usecase";
+import { GetCompletedTodosUseCase } from "../domain/usecase/get-completed-todos.usecase";
+import { GetIncompletedTodosUseCase } from "../domain/usecase/get-incompleted-todos.usecase";
 
 export class TodoPresenter extends Presenter {
   private state = new TodoState();
@@ -23,6 +25,8 @@ export class TodoPresenter extends Presenter {
 
   constructor(
     private getAllTodosUC: GetAllTodosUseCase,
+    private getCompletedTodosUC: GetCompletedTodosUseCase,
+    private getIncompletedTodosUC: GetIncompletedTodosUseCase,
     private addTodoUC: AddTodoUseCase,
   ) {
     super();
@@ -30,6 +34,26 @@ export class TodoPresenter extends Presenter {
 
   getAllTodos() {
     this.getAllTodosUC
+      .execute()
+      .pipe(
+        map(todos => todos.map(this.mapper.mapFrom)),
+      ).subscribe(todos => {
+        this.updateTodos(todos);
+      });
+  }
+
+  getCompletedTodos() {
+    this.getCompletedTodosUC
+      .execute()
+      .pipe(
+        map(todos => todos.map(this.mapper.mapFrom)),
+      ).subscribe(todos => {
+        this.updateTodos(todos);
+      });
+  }
+
+  getIncompletedTodos() {
+    this.getIncompletedTodosUC
       .execute()
       .pipe(
         map(todos => todos.map(this.mapper.mapFrom)),
