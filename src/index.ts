@@ -1,5 +1,5 @@
-import { ConsoleApp } from "./apps/vanillajs/main.app";
+import { VanillaJsApp } from "./apps/vanillajs/main.app";
 import { TerminalApp } from "./apps/terminal/main.app";
 
 new TerminalApp().run();
-// new ConsoleApp().run();
+// new VanillaJsApp().run();

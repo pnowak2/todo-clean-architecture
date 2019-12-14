@@ -11,7 +11,7 @@ import { MarkTodoAsCompletedUseCase } from "../../features/todo/domain/usecase/m
 import { MarkTodoAsIncompletedUseCase } from "../../features/todo/domain/usecase/mark-todo-as-incomplete.usecase";
 import { RemoveTodoUseCase } from "../../features/todo/domain/usecase/remove-todo-id.usecase";
 
-export class ConsoleApp {
+export class VanillaJsApp {
   todos$: Observable<Array<Todo>>;
   todosCount$: Observable<number>;
   incompletedTodosCount$: Observable<number>;
