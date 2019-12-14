@@ -41,17 +41,25 @@ export class ConsoleApp {
 
       todos.forEach(todo => {
         const liEl = document.createElement('li');
+        liEl.dataset.id = todo.id;
+        liEl.addEventListener('click', this.handleItemClick.bind(todo));
 
         const checkboxEl = document.createElement('input');
         checkboxEl.type = 'checkbox';
+        checkboxEl.dataset.type = 'checkbox';
         checkboxEl.checked = todo.completed;
 
         const inputEl = document.createElement('input');
-        inputEl.id = todo.id;
+        inputEl.dataset.type = 'input';
         inputEl.value = todo.name;
+
+        const removeEl = document.createElement('button');
+        removeEl.dataset.type = 'button';
+        removeEl.textContent = "x";
 
         liEl.appendChild(checkboxEl);
         liEl.appendChild(inputEl);
+        liEl.appendChild(removeEl);
 
         todosEl.appendChild(liEl);
       });
@@ -66,6 +74,20 @@ export class ConsoleApp {
       const todosCountEl = document.querySelector('#incompletedTodosCount');
       todosCountEl.textContent = todosCount + '';
     });
+  }
+
+  handleItemClick(evt: MouseEvent) {
+    const targetEl: HTMLElement = evt.target as HTMLElement;
+    if(targetEl.dataset.type === 'checkbox') {
+      const inputEl: HTMLInputElement = targetEl as HTMLInputElement;
+    }
+
+    if(targetEl.dataset.type === 'input') {
+      const inputEl: HTMLInputElement = targetEl as HTMLInputElement;
+    }
+
+    if(targetEl.dataset.type === 'button') {
+    }
   }
 
   run() {

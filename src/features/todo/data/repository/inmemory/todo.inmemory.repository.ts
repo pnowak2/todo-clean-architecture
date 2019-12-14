@@ -29,7 +29,7 @@ export class TodoInMemoryRepository implements TodoRepository {
   }
 
   addTodo(name: string): Observable<Todo> {
-    const id = Math.random().toString();
+    const id = 'item-' + new Date().getTime();
     const todo: Todo = { id, name };
 
     todos.push(todo);
