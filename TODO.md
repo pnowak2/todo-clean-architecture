@@ -7,6 +7,8 @@ Give following Presentation layers
 * Web js
 * Angular
 * React
+* Svelte
+* Ionic
 * Terminal UI nodejs app
 * Desktop App via Electron
 
