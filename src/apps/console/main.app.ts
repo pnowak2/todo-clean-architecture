@@ -7,6 +7,9 @@ import { Todo } from "../../features/todo/presentation/state/todos.state";
 import { AddTodoUseCase } from "../../features/todo/domain/usecase/add-todo.usecase";
 import { GetCompletedTodosUseCase } from "../../features/todo/domain/usecase/get-completed-todos.usecase";
 import { GetIncompletedTodosUseCase } from "../../features/todo/domain/usecase/get-incompleted-todos.usecase";
+import { MarkTodoAsCompletedUseCase } from "../../features/todo/domain/usecase/mark-todo-as-complete.usecase";
+import { MarkTodoAsIncompletedUseCase } from "../../features/todo/domain/usecase/mark-todo-as-incomplete.usecase";
+import { RemoveTodoUseCase } from "../../features/todo/domain/usecase/remove-todo-id.usecase";
 
 export class ConsoleApp {
   todos$: Observable<Array<Todo>>;
@@ -22,11 +25,18 @@ export class ConsoleApp {
     const getCompletedTodosUC: GetCompletedTodosUseCase = new GetCompletedTodosUseCase(inMemoryTodoRepo);
     const getIncompletedTodosUC: GetIncompletedTodosUseCase = new GetIncompletedTodosUseCase(inMemoryTodoRepo);
     const addTodoUC: AddTodoUseCase = new AddTodoUseCase(inMemoryTodoRepo);
+    const markTodoAsCompletedUC: MarkTodoAsCompletedUseCase = new MarkTodoAsCompletedUseCase(inMemoryTodoRepo);
+    const markTodoAsIncompletedUC: MarkTodoAsIncompletedUseCase = new MarkTodoAsIncompletedUseCase(inMemoryTodoRepo);
+    const removeTodoUC: RemoveTodoUseCase = new RemoveTodoUseCase(inMemoryTodoRepo);
+
     this.todoPresenter = new TodoPresenter(
       getAllTodosUC,
       getCompletedTodosUC,
       getIncompletedTodosUC,
-      addTodoUC
+      addTodoUC,
+      markTodoAsCompletedUC,
+      markTodoAsIncompletedUC,
+      removeTodoUC
     );
 
     // View observables binding
@@ -41,8 +51,10 @@ export class ConsoleApp {
 
       todos.forEach(todo => {
         const liEl = document.createElement('li');
-        liEl.dataset.id = todo.id;
-        liEl.addEventListener('click', this.handleItemClick.bind(todo));
+        liEl.addEventListener('click', this.handleItemClick.bind({
+          self: this,
+          todo: todo
+        }));
 
         const checkboxEl = document.createElement('input');
         checkboxEl.type = 'checkbox';
@@ -76,10 +88,15 @@ export class ConsoleApp {
     });
   }
 
-  handleItemClick(evt: MouseEvent) {
+  handleItemClick(this: any, evt: MouseEvent) {
     const targetEl: HTMLElement = evt.target as HTMLElement;
     if(targetEl.dataset.type === 'checkbox') {
       const inputEl: HTMLInputElement = targetEl as HTMLInputElement;
+      if(inputEl.checked) {
+        this.self.todoPresenter.markTodoAsCompleted(this.todo.id);
+      } else {
+        this.self.todoPresenter.markTodoAsIncompleted(this.todo.id);
+      }
     }
 
     if(targetEl.dataset.type === 'input') {
@@ -87,6 +104,7 @@ export class ConsoleApp {
     }
 
     if(targetEl.dataset.type === 'button') {
+      this.self.todoPresenter.removeTodo(this.todo.id);
     }
   }
 
@@ -112,7 +130,6 @@ export class ConsoleApp {
       this.todoPresenter.addTodo(inputEl.value);
 
       inputEl.value = '';
-      inputEl.focus();
     });
   }
 }

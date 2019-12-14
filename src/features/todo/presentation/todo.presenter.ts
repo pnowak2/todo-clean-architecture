@@ -1,12 +1,15 @@
 import { GetAllTodosUseCase } from "../domain/usecase/get-all-todos.usecase";
 import { BehaviorSubject, Observable } from "rxjs";
-import { map, startWith } from "rxjs/operators";
+import { map, startWith, flatMap } from "rxjs/operators";
 import { TodoViewModelMapper } from "./todo.mapper";
 import { Presenter } from "../../../core/presentation/presenter";
 import { TodoState, Todo } from "./state/todos.state";
 import { AddTodoUseCase } from "../domain/usecase/add-todo.usecase";
 import { GetCompletedTodosUseCase } from "../domain/usecase/get-completed-todos.usecase";
 import { GetIncompletedTodosUseCase } from "../domain/usecase/get-incompleted-todos.usecase";
+import { MarkTodoAsCompletedUseCase } from "../domain/usecase/mark-todo-as-complete.usecase";
+import { MarkTodoAsIncompletedUseCase } from "../domain/usecase/mark-todo-as-incomplete.usecase";
+import { RemoveTodoUseCase } from "../domain/usecase/remove-todo-id.usecase";
 
 export class TodoPresenter extends Presenter {
   private state = new TodoState();
@@ -33,6 +36,9 @@ export class TodoPresenter extends Presenter {
     private getCompletedTodosUC: GetCompletedTodosUseCase,
     private getIncompletedTodosUC: GetIncompletedTodosUseCase,
     private addTodoUC: AddTodoUseCase,
+    private markTodoAsCompletedUC: MarkTodoAsCompletedUseCase,
+    private markTodoAsIncompletedUC: MarkTodoAsIncompletedUseCase,
+    private removeTodoUC: RemoveTodoUseCase
   ) {
     super();
   }
@@ -74,6 +80,36 @@ export class TodoPresenter extends Presenter {
         map(todo => this.mapper.mapFrom(todo))
       ).subscribe(todo => {
         this.updateTodos([...this.state.todos, todo])
+      })
+  }
+
+  markTodoAsCompleted(id: string) {
+    this.markTodoAsCompletedUC
+      .execute(id)
+      .pipe(
+        map(todo => this.mapper.mapFrom(todo)),
+      ).subscribe(todos => {
+        this.getAllTodos();
+      })
+  }
+
+  markTodoAsIncompleted(id: string) {
+    this.markTodoAsIncompletedUC
+      .execute(id)
+      .pipe(
+        map(todo => this.mapper.mapFrom(todo)),
+      ).subscribe(todos => {
+        this.getAllTodos();
+      })
+  }
+
+  removeTodo(id: string) {
+    this.removeTodoUC
+      .execute(id)
+      .pipe(
+        map(todo => this.mapper.mapFrom(todo))
+      ).subscribe(todo => {
+        this.getAllTodos();
       })
   }
 
