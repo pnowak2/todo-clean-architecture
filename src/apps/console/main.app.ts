@@ -35,9 +35,12 @@ export class ConsoleApp {
       todosEl.innerHTML = '';
 
       todos.forEach(todo => {
-        const todoEl = document.createElement('li');
-        todoEl.textContent = todo.name;
-        todosEl.appendChild(todoEl);
+        const liEl = document.createElement('li');
+        const inputEl = document.createElement('input');
+        inputEl.value = todo.name;
+        liEl.appendChild(inputEl);
+
+        todosEl.appendChild(liEl);
       });
     });
 

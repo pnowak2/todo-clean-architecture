@@ -34,12 +34,7 @@ export class TodoPresenter extends Presenter {
       .pipe(
         map(todos => todos.map(this.mapper.mapFrom)),
       ).subscribe(todos => {
-        this.dispatch.next(
-          this.state = {
-            ...this.state,
-            todos
-          }
-        );
+        this.updateTodos(todos);
       });
   }
 
@@ -49,12 +44,16 @@ export class TodoPresenter extends Presenter {
       .pipe(
         map(todo => this.mapper.mapFrom(todo))
       ).subscribe(todo => {
-        this.dispatch.next(
-          this.state = {
-            ...this.state,
-            todos: [...this.state.todos, todo]
-          }
-        );
+        this.updateTodos([...this.state.todos, todo])
       })
+  }
+
+  private updateTodos(todos: Array<Todo>) {
+    this.dispatch.next(
+      this.state = {
+        ...this.state,
+        todos
+      }
+    );
   }
 }
