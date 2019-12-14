@@ -85,10 +85,5 @@ export class ConsoleApp {
       inputEl.value = '';
       inputEl.focus();
     });
-
-    document.querySelector('#addTodoInput').addEventListener('click', (evt: MouseEvent) => {
-      const inputEl = evt.target as HTMLInputElement;
-      console.log(inputEl.value);
-    });
   }
 }
