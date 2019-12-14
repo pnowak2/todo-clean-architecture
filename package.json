@@ -2,7 +2,8 @@
   "name": "todo-clean-architecture",
   "version": "1.0.0",
   "description": "todo project following uncle bob clean architecture patterns",
-  "main": "index.js",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "files": [
     "lib/**/*"
   ],
@@ -11,6 +12,11 @@
     "build": "tsc",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "tslint -p tsconfig.json",
+    "prepare" : "npm run build",
+    "prepublishOnly" : "npm test && npm run lint",
+    "preversion" : "npm run lint",
+    "version" : "npm run format && git add -A src",
+    "postversion" : "git push && git push --tags",
     "start": "webpack --watch"
   },
   "repository": {
@@ -19,6 +25,7 @@
   },
   "author": "Piotr Nowak",
   "license": "ISC",
+  "keywords": ["Clean", "Architecture"],
   "dependencies": {
     "rxjs": "^6.5.3"
   },
