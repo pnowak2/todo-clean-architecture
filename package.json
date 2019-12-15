@@ -1,5 +1,5 @@
 {
-  "name": "todo-clean-architecture",
+  "name": "@domisoft/todo-clean-architecture",
   "version": "1.0.0",
   "description": "todo project following uncle bob clean architecture patterns",
   "main": "lib/index.js",
