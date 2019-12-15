@@ -1,8 +1,9 @@
+import { Observable } from "rxjs";
 import { TodoPresenter } from "../../features/todo/presentation/todo.presenter";
+import { TodoDefaultPresenter } from "../../features/todo/presentation/todo-default.presenter";
 import { GetAllTodosUseCase } from "../../features/todo/domain/usecase/get-all-todos.usecase";
 import { TodoRepository } from "../../features/todo/domain/repository/todo.repository";
 import { TodoInMemoryRepository } from "../../features/todo/data/repository/inmemory/todo.inmemory.repository";
-import { Observable } from "rxjs";
 import { Todo } from "../../features/todo/presentation/state/todos.state";
 import { AddTodoUseCase } from "../../features/todo/domain/usecase/add-todo.usecase";
 import { GetCompletedTodosUseCase } from "../../features/todo/domain/usecase/get-completed-todos.usecase";
@@ -29,7 +30,7 @@ export class VanillaJsApp {
     const markTodoAsIncompletedUC: MarkTodoAsIncompletedUseCase = new MarkTodoAsIncompletedUseCase(inMemoryTodoRepo);
     const removeTodoUC: RemoveTodoUseCase = new RemoveTodoUseCase(inMemoryTodoRepo);
 
-    this.todoPresenter = new TodoPresenter(
+    this.todoPresenter = new TodoDefaultPresenter(
       getAllTodosUC,
       getCompletedTodosUC,
       getIncompletedTodosUC,

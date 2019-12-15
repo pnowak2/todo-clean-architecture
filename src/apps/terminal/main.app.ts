@@ -1,4 +1,5 @@
 import { TodoPresenter } from "../../features/todo/presentation/todo.presenter";
+import { TodoDefaultPresenter } from "../../features/todo/presentation/todo-default.presenter";
 import { GetAllTodosUseCase } from "../../features/todo/domain/usecase/get-all-todos.usecase";
 import { TodoRepository } from "../../features/todo/domain/repository/todo.repository";
 import { TodoInMemoryRepository } from "../../features/todo/data/repository/inmemory/todo.inmemory.repository";
@@ -29,7 +30,7 @@ export class TerminalApp {
     const markTodoAsIncompletedUC: MarkTodoAsIncompletedUseCase = new MarkTodoAsIncompletedUseCase(inMemoryTodoRepo);
     const removeTodoUC: RemoveTodoUseCase = new RemoveTodoUseCase(inMemoryTodoRepo);
 
-    this.todoPresenter = new TodoPresenter(
+    this.todoPresenter = new TodoDefaultPresenter(
       getAllTodosUC,
       getCompletedTodosUC,
       getIncompletedTodosUC,
