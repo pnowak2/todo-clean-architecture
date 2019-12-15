@@ -1,6 +1,7 @@
 {
    "extends": ["tslint:recommended", "tslint-config-prettier"],
    "rules": {
+      "quotemark": [true, "single"],
       "no-console": false,
       "member-access": false,
       "object-literal-sort-keys": false,
