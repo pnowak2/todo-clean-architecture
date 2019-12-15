@@ -1,10 +1,10 @@
-import { Observable, of } from "rxjs";
+import { Observable, of } from 'rxjs';
 import { LocalStorageService } from '../../../../../core/domain/service/localstorage.service';
-import { Todo } from "../../../domain/model/todo.model";
-import { TodoRepository } from "../../../domain/repository/todo.repository";
+import { Todo } from '../../../domain/model/todo.model';
+import { TodoRepository } from '../../../domain/repository/todo.repository';
 
 export class TodoLocalStorageRepository implements TodoRepository {
-  constructor(private localStorageService: LocalStorageService) { }
+  constructor(private localStorageService: LocalStorageService) {}
 
   public getAllTodos(): Observable<Todo[]> {
     return of(this.localStorageService.getItem('todos'));

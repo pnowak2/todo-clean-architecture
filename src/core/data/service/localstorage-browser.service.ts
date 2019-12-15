@@ -7,12 +7,9 @@ interface ICache {
 export class LocalStorageBrowserService implements LocalStorageService {
   private cache: ICache;
 
-  constructor(
-    private localStorage: Storage,
-    private keyPrefix: string = 'app') {
-
+  constructor(private localStorage: Storage, private keyPrefix: string = 'app') {
     this.cache = {};
-    this.keyPrefix = 'app'
+    this.keyPrefix = 'app';
 
     window.addEventListener('storage', this.handleStorageEvent.bind(this));
   }
@@ -44,7 +41,7 @@ export class LocalStorageBrowserService implements LocalStorageService {
     }
 
     if (event.newValue === null) {
-      delete (this.cache[event.key]);
+      delete this.cache[event.key];
     } else {
       this.cache[event.key] = JSON.parse(event.newValue);
     }

@@ -3,7 +3,7 @@ export class Todo {
   name: string;
   completed?: boolean;
 
-  constructor(params: Todo) { 
+  constructor(params: Todo) {
     Object.assign(this, params);
   }
 }

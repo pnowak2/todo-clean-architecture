@@ -1,7 +1,7 @@
-import { Observable, of } from "rxjs";
-import { map } from "rxjs/operators";
-import { Todo } from "../../../domain/model/todo.model";
-import { TodoRepository } from "../../../domain/repository/todo.repository";
+import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { Todo } from '../../../domain/model/todo.model';
+import { TodoRepository } from '../../../domain/repository/todo.repository';
 
 const todosDB = [
   new Todo({ id: '1', name: 'todo 1', completed: true }),
@@ -23,9 +23,7 @@ export class TodoInMemoryRepository implements TodoRepository {
   }
 
   public searchTodos(keyword: string): Observable<Todo[]> {
-    return this.getAllTodos().pipe(
-      map(todos => todos.filter(todo => todo.name.includes(keyword)))
-    );
+    return this.getAllTodos().pipe(map(todos => todos.filter(todo => todo.name.includes(keyword))));
   }
 
   public addTodo(name: string): Observable<Todo> {
@@ -44,7 +42,7 @@ export class TodoInMemoryRepository implements TodoRepository {
     const idx = todosDB.findIndex(t => t.id === id);
     const todo = todosDB.find(t => t.id === id);
 
-    todosDB.splice(idx ,1);
+    todosDB.splice(idx, 1);
 
     return of(todo);
   }

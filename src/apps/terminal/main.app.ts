@@ -1,16 +1,16 @@
-import { Observable } from "rxjs";
-import { TodoInMemoryRepository } from "../../features/todo/data/repository/inmemory/todo.inmemory.repository";
-import { TodoRepository } from "../../features/todo/domain/repository/todo.repository";
-import { AddTodoUseCase } from "../../features/todo/domain/usecase/add-todo.usecase";
-import { GetAllTodosUseCase } from "../../features/todo/domain/usecase/get-all-todos.usecase";
-import { GetCompletedTodosUseCase } from "../../features/todo/domain/usecase/get-completed-todos.usecase";
-import { GetIncompletedTodosUseCase } from "../../features/todo/domain/usecase/get-incompleted-todos.usecase";
-import { MarkTodoAsCompletedUseCase } from "../../features/todo/domain/usecase/mark-todo-as-complete.usecase";
-import { MarkTodoAsIncompletedUseCase } from "../../features/todo/domain/usecase/mark-todo-as-incomplete.usecase";
-import { RemoveTodoUseCase } from "../../features/todo/domain/usecase/remove-todo-id.usecase";
-import { Todo } from "../../features/todo/presentation/state/todos.state";
-import { TodoDefaultPresenter } from "../../features/todo/presentation/todo-default.presenter";
-import { TodoPresenter } from "../../features/todo/presentation/todo.presenter";
+import { Observable } from 'rxjs';
+import { TodoInMemoryRepository } from '../../features/todo/data/repository/inmemory/todo.inmemory.repository';
+import { TodoRepository } from '../../features/todo/domain/repository/todo.repository';
+import { AddTodoUseCase } from '../../features/todo/domain/usecase/add-todo.usecase';
+import { GetAllTodosUseCase } from '../../features/todo/domain/usecase/get-all-todos.usecase';
+import { GetCompletedTodosUseCase } from '../../features/todo/domain/usecase/get-completed-todos.usecase';
+import { GetIncompletedTodosUseCase } from '../../features/todo/domain/usecase/get-incompleted-todos.usecase';
+import { MarkTodoAsCompletedUseCase } from '../../features/todo/domain/usecase/mark-todo-as-complete.usecase';
+import { MarkTodoAsIncompletedUseCase } from '../../features/todo/domain/usecase/mark-todo-as-incomplete.usecase';
+import { RemoveTodoUseCase } from '../../features/todo/domain/usecase/remove-todo-id.usecase';
+import { Todo } from '../../features/todo/presentation/state/todos.state';
+import { TodoDefaultPresenter } from '../../features/todo/presentation/todo-default.presenter';
+import { TodoPresenter } from '../../features/todo/presentation/todo.presenter';
 
 export class TerminalApp {
   private todos$: Observable<Todo[]>;
@@ -37,7 +37,7 @@ export class TerminalApp {
       addTodoUC,
       markTodoAsCompletedUC,
       markTodoAsIncompletedUC,
-      removeTodoUC
+      removeTodoUC,
     );
 
     // View observables binding
@@ -45,7 +45,7 @@ export class TerminalApp {
     this.todosCount$ = this.todoPresenter.todosCount$;
     this.incompletedTodosCount$ = this.todoPresenter.incompletedTodosCount$;
 
-    // Presenter reactive subscriptions 
+    // Presenter reactive subscriptions
     this.todos$.subscribe(todos => {
       console.log('todos', todos);
     });

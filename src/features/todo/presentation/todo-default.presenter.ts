@@ -1,35 +1,29 @@
-import { BehaviorSubject, Observable } from "rxjs";
-import { map } from "rxjs/operators";
-import { Presenter } from "../../../core/presentation/presenter";
-import { AddTodoUseCase } from "../domain/usecase/add-todo.usecase";
-import { GetAllTodosUseCase } from "../domain/usecase/get-all-todos.usecase";
-import { GetCompletedTodosUseCase } from "../domain/usecase/get-completed-todos.usecase";
-import { GetIncompletedTodosUseCase } from "../domain/usecase/get-incompleted-todos.usecase";
-import { MarkTodoAsCompletedUseCase } from "../domain/usecase/mark-todo-as-complete.usecase";
-import { MarkTodoAsIncompletedUseCase } from "../domain/usecase/mark-todo-as-incomplete.usecase";
-import { RemoveTodoUseCase } from "../domain/usecase/remove-todo-id.usecase";
-import { Todo, TodoState } from "./state/todos.state";
-import { TodoViewModelMapper } from "./todo.mapper";
-import { TodoPresenter } from "./todo.presenter";
+import { BehaviorSubject, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { Presenter } from '../../../core/presentation/presenter';
+import { AddTodoUseCase } from '../domain/usecase/add-todo.usecase';
+import { GetAllTodosUseCase } from '../domain/usecase/get-all-todos.usecase';
+import { GetCompletedTodosUseCase } from '../domain/usecase/get-completed-todos.usecase';
+import { GetIncompletedTodosUseCase } from '../domain/usecase/get-incompleted-todos.usecase';
+import { MarkTodoAsCompletedUseCase } from '../domain/usecase/mark-todo-as-complete.usecase';
+import { MarkTodoAsIncompletedUseCase } from '../domain/usecase/mark-todo-as-incomplete.usecase';
+import { RemoveTodoUseCase } from '../domain/usecase/remove-todo-id.usecase';
+import { Todo, TodoState } from './state/todos.state';
+import { TodoViewModelMapper } from './todo.mapper';
+import { TodoPresenter } from './todo.presenter';
 
 export class TodoDefaultPresenter extends Presenter implements TodoPresenter {
   private state = new TodoState();
   private dispatch = new BehaviorSubject<TodoState>(this.state);
   private mapper = new TodoViewModelMapper();
 
-  todos$: Observable<Todo[]> = this.dispatch
-    .asObservable()
-    .pipe(
-      map(state => state.todos)
-    );
+  todos$: Observable<Todo[]> = this.dispatch.asObservable().pipe(map(state => state.todos));
 
-  todosCount$: Observable<number> = this.todos$.pipe(
-    map(todos => todos.length)
-  );
+  todosCount$: Observable<number> = this.todos$.pipe(map(todos => todos.length));
 
   incompletedTodosCount$: Observable<number> = this.todos$.pipe(
     map(todos => todos.filter(todo => !todo.completed)),
-    map(todos => todos.length)
+    map(todos => todos.length),
   );
 
   constructor(
@@ -39,7 +33,7 @@ export class TodoDefaultPresenter extends Presenter implements TodoPresenter {
     private addTodoUC: AddTodoUseCase,
     private markTodoAsCompletedUC: MarkTodoAsCompletedUseCase,
     private markTodoAsIncompletedUC: MarkTodoAsIncompletedUseCase,
-    private removeTodoUC: RemoveTodoUseCase
+    private removeTodoUC: RemoveTodoUseCase,
   ) {
     super();
   }
@@ -47,9 +41,8 @@ export class TodoDefaultPresenter extends Presenter implements TodoPresenter {
   getAllTodos() {
     this.getAllTodosUC
       .execute()
-      .pipe(
-        map(todos => todos.map(this.mapper.mapFrom)),
-      ).subscribe(todos => {
+      .pipe(map(todos => todos.map(this.mapper.mapFrom)))
+      .subscribe(todos => {
         this.updateTodos(todos);
       });
   }
@@ -57,9 +50,8 @@ export class TodoDefaultPresenter extends Presenter implements TodoPresenter {
   getCompletedTodos() {
     this.getCompletedTodosUC
       .execute()
-      .pipe(
-        map(todos => todos.map(this.mapper.mapFrom)),
-      ).subscribe(todos => {
+      .pipe(map(todos => todos.map(this.mapper.mapFrom)))
+      .subscribe(todos => {
         this.updateTodos(todos);
       });
   }
@@ -67,9 +59,8 @@ export class TodoDefaultPresenter extends Presenter implements TodoPresenter {
   getIncompletedTodos() {
     this.getIncompletedTodosUC
       .execute()
-      .pipe(
-        map(todos => todos.map(this.mapper.mapFrom)),
-      ).subscribe(todos => {
+      .pipe(map(todos => todos.map(this.mapper.mapFrom)))
+      .subscribe(todos => {
         this.updateTodos(todos);
       });
   }
@@ -77,49 +68,45 @@ export class TodoDefaultPresenter extends Presenter implements TodoPresenter {
   addTodo(name: string) {
     this.addTodoUC
       .execute(name)
-      .pipe(
-        map(todo => this.mapper.mapFrom(todo))
-      ).subscribe(todo => {
-        this.updateTodos([...this.state.todos, todo])
-      })
+      .pipe(map(todo => this.mapper.mapFrom(todo)))
+      .subscribe(todo => {
+        this.updateTodos([...this.state.todos, todo]);
+      });
   }
 
   markTodoAsCompleted(id: string) {
     this.markTodoAsCompletedUC
       .execute(id)
-      .pipe(
-        map(todo => this.mapper.mapFrom(todo)),
-      ).subscribe(todos => {
+      .pipe(map(todo => this.mapper.mapFrom(todo)))
+      .subscribe(todos => {
         this.getAllTodos();
-      })
+      });
   }
 
   markTodoAsIncompleted(id: string) {
     this.markTodoAsIncompletedUC
       .execute(id)
-      .pipe(
-        map(todo => this.mapper.mapFrom(todo)),
-      ).subscribe(todos => {
+      .pipe(map(todo => this.mapper.mapFrom(todo)))
+      .subscribe(todos => {
         this.getAllTodos();
-      })
+      });
   }
 
   removeTodo(id: string) {
     this.removeTodoUC
       .execute(id)
-      .pipe(
-        map(todo => this.mapper.mapFrom(todo))
-      ).subscribe(todo => {
+      .pipe(map(todo => this.mapper.mapFrom(todo)))
+      .subscribe(todo => {
         this.getAllTodos();
-      })
+      });
   }
 
   private updateTodos(todos: Todo[]) {
     this.dispatch.next(
-      this.state = {
+      (this.state = {
         ...this.state,
-        todos
-      }
+        todos,
+      }),
     );
   }
 }

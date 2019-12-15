@@ -1,3 +1,1 @@
-export class ViewModel {
-
-}
+export class ViewModel {}

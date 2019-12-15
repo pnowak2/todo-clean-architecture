@@ -1,3 +1,1 @@
-export class Presenter {
-
-}
+export class Presenter {}
