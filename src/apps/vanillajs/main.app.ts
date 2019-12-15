@@ -1,23 +1,23 @@
 import { Observable } from "rxjs";
-import { TodoPresenter } from "../../features/todo/presentation/todo.presenter";
-import { TodoDefaultPresenter } from "../../features/todo/presentation/todo-default.presenter";
-import { GetAllTodosUseCase } from "../../features/todo/domain/usecase/get-all-todos.usecase";
-import { TodoRepository } from "../../features/todo/domain/repository/todo.repository";
 import { TodoInMemoryRepository } from "../../features/todo/data/repository/inmemory/todo.inmemory.repository";
-import { Todo } from "../../features/todo/presentation/state/todos.state";
+import { TodoRepository } from "../../features/todo/domain/repository/todo.repository";
 import { AddTodoUseCase } from "../../features/todo/domain/usecase/add-todo.usecase";
+import { GetAllTodosUseCase } from "../../features/todo/domain/usecase/get-all-todos.usecase";
 import { GetCompletedTodosUseCase } from "../../features/todo/domain/usecase/get-completed-todos.usecase";
 import { GetIncompletedTodosUseCase } from "../../features/todo/domain/usecase/get-incompleted-todos.usecase";
 import { MarkTodoAsCompletedUseCase } from "../../features/todo/domain/usecase/mark-todo-as-complete.usecase";
 import { MarkTodoAsIncompletedUseCase } from "../../features/todo/domain/usecase/mark-todo-as-incomplete.usecase";
 import { RemoveTodoUseCase } from "../../features/todo/domain/usecase/remove-todo-id.usecase";
+import { Todo } from "../../features/todo/presentation/state/todos.state";
+import { TodoDefaultPresenter } from "../../features/todo/presentation/todo-default.presenter";
+import { TodoPresenter } from "../../features/todo/presentation/todo.presenter";
 
 export class VanillaJsApp {
-  todos$: Observable<Array<Todo>>;
-  todosCount$: Observable<number>;
-  incompletedTodosCount$: Observable<number>;
+  private todos$: Observable<Todo[]>;
+  private todosCount$: Observable<number>;
+  private incompletedTodosCount$: Observable<number>;
 
-  todoPresenter: TodoPresenter;
+  private todoPresenter: TodoPresenter;
 
   constructor() {
     // Dependency injection configuration
@@ -54,7 +54,7 @@ export class VanillaJsApp {
         const liEl = document.createElement('li');
         liEl.addEventListener('click', this.handleItemClick.bind({
           self: this,
-          todo: todo
+          todo
         }));
 
         const checkboxEl = document.createElement('input');
@@ -89,27 +89,7 @@ export class VanillaJsApp {
     });
   }
 
-  handleItemClick(this: any, evt: MouseEvent) {
-    const targetEl: HTMLElement = evt.target as HTMLElement;
-    if(targetEl.dataset.type === 'checkbox') {
-      const inputEl: HTMLInputElement = targetEl as HTMLInputElement;
-      if(inputEl.checked) {
-        this.self.todoPresenter.markTodoAsCompleted(this.todo.id);
-      } else {
-        this.self.todoPresenter.markTodoAsIncompleted(this.todo.id);
-      }
-    }
-
-    if(targetEl.dataset.type === 'input') {
-      const inputEl: HTMLInputElement = targetEl as HTMLInputElement;
-    }
-
-    if(targetEl.dataset.type === 'button') {
-      this.self.todoPresenter.removeTodo(this.todo.id);
-    }
-  }
-
-  run() {
+  public run() {
     // UI Events/Code
 
     this.todoPresenter.getAllTodos();
@@ -132,5 +112,25 @@ export class VanillaJsApp {
 
       inputEl.value = '';
     });
+  }
+
+  private handleItemClick(this: any, evt: MouseEvent) {
+    const targetEl: HTMLElement = evt.target as HTMLElement;
+    if(targetEl.dataset.type === 'checkbox') {
+      const inputEl: HTMLInputElement = targetEl as HTMLInputElement;
+      if(inputEl.checked) {
+        this.self.todoPresenter.markTodoAsCompleted(this.todo.id);
+      } else {
+        this.self.todoPresenter.markTodoAsIncompleted(this.todo.id);
+      }
+    }
+
+    if(targetEl.dataset.type === 'input') {
+      const inputEl: HTMLInputElement = targetEl as HTMLInputElement;
+    }
+
+    if(targetEl.dataset.type === 'button') {
+      this.self.todoPresenter.removeTodo(this.todo.id);
+    }
   }
 }

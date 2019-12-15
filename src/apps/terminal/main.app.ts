@@ -1,23 +1,23 @@
-import { TodoPresenter } from "../../features/todo/presentation/todo.presenter";
-import { TodoDefaultPresenter } from "../../features/todo/presentation/todo-default.presenter";
-import { GetAllTodosUseCase } from "../../features/todo/domain/usecase/get-all-todos.usecase";
-import { TodoRepository } from "../../features/todo/domain/repository/todo.repository";
-import { TodoInMemoryRepository } from "../../features/todo/data/repository/inmemory/todo.inmemory.repository";
 import { Observable } from "rxjs";
-import { Todo } from "../../features/todo/presentation/state/todos.state";
+import { TodoInMemoryRepository } from "../../features/todo/data/repository/inmemory/todo.inmemory.repository";
+import { TodoRepository } from "../../features/todo/domain/repository/todo.repository";
 import { AddTodoUseCase } from "../../features/todo/domain/usecase/add-todo.usecase";
+import { GetAllTodosUseCase } from "../../features/todo/domain/usecase/get-all-todos.usecase";
 import { GetCompletedTodosUseCase } from "../../features/todo/domain/usecase/get-completed-todos.usecase";
 import { GetIncompletedTodosUseCase } from "../../features/todo/domain/usecase/get-incompleted-todos.usecase";
 import { MarkTodoAsCompletedUseCase } from "../../features/todo/domain/usecase/mark-todo-as-complete.usecase";
 import { MarkTodoAsIncompletedUseCase } from "../../features/todo/domain/usecase/mark-todo-as-incomplete.usecase";
 import { RemoveTodoUseCase } from "../../features/todo/domain/usecase/remove-todo-id.usecase";
+import { Todo } from "../../features/todo/presentation/state/todos.state";
+import { TodoDefaultPresenter } from "../../features/todo/presentation/todo-default.presenter";
+import { TodoPresenter } from "../../features/todo/presentation/todo.presenter";
 
 export class TerminalApp {
-  todos$: Observable<Array<Todo>>;
-  todosCount$: Observable<number>;
-  incompletedTodosCount$: Observable<number>;
+  private todos$: Observable<Todo[]>;
+  private todosCount$: Observable<number>;
+  private incompletedTodosCount$: Observable<number>;
 
-  todoPresenter: TodoPresenter;
+  private todoPresenter: TodoPresenter;
 
   constructor() {
     // Dependency injection configuration
@@ -59,7 +59,7 @@ export class TerminalApp {
     });
   }
 
-  run() {
+  public run() {
     // UI Events/Code
     this.todoPresenter.getAllTodos();
   }
