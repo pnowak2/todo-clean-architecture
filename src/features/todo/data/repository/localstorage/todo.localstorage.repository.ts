@@ -40,6 +40,10 @@ export class TodoLocalStorageRepository implements TodoRepository {
     throw Error('not implemented');
   }
 
+  public removeCompletedTodos(): Observable<Todo[]> {
+    throw Error('not implemented');
+  }
+
   public markTodoAsCompleted(id: string, isCompleted: boolean): Observable<Todo> {
     throw Error('not implemented');
   }

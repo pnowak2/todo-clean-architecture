@@ -7,6 +7,7 @@ import { GetCompletedTodosUseCase } from '../../features/todo/domain/usecase/get
 import { GetIncompletedTodosUseCase } from '../../features/todo/domain/usecase/get-incompleted-todos.usecase';
 import { MarkTodoAsCompletedUseCase } from '../../features/todo/domain/usecase/mark-todo-as-complete.usecase';
 import { MarkTodoAsIncompletedUseCase } from '../../features/todo/domain/usecase/mark-todo-as-incomplete.usecase';
+import { RemoveCompletedTodosUseCase } from '../../features/todo/domain/usecase/remove-completed-todos.usecas';
 import { RemoveTodoUseCase } from '../../features/todo/domain/usecase/remove-todo-id.usecase';
 import { Todo } from '../../features/todo/presentation/state/todos.state';
 import { TodoDefaultPresenter } from '../../features/todo/presentation/todo-default.presenter';
@@ -29,6 +30,7 @@ export class TerminalApp {
     const markTodoAsCompletedUC: MarkTodoAsCompletedUseCase = new MarkTodoAsCompletedUseCase(inMemoryTodoRepo);
     const markTodoAsIncompletedUC: MarkTodoAsIncompletedUseCase = new MarkTodoAsIncompletedUseCase(inMemoryTodoRepo);
     const removeTodoUC: RemoveTodoUseCase = new RemoveTodoUseCase(inMemoryTodoRepo);
+    const removeCompletedTodosUC: RemoveCompletedTodosUseCase = new RemoveCompletedTodosUseCase(inMemoryTodoRepo);
 
     this.todoPresenter = new TodoDefaultPresenter(
       getAllTodosUC,
@@ -38,6 +40,7 @@ export class TerminalApp {
       markTodoAsCompletedUC,
       markTodoAsIncompletedUC,
       removeTodoUC,
+      removeCompletedTodosUC
     );
 
     // View observables binding

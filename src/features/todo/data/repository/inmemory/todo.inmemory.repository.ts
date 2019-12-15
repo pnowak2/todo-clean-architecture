@@ -3,7 +3,7 @@ import { map } from 'rxjs/operators';
 import { Todo } from '../../../domain/model/todo.model';
 import { TodoRepository } from '../../../domain/repository/todo.repository';
 
-const todosDB = [
+let todosDB = [
   new Todo({ id: '1', name: 'todo 1', completed: true }),
   new Todo({ id: '2', name: 'todo 2' }),
   new Todo({ id: '3', name: 'todo 3' }),
@@ -45,6 +45,13 @@ export class TodoInMemoryRepository implements TodoRepository {
     todosDB.splice(idx, 1);
 
     return of(todo);
+  }
+
+  public removeCompletedTodos(): Observable<Todo[]> {
+    const incompletedTodos = todosDB.filter(todo => !todo.completed);
+    todosDB = [...incompletedTodos];
+
+    return of(incompletedTodos);
   }
 
   public markTodoAsCompleted(id: string, isCompleted: boolean): Observable<Todo> {

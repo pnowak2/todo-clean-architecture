@@ -13,4 +13,5 @@ export abstract class TodoPresenter {
   abstract markTodoAsCompleted(id: string): void;
   abstract markTodoAsIncompleted(id: string): void;
   abstract removeTodo(id: string): void;
+  abstract removeCompletedTodos(): void;
 }

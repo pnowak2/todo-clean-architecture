@@ -7,6 +7,7 @@ import { GetCompletedTodosUseCase } from '../domain/usecase/get-completed-todos.
 import { GetIncompletedTodosUseCase } from '../domain/usecase/get-incompleted-todos.usecase';
 import { MarkTodoAsCompletedUseCase } from '../domain/usecase/mark-todo-as-complete.usecase';
 import { MarkTodoAsIncompletedUseCase } from '../domain/usecase/mark-todo-as-incomplete.usecase';
+import { RemoveCompletedTodosUseCase } from '../domain/usecase/remove-completed-todos.usecas';
 import { RemoveTodoUseCase } from '../domain/usecase/remove-todo-id.usecase';
 import { Todo, TodoState } from './state/todos.state';
 import { TodoViewModelMapper } from './todo.mapper';
@@ -34,6 +35,7 @@ export class TodoDefaultPresenter extends Presenter implements TodoPresenter {
     private markTodoAsCompletedUC: MarkTodoAsCompletedUseCase,
     private markTodoAsIncompletedUC: MarkTodoAsIncompletedUseCase,
     private removeTodoUC: RemoveTodoUseCase,
+    private removeCompletedTodosUC: RemoveCompletedTodosUseCase,
   ) {
     super();
   }
@@ -78,7 +80,7 @@ export class TodoDefaultPresenter extends Presenter implements TodoPresenter {
     this.markTodoAsCompletedUC
       .execute(id)
       .pipe(map(todo => this.mapper.mapFrom(todo)))
-      .subscribe(todos => {
+      .subscribe(() => {
         this.getAllTodos();
       });
   }
@@ -87,7 +89,7 @@ export class TodoDefaultPresenter extends Presenter implements TodoPresenter {
     this.markTodoAsIncompletedUC
       .execute(id)
       .pipe(map(todo => this.mapper.mapFrom(todo)))
-      .subscribe(todos => {
+      .subscribe(() => {
         this.getAllTodos();
       });
   }
@@ -96,7 +98,16 @@ export class TodoDefaultPresenter extends Presenter implements TodoPresenter {
     this.removeTodoUC
       .execute(id)
       .pipe(map(todo => this.mapper.mapFrom(todo)))
-      .subscribe(todo => {
+      .subscribe(() => {
+        this.getAllTodos();
+      });
+  }
+
+  removeCompletedTodos() {
+    this.removeCompletedTodosUC
+      .execute()
+      .pipe(map(todos => todos.map(this.mapper.mapFrom)))
+      .subscribe(() => {
         this.getAllTodos();
       });
   }
