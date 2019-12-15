@@ -112,6 +112,10 @@ export class VanillaJsApp {
       this.todoPresenter.getIncompletedTodos();
     });
 
+    document.querySelector('#removeCompletedTodos').addEventListener('click', () => {
+      this.todoPresenter.removeCompletedTodos();
+    });
+
     document.querySelector('#addTodo').addEventListener('click', () => {
       const inputEl = document.querySelector('#addTodoInput') as HTMLInputElement;
       this.todoPresenter.addTodo(inputEl.value);
