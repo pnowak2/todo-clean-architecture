@@ -1,5 +1,5 @@
 export class TodoState {
-  todos: Array<Todo> = [];
+  todos: Todo[] = [];
 }
 
 export interface Todo {

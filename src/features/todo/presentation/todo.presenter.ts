@@ -3,7 +3,7 @@ import { Observable } from "rxjs";
 import { Todo } from "./state/todos.state";
 
 export abstract class TodoPresenter {
-  abstract todos$: Observable<Array<Todo>>;
+  abstract todos$: Observable<Todo[]>;
   abstract todosCount$: Observable<number>;
   abstract incompletedTodosCount$: Observable<number>;
 

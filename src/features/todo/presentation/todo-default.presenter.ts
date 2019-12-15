@@ -1,23 +1,23 @@
 import { BehaviorSubject, Observable } from "rxjs";
 import { map } from "rxjs/operators";
-import { GetAllTodosUseCase } from "../domain/usecase/get-all-todos.usecase";
-import { TodoViewModelMapper } from "./todo.mapper";
-import { TodoState, Todo } from "./state/todos.state";
+import { Presenter } from "../../../core/presentation/presenter";
 import { AddTodoUseCase } from "../domain/usecase/add-todo.usecase";
+import { GetAllTodosUseCase } from "../domain/usecase/get-all-todos.usecase";
 import { GetCompletedTodosUseCase } from "../domain/usecase/get-completed-todos.usecase";
 import { GetIncompletedTodosUseCase } from "../domain/usecase/get-incompleted-todos.usecase";
 import { MarkTodoAsCompletedUseCase } from "../domain/usecase/mark-todo-as-complete.usecase";
 import { MarkTodoAsIncompletedUseCase } from "../domain/usecase/mark-todo-as-incomplete.usecase";
 import { RemoveTodoUseCase } from "../domain/usecase/remove-todo-id.usecase";
+import { Todo, TodoState } from "./state/todos.state";
+import { TodoViewModelMapper } from "./todo.mapper";
 import { TodoPresenter } from "./todo.presenter";
-import { Presenter } from "../../../core/presentation/presenter";
 
 export class TodoDefaultPresenter extends Presenter implements TodoPresenter {
   private state = new TodoState();
   private dispatch = new BehaviorSubject<TodoState>(this.state);
   private mapper = new TodoViewModelMapper();
 
-  todos$: Observable<Array<Todo>> = this.dispatch
+  todos$: Observable<Todo[]> = this.dispatch
     .asObservable()
     .pipe(
       map(state => state.todos)
@@ -114,7 +114,7 @@ export class TodoDefaultPresenter extends Presenter implements TodoPresenter {
       })
   }
 
-  private updateTodos(todos: Array<Todo>) {
+  private updateTodos(todos: Todo[]) {
     this.dispatch.next(
       this.state = {
         ...this.state,

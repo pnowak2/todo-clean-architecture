@@ -1,46 +1,46 @@
 import { Observable, of } from "rxjs";
-import { TodoRepository } from "../../../domain/repository/todo.repository";
-import { Todo } from "../../../domain/model/todo.model";
 import { LocalStorageService } from '../../../../../core/domain/service/localstorage.service';
+import { Todo } from "../../../domain/model/todo.model";
+import { TodoRepository } from "../../../domain/repository/todo.repository";
 
 export class TodoLocalStorageRepository implements TodoRepository {
   constructor(private localStorageService: LocalStorageService) { }
 
-  getAllTodos(): Observable<Array<Todo>> {
+  public getAllTodos(): Observable<Todo[]> {
     return of(this.localStorageService.getItem('todos'));
   }
 
-  getCompletedTodos(): Observable<Array<Todo>> {
+  public getCompletedTodos(): Observable<Todo[]> {
     throw Error('not implemented');
   }
 
-  getIncompletedTodos(): Observable<Array<Todo>> {
+  public getIncompletedTodos(): Observable<Todo[]> {
     throw Error('not implemented');
   }
 
-  searchTodos(keyword: string): Observable<Array<Todo>> {
+  public searchTodos(keyword: string): Observable<Todo[]> {
     throw Error('not implemented');
   }
 
-  addTodo(name: string): Observable<Todo> {
-    const todos: Array<Todo> = this.localStorageService.getItem('todos') || [];
-    const todo = new Todo({ id: Math.random().toString(), name: name });
+  public addTodo(name: string): Observable<Todo> {
+    const todos: Todo[] = this.localStorageService.getItem('todos') || [];
+    const todo = new Todo({ id: Math.random().toString(), name });
 
     this.localStorageService.setItem('todos', [...todos, todo]);
 
     return of(todo);
   }
 
-  getTodoById(id: string): Observable<Todo> {
-    const todos: Array<Todo> = this.localStorageService.getItem('todos');
+  public getTodoById(id: string): Observable<Todo> {
+    const todos: Todo[] = this.localStorageService.getItem('todos');
     return of(todos.find(todo => todo.id === id));
   }
 
-  removeTodo(id: string): Observable<Todo> {
+  public removeTodo(id: string): Observable<Todo> {
     throw Error('not implemented');
   }
 
-  markTodoAsCompleted(id: string, isCompleted: boolean): Observable<Todo> {
+  public markTodoAsCompleted(id: string, isCompleted: boolean): Observable<Todo> {
     throw Error('not implemented');
   }
 }

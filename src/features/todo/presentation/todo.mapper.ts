@@ -1,5 +1,5 @@
-import { Todo as TodoModel } from "../domain/model/todo.model";
 import { Mapper } from "../../../core/domain/model/mapper";
+import { Todo as TodoModel } from "../domain/model/todo.model";
 import { Todo } from "./state/todos.state";
 
 export class TodoViewModelMapper implements Mapper<TodoModel, Todo> {
