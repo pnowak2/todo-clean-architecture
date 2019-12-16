@@ -1,8 +1,8 @@
 export class TodoState {
-  todos: Todo[] = [];
+  todos: TodoVM[] = [];
 }
 
-export interface Todo {
+export interface TodoVM {
   id: string;
   name: string;
   completed: boolean;

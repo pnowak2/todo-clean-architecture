@@ -9,12 +9,12 @@ import { MarkTodoAsCompletedUseCase } from '../features/todo/domain/usecase/mark
 import { MarkTodoAsIncompletedUseCase } from '../features/todo/domain/usecase/mark-todo-as-incomplete.usecase';
 import { RemoveCompletedTodosUseCase } from '../features/todo/domain/usecase/remove-completed-todos.usecas';
 import { RemoveTodoUseCase } from '../features/todo/domain/usecase/remove-todo-id.usecase';
-import { Todo } from '../features/todo/presentation/state/todos.state';
+import { TodoVM } from '../features/todo/presentation/state/todos.state';
 import { TodoDefaultPresenter } from '../features/todo/presentation/todo-default.presenter';
 import { TodoPresenter } from '../features/todo/presentation/todo.presenter';
 
 export class TerminalApp {
-  private todos$: Observable<Todo[]>;
+  private todos$: Observable<TodoVM[]>;
   private todosCount$: Observable<number>;
   private incompletedTodosCount$: Observable<number>;
 
