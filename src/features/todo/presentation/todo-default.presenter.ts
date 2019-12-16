@@ -1,5 +1,5 @@
-import { BehaviorSubject, Observable } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { map, take, takeUntil } from 'rxjs/operators';
 import { Presenter } from '../../../core/presentation/presenter';
 import { AddTodoUseCase } from '../domain/usecase/add-todo.usecase';
 import { GetAllTodosUseCase } from '../domain/usecase/get-all-todos.usecase';
@@ -17,6 +17,7 @@ export class TodoDefaultPresenter extends Presenter implements TodoPresenter {
   private state = new TodoState();
   private dispatch = new BehaviorSubject<TodoState>(this.state);
   private mapper = new TodoViewModelMapper();
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
   todos$: Observable<Todo[]> = this.dispatch.asObservable().pipe(map(state => state.todos));
 
@@ -57,7 +58,7 @@ export class TodoDefaultPresenter extends Presenter implements TodoPresenter {
       .execute()
       .pipe(
         map(todos => todos.map(this.mapper.mapFrom)),
-        take(1)
+        takeUntil(this.destroy$)
       )
       .subscribe(todos => {
         this.updateTodos(todos);
@@ -69,7 +70,7 @@ export class TodoDefaultPresenter extends Presenter implements TodoPresenter {
       .execute()
       .pipe(
         map(todos => todos.map(this.mapper.mapFrom)),
-        take(1)
+        takeUntil(this.destroy$)
       )
       .subscribe(todos => {
         this.updateTodos(todos);
@@ -81,7 +82,7 @@ export class TodoDefaultPresenter extends Presenter implements TodoPresenter {
       .execute(name)
       .pipe(
         map(todo => this.mapper.mapFrom(todo)),
-        take(1)
+        takeUntil(this.destroy$)
       )
       .subscribe(todo => {
         this.updateTodos([...this.state.todos, todo]);
@@ -93,7 +94,7 @@ export class TodoDefaultPresenter extends Presenter implements TodoPresenter {
       .execute(id)
       .pipe(
         map(todo => this.mapper.mapFrom(todo)),
-        take(1)
+        takeUntil(this.destroy$)
       )
       .subscribe(() => {
         this.getAllTodos();
@@ -105,7 +106,7 @@ export class TodoDefaultPresenter extends Presenter implements TodoPresenter {
       .execute(id)
       .pipe(
         map(todo => this.mapper.mapFrom(todo)),
-        take(1)
+        takeUntil(this.destroy$)
       )
       .subscribe(() => {
         this.getAllTodos();
@@ -117,7 +118,7 @@ export class TodoDefaultPresenter extends Presenter implements TodoPresenter {
       .execute(id)
       .pipe(
         map(todo => this.mapper.mapFrom(todo)),
-        take(1)
+        takeUntil(this.destroy$)
       )
       .subscribe(() => {
         this.getAllTodos();
@@ -129,11 +130,16 @@ export class TodoDefaultPresenter extends Presenter implements TodoPresenter {
       .execute()
       .pipe(
         map(todos => todos.map(this.mapper.mapFrom)),
-        take(1)
+        takeUntil(this.destroy$)
       )
       .subscribe(() => {
         this.getAllTodos();
       });
+  }
+
+  onDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 
   private updateTodos(todos: Todo[]) {
