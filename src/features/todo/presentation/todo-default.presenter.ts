@@ -1,5 +1,5 @@
 import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { Presenter } from '../../../core/presentation/presenter';
 import { AddTodoUseCase } from '../domain/usecase/add-todo.usecase';
 import { GetAllTodosUseCase } from '../domain/usecase/get-all-todos.usecase';
@@ -43,7 +43,10 @@ export class TodoDefaultPresenter extends Presenter implements TodoPresenter {
   getAllTodos() {
     this.getAllTodosUC
       .execute()
-      .pipe(map(todos => todos.map(this.mapper.mapFrom)))
+      .pipe(
+        map(todos => todos.map(this.mapper.mapFrom)),
+        take(1)
+      )
       .subscribe(todos => {
         this.updateTodos(todos);
       });
@@ -52,7 +55,10 @@ export class TodoDefaultPresenter extends Presenter implements TodoPresenter {
   getCompletedTodos() {
     this.getCompletedTodosUC
       .execute()
-      .pipe(map(todos => todos.map(this.mapper.mapFrom)))
+      .pipe(
+        map(todos => todos.map(this.mapper.mapFrom)),
+        take(1)
+      )
       .subscribe(todos => {
         this.updateTodos(todos);
       });
@@ -61,7 +67,10 @@ export class TodoDefaultPresenter extends Presenter implements TodoPresenter {
   getIncompletedTodos() {
     this.getIncompletedTodosUC
       .execute()
-      .pipe(map(todos => todos.map(this.mapper.mapFrom)))
+      .pipe(
+        map(todos => todos.map(this.mapper.mapFrom)),
+        take(1)
+      )
       .subscribe(todos => {
         this.updateTodos(todos);
       });
@@ -70,7 +79,10 @@ export class TodoDefaultPresenter extends Presenter implements TodoPresenter {
   addTodo(name: string) {
     this.addTodoUC
       .execute(name)
-      .pipe(map(todo => this.mapper.mapFrom(todo)))
+      .pipe(
+        map(todo => this.mapper.mapFrom(todo)),
+        take(1)
+      )
       .subscribe(todo => {
         this.updateTodos([...this.state.todos, todo]);
       });
@@ -79,7 +91,10 @@ export class TodoDefaultPresenter extends Presenter implements TodoPresenter {
   markTodoAsCompleted(id: string) {
     this.markTodoAsCompletedUC
       .execute(id)
-      .pipe(map(todo => this.mapper.mapFrom(todo)))
+      .pipe(
+        map(todo => this.mapper.mapFrom(todo)),
+        take(1)
+      )
       .subscribe(() => {
         this.getAllTodos();
       });
@@ -88,7 +103,10 @@ export class TodoDefaultPresenter extends Presenter implements TodoPresenter {
   markTodoAsIncompleted(id: string) {
     this.markTodoAsIncompletedUC
       .execute(id)
-      .pipe(map(todo => this.mapper.mapFrom(todo)))
+      .pipe(
+        map(todo => this.mapper.mapFrom(todo)),
+        take(1)
+      )
       .subscribe(() => {
         this.getAllTodos();
       });
@@ -97,7 +115,10 @@ export class TodoDefaultPresenter extends Presenter implements TodoPresenter {
   removeTodo(id: string) {
     this.removeTodoUC
       .execute(id)
-      .pipe(map(todo => this.mapper.mapFrom(todo)))
+      .pipe(
+        map(todo => this.mapper.mapFrom(todo)),
+        take(1)
+      )
       .subscribe(() => {
         this.getAllTodos();
       });
@@ -106,7 +127,10 @@ export class TodoDefaultPresenter extends Presenter implements TodoPresenter {
   removeCompletedTodos() {
     this.removeCompletedTodosUC
       .execute()
-      .pipe(map(todos => todos.map(this.mapper.mapFrom)))
+      .pipe(
+        map(todos => todos.map(this.mapper.mapFrom)),
+        take(1)
+      )
       .subscribe(() => {
         this.getAllTodos();
       });

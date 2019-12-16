@@ -6,6 +6,7 @@
       "member-access": false,
       "object-literal-sort-keys": false,
       "interface-name": false,
-      "member-ordering": false
+      "member-ordering": false,
+      "no-empty": false
    }
 }
