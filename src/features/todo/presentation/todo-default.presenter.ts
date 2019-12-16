@@ -46,7 +46,7 @@ export class TodoDefaultPresenter extends Presenter implements TodoPresenter {
       .execute()
       .pipe(
         map(todos => todos.map(this.mapper.mapFrom)),
-        take(1)
+        takeUntil(this.destroy$),
       )
       .subscribe(todos => {
         this.updateTodos(todos);
@@ -58,7 +58,7 @@ export class TodoDefaultPresenter extends Presenter implements TodoPresenter {
       .execute()
       .pipe(
         map(todos => todos.map(this.mapper.mapFrom)),
-        takeUntil(this.destroy$)
+        takeUntil(this.destroy$),
       )
       .subscribe(todos => {
         this.updateTodos(todos);
@@ -70,7 +70,7 @@ export class TodoDefaultPresenter extends Presenter implements TodoPresenter {
       .execute()
       .pipe(
         map(todos => todos.map(this.mapper.mapFrom)),
-        takeUntil(this.destroy$)
+        takeUntil(this.destroy$),
       )
       .subscribe(todos => {
         this.updateTodos(todos);
@@ -82,7 +82,7 @@ export class TodoDefaultPresenter extends Presenter implements TodoPresenter {
       .execute(name)
       .pipe(
         map(todo => this.mapper.mapFrom(todo)),
-        takeUntil(this.destroy$)
+        takeUntil(this.destroy$),
       )
       .subscribe(todo => {
         this.updateTodos([...this.state.todos, todo]);
@@ -94,7 +94,7 @@ export class TodoDefaultPresenter extends Presenter implements TodoPresenter {
       .execute(id)
       .pipe(
         map(todo => this.mapper.mapFrom(todo)),
-        takeUntil(this.destroy$)
+        takeUntil(this.destroy$),
       )
       .subscribe(() => {
         this.getAllTodos();
@@ -106,7 +106,7 @@ export class TodoDefaultPresenter extends Presenter implements TodoPresenter {
       .execute(id)
       .pipe(
         map(todo => this.mapper.mapFrom(todo)),
-        takeUntil(this.destroy$)
+        takeUntil(this.destroy$),
       )
       .subscribe(() => {
         this.getAllTodos();
@@ -118,7 +118,7 @@ export class TodoDefaultPresenter extends Presenter implements TodoPresenter {
       .execute(id)
       .pipe(
         map(todo => this.mapper.mapFrom(todo)),
-        takeUntil(this.destroy$)
+        takeUntil(this.destroy$),
       )
       .subscribe(() => {
         this.getAllTodos();
@@ -130,7 +130,7 @@ export class TodoDefaultPresenter extends Presenter implements TodoPresenter {
       .execute()
       .pipe(
         map(todos => todos.map(this.mapper.mapFrom)),
-        takeUntil(this.destroy$)
+        takeUntil(this.destroy$),
       )
       .subscribe(() => {
         this.getAllTodos();

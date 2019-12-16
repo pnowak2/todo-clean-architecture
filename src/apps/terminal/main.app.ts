@@ -40,7 +40,7 @@ export class TerminalApp {
       markTodoAsCompletedUC,
       markTodoAsIncompletedUC,
       removeTodoUC,
-      removeCompletedTodosUC
+      removeCompletedTodosUC,
     );
 
     // View observables binding

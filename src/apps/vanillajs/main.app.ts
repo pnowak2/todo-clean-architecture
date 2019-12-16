@@ -40,7 +40,7 @@ export class VanillaJsApp {
       markTodoAsCompletedUC,
       markTodoAsIncompletedUC,
       removeTodoUC,
-      removeCompletedTodosUC
+      removeCompletedTodosUC,
     );
 
     // View observables binding
