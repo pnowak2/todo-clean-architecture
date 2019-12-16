@@ -67,3 +67,5 @@ export class TerminalApp {
     this.todoPresenter.getAllTodos();
   }
 }
+
+new TerminalApp().run();
