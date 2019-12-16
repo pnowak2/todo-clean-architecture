@@ -1,5 +1,11 @@
 Publish it
 
+* Add exception handling 
+  * Provide exception model in domain
+  * Make working example in main app
+  * resources
+    https://blog.angular-university.io/rxjs-error-handling/
+
 * On npm as separate packages with domain / data for use by all apps
   https://itnext.io/step-by-step-building-and-publishing-an-npm-typescript-package-44fe7164964c
 
