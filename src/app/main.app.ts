@@ -18,7 +18,7 @@ export class TerminalApp {
   private todosCount$: Observable<number>;
   private incompletedTodosCount$: Observable<number>;
 
-  private todoPresenter: TodoPresenter;
+  private todoApp: TodoPresenter;
 
   constructor() {
     // Dependency injection configuration
@@ -32,7 +32,7 @@ export class TerminalApp {
     const removeTodoUC: RemoveTodoUseCase = new RemoveTodoUseCase(inMemoryTodoRepo);
     const removeCompletedTodosUC: RemoveCompletedTodosUseCase = new RemoveCompletedTodosUseCase(inMemoryTodoRepo);
 
-    this.todoPresenter = new TodoDefaultPresenter(
+    this.todoApp = new TodoDefaultPresenter(
       getAllTodosUC,
       getCompletedTodosUC,
       getIncompletedTodosUC,
@@ -44,9 +44,9 @@ export class TerminalApp {
     );
 
     // View observables binding
-    this.todos$ = this.todoPresenter.todos$;
-    this.todosCount$ = this.todoPresenter.todosCount$;
-    this.incompletedTodosCount$ = this.todoPresenter.incompletedTodosCount$;
+    this.todos$ = this.todoApp.todos$;
+    this.todosCount$ = this.todoApp.todosCount$;
+    this.incompletedTodosCount$ = this.todoApp.incompletedTodosCount$;
 
     // Presenter reactive subscriptions
     this.todos$.subscribe(todos => {
@@ -64,7 +64,7 @@ export class TerminalApp {
 
   public run() {
     // UI Events/Code
-    this.todoPresenter.getAllTodos();
+    this.todoApp.getAllTodos();
   }
 }
 
