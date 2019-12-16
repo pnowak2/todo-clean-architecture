@@ -17,6 +17,11 @@ Give following Presentation layers
 * Svelte
 * Ionic
 * Terminal UI nodejs app
+  * api inspiration https://github.com/darrikonn/td-cli/blob/master/API.md
+  * https://itnext.io/how-to-create-your-own-typescript-cli-with-node-js-1faf7095ef89
+  * https://www.youtube.com/watch?v=v2GKt39-LPA
+  * https://github.com/SBoudrias/Inquirer.js
+  * blessed nodejs library
 * Desktop App via Electron
 
 Provide alternative view frameworks
