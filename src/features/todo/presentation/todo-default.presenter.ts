@@ -1,5 +1,5 @@
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { map, take, takeUntil } from 'rxjs/operators';
+import { map, takeUntil } from 'rxjs/operators';
 import { Presenter } from '../../../core/presentation/presenter';
 import { AddTodoUseCase } from '../domain/usecase/add-todo.usecase';
 import { GetAllTodosUseCase } from '../domain/usecase/get-all-todos.usecase';
@@ -9,7 +9,7 @@ import { MarkTodoAsCompletedUseCase } from '../domain/usecase/mark-todo-as-compl
 import { MarkTodoAsIncompletedUseCase } from '../domain/usecase/mark-todo-as-incomplete.usecase';
 import { RemoveCompletedTodosUseCase } from '../domain/usecase/remove-completed-todos.usecas';
 import { RemoveTodoUseCase } from '../domain/usecase/remove-todo-id.usecase';
-import { Todo, TodoState } from './state/todos.state';
+import { TodoState, TodoVM } from './state/todos.state';
 import { TodoViewModelMapper } from './todo.mapper';
 import { TodoPresenter } from './todo.presenter';
 
@@ -19,7 +19,7 @@ export class TodoDefaultPresenter extends Presenter implements TodoPresenter {
   private mapper = new TodoViewModelMapper();
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
-  todos$: Observable<Todo[]> = this.dispatch.asObservable().pipe(map(state => state.todos));
+  todos$: Observable<TodoVM[]> = this.dispatch.asObservable().pipe(map(state => state.todos));
 
   todosCount$: Observable<number> = this.todos$.pipe(map(todos => todos.length));
 
@@ -46,7 +46,7 @@ export class TodoDefaultPresenter extends Presenter implements TodoPresenter {
       .execute()
       .pipe(
         map(todos => todos.map(this.mapper.mapFrom)),
-        take(1)
+        takeUntil(this.destroy$),
       )
       .subscribe(todos => {
         this.updateTodos(todos);
@@ -58,7 +58,7 @@ export class TodoDefaultPresenter extends Presenter implements TodoPresenter {
       .execute()
       .pipe(
         map(todos => todos.map(this.mapper.mapFrom)),
-        takeUntil(this.destroy$)
+        takeUntil(this.destroy$),
       )
       .subscribe(todos => {
         this.updateTodos(todos);
@@ -70,7 +70,7 @@ export class TodoDefaultPresenter extends Presenter implements TodoPresenter {
       .execute()
       .pipe(
         map(todos => todos.map(this.mapper.mapFrom)),
-        takeUntil(this.destroy$)
+        takeUntil(this.destroy$),
       )
       .subscribe(todos => {
         this.updateTodos(todos);
@@ -82,7 +82,7 @@ export class TodoDefaultPresenter extends Presenter implements TodoPresenter {
       .execute(name)
       .pipe(
         map(todo => this.mapper.mapFrom(todo)),
-        takeUntil(this.destroy$)
+        takeUntil(this.destroy$),
       )
       .subscribe(todo => {
         this.updateTodos([...this.state.todos, todo]);
@@ -94,7 +94,7 @@ export class TodoDefaultPresenter extends Presenter implements TodoPresenter {
       .execute(id)
       .pipe(
         map(todo => this.mapper.mapFrom(todo)),
-        takeUntil(this.destroy$)
+        takeUntil(this.destroy$),
       )
       .subscribe(() => {
         this.getAllTodos();
@@ -106,7 +106,7 @@ export class TodoDefaultPresenter extends Presenter implements TodoPresenter {
       .execute(id)
       .pipe(
         map(todo => this.mapper.mapFrom(todo)),
-        takeUntil(this.destroy$)
+        takeUntil(this.destroy$),
       )
       .subscribe(() => {
         this.getAllTodos();
@@ -118,7 +118,7 @@ export class TodoDefaultPresenter extends Presenter implements TodoPresenter {
       .execute(id)
       .pipe(
         map(todo => this.mapper.mapFrom(todo)),
-        takeUntil(this.destroy$)
+        takeUntil(this.destroy$),
       )
       .subscribe(() => {
         this.getAllTodos();
@@ -130,7 +130,7 @@ export class TodoDefaultPresenter extends Presenter implements TodoPresenter {
       .execute()
       .pipe(
         map(todos => todos.map(this.mapper.mapFrom)),
-        takeUntil(this.destroy$)
+        takeUntil(this.destroy$),
       )
       .subscribe(() => {
         this.getAllTodos();
@@ -142,7 +142,7 @@ export class TodoDefaultPresenter extends Presenter implements TodoPresenter {
     this.destroy$.unsubscribe();
   }
 
-  private updateTodos(todos: Todo[]) {
+  private updateTodos(todos: TodoVM[]) {
     this.dispatch.next(
       (this.state = {
         ...this.state,

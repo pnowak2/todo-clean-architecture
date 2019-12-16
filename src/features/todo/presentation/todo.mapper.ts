@@ -1,13 +1,13 @@
 import { Mapper } from '../../../core/domain/model/mapper';
-import { Todo as TodoModel } from '../domain/model/todo.model';
-import { Todo } from './state/todos.state';
+import { Todo } from '../domain/model/todo.model';
+import { TodoVM } from './state/todos.state';
 
-export class TodoViewModelMapper implements Mapper<TodoModel, Todo> {
-  mapFrom(input: TodoModel): Todo {
+export class TodoViewModelMapper implements Mapper<Todo, TodoVM> {
+  mapFrom(input: Todo): TodoVM {
     return { id: input.id, name: input.name, completed: input.completed };
   }
 
-  mapTo(input: Todo): TodoModel {
+  mapTo(input: TodoVM): Todo {
     return { id: input.id, name: input.name, completed: input.completed };
   }
 }
