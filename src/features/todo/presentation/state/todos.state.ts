@@ -1,11 +1,13 @@
+export type FilterTypeVM = 'active' | 'completed' | null;
 
 export class TodoState {
-  filter: 'active' | 'completed' | null = null;
+  filter: FilterTypeVM = null;
   todos: TodoVM[] = [];
 }
 
 export interface TodoVM {
   id: string;
   name: string;
+  editing: boolean;
   completed: boolean;
 }

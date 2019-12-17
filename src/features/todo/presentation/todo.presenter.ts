@@ -1,11 +1,11 @@
 import { Observable } from 'rxjs';
-import { TodoVM } from './state/todos.state';
+import { FilterTypeVM, TodoVM } from './state/todos.state';
 
 export abstract class TodoPresenter {
   abstract todos$: Observable<TodoVM[]>;
   abstract todosCount$: Observable<number>;
   abstract incompletedTodosCount$: Observable<number>;
-  abstract filter$: Observable<string>;
+  abstract filterType$: Observable<FilterTypeVM>;
 
   abstract getAllTodos(): void;
   abstract getCompletedTodos(): void;

@@ -4,10 +4,19 @@ import { TodoVM } from './state/todos.state';
 
 export class TodoViewModelMapper implements Mapper<TodoEntity, TodoVM> {
   mapFrom(input: TodoEntity): TodoVM {
-    return { id: input.id, name: input.name, completed: input.completed };
+    return {
+      id: input.id,
+      name: input.name,
+      editing: false,
+      completed: input.completed
+    };
   }
 
   mapTo(input: TodoVM): TodoEntity {
-    return { id: input.id, name: input.name, completed: input.completed };
+    return {
+      id: input.id,
+      name: input.name,
+      completed: input.completed
+    };
   }
 }

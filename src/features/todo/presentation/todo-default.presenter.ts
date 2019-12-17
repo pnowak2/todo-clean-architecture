@@ -11,7 +11,7 @@ import { MarkTodoAsCompletedUseCase } from '../domain/usecase/mark-todo-as-compl
 import { MarkTodoAsIncompletedUseCase } from '../domain/usecase/mark-todo-as-incomplete.usecase';
 import { RemoveCompletedTodosUseCase } from '../domain/usecase/remove-completed-todos.usecas';
 import { RemoveTodoUseCase } from '../domain/usecase/remove-todo-id.usecase';
-import { TodoState, TodoVM } from './state/todos.state';
+import { FilterTypeVM, TodoState, TodoVM } from './state/todos.state';
 import { TodoViewModelMapper } from './todo.mapper';
 import { TodoPresenter } from './todo.presenter';
 
@@ -30,7 +30,7 @@ export class TodoDefaultPresenter extends Presenter implements TodoPresenter {
     map(todos => todos.length),
   );
 
-  filter$: Observable<string> = this.dispatch.asObservable().pipe(map(state => state.filter));
+  filterType$: Observable<FilterTypeVM> = this.dispatch.asObservable().pipe(map(state => state.filter));
 
   constructor(
     private getAllTodosUC: GetAllTodosUseCase,
@@ -67,6 +67,7 @@ export class TodoDefaultPresenter extends Presenter implements TodoPresenter {
         takeUntil(this.destroy$),
       )
       .subscribe(todos => {
+        this.updateFilter('active');
         this.updateTodos(todos);
       });
   }
@@ -179,5 +180,9 @@ export class TodoDefaultPresenter extends Presenter implements TodoPresenter {
         todos,
       }),
     );
+  }
+
+  private updateFilter(filterType: FilterTypeVM) {
+    this.state = { ...this.state, filter: filterType }
   }
 }
