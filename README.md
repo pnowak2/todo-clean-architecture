@@ -2,6 +2,12 @@
 
 Project aiming on implementing Uncle Bob Clean Architecture in javascript
 
+This is the core business logic shared across all possible UI implementations
+
+* Simple terminal - this repo
+* VanillaJS - https://github.com/pnowak2/todo-clean-architecture-vanillajs
+* Angular - https://github.com/pnowak2/todo-clean-architecture-angular
+
 ## Run the demo
 
 Run `npm install` or `yarn` in root folder to install dependencies, then perform `npm run start` to run the demo.
