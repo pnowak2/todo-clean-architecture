@@ -5,6 +5,8 @@ import { AddTodoUseCase } from '../features/todo/domain/usecase/add-todo.usecase
 import { GetAllTodosUseCase } from '../features/todo/domain/usecase/get-all-todos.usecase';
 import { GetCompletedTodosUseCase } from '../features/todo/domain/usecase/get-completed-todos.usecase';
 import { GetIncompletedTodosUseCase } from '../features/todo/domain/usecase/get-incompleted-todos.usecase';
+import { MarkAllTodosAsCompletedUseCase } from '../features/todo/domain/usecase/mark-all-todos-as-completed.usecase';
+import { MarkAllTodosAsIncompletedUseCase } from '../features/todo/domain/usecase/mark-all-todos-as-incompleted.usecase';
 import { MarkTodoAsCompletedUseCase } from '../features/todo/domain/usecase/mark-todo-as-complete.usecase';
 import { MarkTodoAsIncompletedUseCase } from '../features/todo/domain/usecase/mark-todo-as-incomplete.usecase';
 import { RemoveCompletedTodosUseCase } from '../features/todo/domain/usecase/remove-completed-todos.usecas';
@@ -29,6 +31,8 @@ export class TerminalApp {
     const addTodoUC: AddTodoUseCase = new AddTodoUseCase(inMemoryTodoRepo);
     const markTodoAsCompletedUC: MarkTodoAsCompletedUseCase = new MarkTodoAsCompletedUseCase(inMemoryTodoRepo);
     const markTodoAsIncompletedUC: MarkTodoAsIncompletedUseCase = new MarkTodoAsIncompletedUseCase(inMemoryTodoRepo);
+    const markAllTodosAsCompletedUC: MarkAllTodosAsCompletedUseCase = new MarkAllTodosAsCompletedUseCase(inMemoryTodoRepo);
+    const markAllTodosAsIncompletedUC: MarkAllTodosAsIncompletedUseCase = new MarkAllTodosAsIncompletedUseCase(inMemoryTodoRepo);
     const removeTodoUC: RemoveTodoUseCase = new RemoveTodoUseCase(inMemoryTodoRepo);
     const removeCompletedTodosUC: RemoveCompletedTodosUseCase = new RemoveCompletedTodosUseCase(inMemoryTodoRepo);
 
@@ -41,6 +45,8 @@ export class TerminalApp {
       markTodoAsIncompletedUC,
       removeTodoUC,
       removeCompletedTodosUC,
+      markAllTodosAsCompletedUC,
+      markAllTodosAsIncompletedUC
     );
 
     // View observables binding
