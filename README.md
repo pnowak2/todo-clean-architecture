@@ -7,6 +7,7 @@ This is the core business logic shared across all possible UI implementations
 * Simple terminal - this repo
 * VanillaJS - https://github.com/pnowak2/todo-clean-architecture-vanillajs
 * Angular - https://github.com/pnowak2/todo-clean-architecture-angular
+* React - https://github.com/pnowak2/todo-clean-architecture-react.git
 
 ## Run the demo
 
