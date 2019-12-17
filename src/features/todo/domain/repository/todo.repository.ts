@@ -11,4 +11,6 @@ export abstract class TodoRepository {
   public abstract removeCompletedTodos(): Observable<TodoEntity[]>;
   public abstract getTodoById(id: string): Observable<TodoEntity>;
   public abstract markTodoAsCompleted(id: string, isCompleted: boolean): Observable<TodoEntity>;
+  public abstract markAllTodosAsCompleted(): Observable<TodoEntity[]>;
+  public abstract markAllTodosAsIncompleted(): Observable<TodoEntity[]>;
 }

@@ -47,4 +47,12 @@ export class TodoLocalStorageRepository implements TodoRepository {
   public markTodoAsCompleted(id: string, isCompleted: boolean): Observable<TodoEntity> {
     throw Error('not implemented');
   }
+
+  public markAllTodosAsCompleted(): Observable<TodoEntity[]> {
+    throw Error('not implemented');
+  }
+
+  public markAllTodosAsIncompleted(): Observable<TodoEntity[]> {
+    throw Error('not implemented');
+  }
 }

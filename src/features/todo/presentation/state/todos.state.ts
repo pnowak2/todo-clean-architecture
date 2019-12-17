@@ -1,4 +1,6 @@
+
 export class TodoState {
+  filter: 'active' | 'completed' | null = null;
   todos: TodoVM[] = [];
 }
 

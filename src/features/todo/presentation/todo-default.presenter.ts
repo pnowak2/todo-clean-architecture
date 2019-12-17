@@ -5,6 +5,8 @@ import { AddTodoUseCase } from '../domain/usecase/add-todo.usecase';
 import { GetAllTodosUseCase } from '../domain/usecase/get-all-todos.usecase';
 import { GetCompletedTodosUseCase } from '../domain/usecase/get-completed-todos.usecase';
 import { GetIncompletedTodosUseCase } from '../domain/usecase/get-incompleted-todos.usecase';
+import { MarkAllTodosAsCompletedUseCase } from '../domain/usecase/mark-all-todos-as-completed.usecase';
+import { MarkAllTodosAsIncompletedUseCase } from '../domain/usecase/mark-all-todos-as-incompleted.usecase';
 import { MarkTodoAsCompletedUseCase } from '../domain/usecase/mark-todo-as-complete.usecase';
 import { MarkTodoAsIncompletedUseCase } from '../domain/usecase/mark-todo-as-incomplete.usecase';
 import { RemoveCompletedTodosUseCase } from '../domain/usecase/remove-completed-todos.usecas';
@@ -28,6 +30,8 @@ export class TodoDefaultPresenter extends Presenter implements TodoPresenter {
     map(todos => todos.length),
   );
 
+  filter$: Observable<string> = this.dispatch.asObservable().pipe(map(state => state.filter));
+
   constructor(
     private getAllTodosUC: GetAllTodosUseCase,
     private getCompletedTodosUC: GetCompletedTodosUseCase,
@@ -37,6 +41,8 @@ export class TodoDefaultPresenter extends Presenter implements TodoPresenter {
     private markTodoAsIncompletedUC: MarkTodoAsIncompletedUseCase,
     private removeTodoUC: RemoveTodoUseCase,
     private removeCompletedTodosUC: RemoveCompletedTodosUseCase,
+    private markAllTodosAsCompletedUC: MarkAllTodosAsCompletedUseCase,
+    private markAllTodosAsIncompletedUC: MarkAllTodosAsIncompletedUseCase,
   ) {
     super();
   }
@@ -106,6 +112,30 @@ export class TodoDefaultPresenter extends Presenter implements TodoPresenter {
       .execute(id)
       .pipe(
         map(todo => this.mapper.mapFrom(todo)),
+        takeUntil(this.destroy$),
+      )
+      .subscribe(() => {
+        this.getAllTodos();
+      });
+  }
+
+  markAllTodosAsCompleted() {
+    this.markAllTodosAsCompletedUC
+      .execute()
+      .pipe(
+        map(todos => todos.map(this.mapper.mapFrom)),
+        takeUntil(this.destroy$),
+      )
+      .subscribe(() => {
+        this.getAllTodos();
+      });
+  }
+
+  markAllTodosAsIncompleted() {
+    this.markAllTodosAsIncompletedUC
+      .execute()
+      .pipe(
+        map(todos => todos.map(this.mapper.mapFrom)),
         takeUntil(this.destroy$),
       )
       .subscribe(() => {
