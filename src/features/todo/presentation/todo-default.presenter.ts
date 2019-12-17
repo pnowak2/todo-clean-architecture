@@ -2,16 +2,14 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { Presenter } from '../../../core/presentation/presenter';
 import { AddTodoUseCase } from '../domain/usecase/add-todo.usecase';
-import { GetAllTodosUseCase } from '../domain/usecase/get-all-todos.usecase';
-import { GetCompletedTodosUseCase } from '../domain/usecase/get-completed-todos.usecase';
-import { GetIncompletedTodosUseCase } from '../domain/usecase/get-incompleted-todos.usecase';
 import { MarkAllTodosAsCompletedUseCase } from '../domain/usecase/mark-all-todos-as-completed.usecase';
 import { MarkAllTodosAsIncompletedUseCase } from '../domain/usecase/mark-all-todos-as-incompleted.usecase';
 import { MarkTodoAsCompletedUseCase } from '../domain/usecase/mark-todo-as-complete.usecase';
 import { MarkTodoAsIncompletedUseCase } from '../domain/usecase/mark-todo-as-incomplete.usecase';
 import { RemoveCompletedTodosUseCase } from '../domain/usecase/remove-completed-todos.usecas';
 import { RemoveTodoUseCase } from '../domain/usecase/remove-todo-id.usecase';
-import { TodoState, TodoVM } from './state/todos.state';
+import { SearchTodosUseCase } from '../domain/usecase/search-todos.usecase';
+import { FilterTypeVM, TodoState, TodoVM } from './state/todos.state';
 import { TodoViewModelMapper } from './todo.mapper';
 import { TodoPresenter } from './todo.presenter';
 
@@ -30,12 +28,10 @@ export class TodoDefaultPresenter extends Presenter implements TodoPresenter {
     map(todos => todos.length),
   );
 
-  filter$: Observable<string> = this.dispatch.asObservable().pipe(map(state => state.filter));
+  filter$: Observable<FilterTypeVM> = this.dispatch.asObservable().pipe(map(state => state.filter));
 
   constructor(
-    private getAllTodosUC: GetAllTodosUseCase,
-    private getCompletedTodosUC: GetCompletedTodosUseCase,
-    private getIncompletedTodosUC: GetIncompletedTodosUseCase,
+    private searchTodosUC: SearchTodosUseCase,
     private addTodoUC: AddTodoUseCase,
     private markTodoAsCompletedUC: MarkTodoAsCompletedUseCase,
     private markTodoAsIncompletedUC: MarkTodoAsIncompletedUseCase,
@@ -47,9 +43,9 @@ export class TodoDefaultPresenter extends Presenter implements TodoPresenter {
     super();
   }
 
-  getAllTodos() {
-    this.getAllTodosUC
-      .execute()
+  searchTodos(filterType: FilterTypeVM = null) {
+    this.searchTodosUC
+      .execute(filterType)
       .pipe(
         map(todos => todos.map(this.mapper.mapFrom)),
         takeUntil(this.destroy$),
@@ -59,31 +55,7 @@ export class TodoDefaultPresenter extends Presenter implements TodoPresenter {
       });
   }
 
-  getCompletedTodos() {
-    this.getCompletedTodosUC
-      .execute()
-      .pipe(
-        map(todos => todos.map(this.mapper.mapFrom)),
-        takeUntil(this.destroy$),
-      )
-      .subscribe(todos => {
-        this.updateTodos(todos);
-      });
-  }
-
-  getIncompletedTodos() {
-    this.getIncompletedTodosUC
-      .execute()
-      .pipe(
-        map(todos => todos.map(this.mapper.mapFrom)),
-        takeUntil(this.destroy$),
-      )
-      .subscribe(todos => {
-        this.updateTodos(todos);
-      });
-  }
-
-  addTodo(name: string) {
+  addTodo() {
     this.addTodoUC
       .execute(name)
       .pipe(
@@ -103,7 +75,7 @@ export class TodoDefaultPresenter extends Presenter implements TodoPresenter {
         takeUntil(this.destroy$),
       )
       .subscribe(() => {
-        this.getAllTodos();
+        this.searchTodos();
       });
   }
 
@@ -115,7 +87,7 @@ export class TodoDefaultPresenter extends Presenter implements TodoPresenter {
         takeUntil(this.destroy$),
       )
       .subscribe(() => {
-        this.getAllTodos();
+        this.searchTodos();
       });
   }
 
@@ -127,7 +99,7 @@ export class TodoDefaultPresenter extends Presenter implements TodoPresenter {
         takeUntil(this.destroy$),
       )
       .subscribe(() => {
-        this.getAllTodos();
+        this.searchTodos();
       });
   }
 
@@ -139,7 +111,7 @@ export class TodoDefaultPresenter extends Presenter implements TodoPresenter {
         takeUntil(this.destroy$),
       )
       .subscribe(() => {
-        this.getAllTodos();
+        this.searchTodos();
       });
   }
 
@@ -151,7 +123,7 @@ export class TodoDefaultPresenter extends Presenter implements TodoPresenter {
         takeUntil(this.destroy$),
       )
       .subscribe(() => {
-        this.getAllTodos();
+        this.searchTodos();
       });
   }
 
@@ -163,7 +135,7 @@ export class TodoDefaultPresenter extends Presenter implements TodoPresenter {
         takeUntil(this.destroy$),
       )
       .subscribe(() => {
-        this.getAllTodos();
+        this.searchTodos();
       });
   }
 

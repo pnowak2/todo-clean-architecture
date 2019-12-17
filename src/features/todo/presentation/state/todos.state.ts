@@ -1,6 +1,8 @@
 
+export type FilterTypeVM = 'active' | 'completed' | null;
+
 export class TodoState {
-  filter: 'active' | 'completed' | null = null;
+  filter: FilterTypeVM = null;
   todos: TodoVM[] = [];
 }
 

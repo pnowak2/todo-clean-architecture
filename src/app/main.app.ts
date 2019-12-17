@@ -2,15 +2,13 @@ import { Observable } from 'rxjs';
 import { TodoInMemoryRepository } from '../features/todo/data/repository/inmemory/todo.inmemory.repository';
 import { TodoRepository } from '../features/todo/domain/repository/todo.repository';
 import { AddTodoUseCase } from '../features/todo/domain/usecase/add-todo.usecase';
-import { GetAllTodosUseCase } from '../features/todo/domain/usecase/get-all-todos.usecase';
-import { GetCompletedTodosUseCase } from '../features/todo/domain/usecase/get-completed-todos.usecase';
-import { GetIncompletedTodosUseCase } from '../features/todo/domain/usecase/get-incompleted-todos.usecase';
 import { MarkAllTodosAsCompletedUseCase } from '../features/todo/domain/usecase/mark-all-todos-as-completed.usecase';
 import { MarkAllTodosAsIncompletedUseCase } from '../features/todo/domain/usecase/mark-all-todos-as-incompleted.usecase';
 import { MarkTodoAsCompletedUseCase } from '../features/todo/domain/usecase/mark-todo-as-complete.usecase';
 import { MarkTodoAsIncompletedUseCase } from '../features/todo/domain/usecase/mark-todo-as-incomplete.usecase';
 import { RemoveCompletedTodosUseCase } from '../features/todo/domain/usecase/remove-completed-todos.usecas';
 import { RemoveTodoUseCase } from '../features/todo/domain/usecase/remove-todo-id.usecase';
+import { SearchTodosUseCase } from '../features/todo/domain/usecase/search-todos.usecase';
 import { TodoVM } from '../features/todo/presentation/state/todos.state';
 import { TodoDefaultPresenter } from '../features/todo/presentation/todo-default.presenter';
 import { TodoPresenter } from '../features/todo/presentation/todo.presenter';
@@ -25,9 +23,7 @@ export class TerminalApp {
   constructor() {
     // Dependency injection configuration
     const inMemoryTodoRepo: TodoRepository = new TodoInMemoryRepository();
-    const getAllTodosUC: GetAllTodosUseCase = new GetAllTodosUseCase(inMemoryTodoRepo);
-    const getCompletedTodosUC: GetCompletedTodosUseCase = new GetCompletedTodosUseCase(inMemoryTodoRepo);
-    const getIncompletedTodosUC: GetIncompletedTodosUseCase = new GetIncompletedTodosUseCase(inMemoryTodoRepo);
+    const searchTodosUC: SearchTodosUseCase = new SearchTodosUseCase(inMemoryTodoRepo);
     const addTodoUC: AddTodoUseCase = new AddTodoUseCase(inMemoryTodoRepo);
     const markTodoAsCompletedUC: MarkTodoAsCompletedUseCase = new MarkTodoAsCompletedUseCase(inMemoryTodoRepo);
     const markTodoAsIncompletedUC: MarkTodoAsIncompletedUseCase = new MarkTodoAsIncompletedUseCase(inMemoryTodoRepo);
@@ -37,9 +33,7 @@ export class TerminalApp {
     const removeCompletedTodosUC: RemoveCompletedTodosUseCase = new RemoveCompletedTodosUseCase(inMemoryTodoRepo);
 
     this.todoApp = new TodoDefaultPresenter(
-      getAllTodosUC,
-      getCompletedTodosUC,
-      getIncompletedTodosUC,
+      searchTodosUC,
       addTodoUC,
       markTodoAsCompletedUC,
       markTodoAsIncompletedUC,
@@ -70,7 +64,7 @@ export class TerminalApp {
 
   public run() {
     // UI Events/Code
-    this.todoApp.getAllTodos();
+    this.todoApp.searchTodos('active');
   }
 }
 
