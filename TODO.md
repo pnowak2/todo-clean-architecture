@@ -36,7 +36,8 @@ Provide alternative view frameworks
 * https://auth0.com/blog/ngrx-facades-pros-and-cons/
 * Redux / MobX
 
-
+* Firebase repo and authentication to todo
+  https://www.freecodecamp.org/news/creating-a-crud-to-do-app-using-ionic-4/
 
 
 
