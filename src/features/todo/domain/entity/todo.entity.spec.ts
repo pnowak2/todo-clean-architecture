@@ -1,7 +1,7 @@
-import { Todo } from './todo.model';
+import { TodoEntity } from './todo.entity';
 
 test('Todo Model', () => {
-  const model = new Todo({
+  const model = new TodoEntity({
     id: '1',
     name: 'foo',
     completed: true,

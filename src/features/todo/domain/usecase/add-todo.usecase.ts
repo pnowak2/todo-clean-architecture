@@ -1,12 +1,12 @@
 import { Observable } from 'rxjs';
 import { UseCase } from '../../../../core/domain/usecase/usecase';
-import { Todo } from '../model/todo.model';
+import { TodoEntity } from '../entity/todo.entity';
 import { TodoRepository } from '../repository/todo.repository';
 
-export class AddTodoUseCase implements UseCase<string, Todo> {
+export class AddTodoUseCase implements UseCase<string, TodoEntity> {
   constructor(private todoRepository: TodoRepository) {}
 
-  execute(name: string): Observable<Todo> {
+  execute(name: string): Observable<TodoEntity> {
     return this.todoRepository.addTodo(name);
   }
 }
