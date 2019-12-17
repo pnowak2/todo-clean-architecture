@@ -1,5 +1,6 @@
 import { of } from 'rxjs';
 import { skip } from 'rxjs/operators';
+import { TodoEntity } from '../domain/entity/todo.entity';
 import { AddTodoUseCase } from '../domain/usecase/add-todo.usecase';
 import { GetAllTodosUseCase } from '../domain/usecase/get-all-todos.usecase';
 import { GetCompletedTodosUseCase } from '../domain/usecase/get-completed-todos.usecase';
@@ -15,38 +16,38 @@ import { TodoPresenter } from './todo.presenter';
 
 describe('Todo Presenter', () => {
   let todoPresenter: TodoPresenter;
-  const item1 = { id: '1', name: 'foo' };
-  const item2 = { id: '2', name: 'bar' };
-  const db = [item1, item2];
 
+  const item1: TodoEntity = { id: '1', name: 'foo', completed: false };
+  const item2: TodoEntity = { id: '2', name: 'bar', completed: true };
+  const db: TodoEntity[] = [item1, item2];
 
-    beforeEach(() => {
-      const getAllUC = new GetAllTodosUseCase(null);
-      const getCompletedUC = new GetCompletedTodosUseCase(null);
-      const getIncompletedUC = new GetIncompletedTodosUseCase(null);
-      const addTodoUC = new AddTodoUseCase(null);
-      const markTodoCompletedUC = new MarkTodoAsCompletedUseCase(null);
-      const markTodoIncompletedUC = new MarkTodoAsIncompletedUseCase(null);
-      const removeTodoUC = new RemoveTodoUseCase(null);
-      const removeCompletedTodosUC = new RemoveCompletedTodosUseCase(null);
-      const markAllTodosAsCompletedUC = new MarkAllTodosAsCompletedUseCase(null);
-      const markAllTodosAsIncompletedUC = new MarkAllTodosAsIncompletedUseCase(null);
+  beforeEach(() => {
+    const getAllUC = new GetAllTodosUseCase(null);
+    const getCompletedUC = new GetCompletedTodosUseCase(null);
+    const getIncompletedUC = new GetIncompletedTodosUseCase(null);
+    const addTodoUC = new AddTodoUseCase(null);
+    const markTodoCompletedUC = new MarkTodoAsCompletedUseCase(null);
+    const markTodoIncompletedUC = new MarkTodoAsIncompletedUseCase(null);
+    const removeTodoUC = new RemoveTodoUseCase(null);
+    const removeCompletedTodosUC = new RemoveCompletedTodosUseCase(null);
+    const markAllTodosAsCompletedUC = new MarkAllTodosAsCompletedUseCase(null);
+    const markAllTodosAsIncompletedUC = new MarkAllTodosAsIncompletedUseCase(null);
 
-      todoPresenter = new TodoDefaultPresenter(
-        getAllUC,
-        getCompletedUC,
-        getIncompletedUC,
-        addTodoUC,
-        markTodoCompletedUC,
-        markTodoIncompletedUC,
-        removeTodoUC,
-        removeCompletedTodosUC,
-        markAllTodosAsCompletedUC,
-        markAllTodosAsIncompletedUC,
-      );
+    todoPresenter = new TodoDefaultPresenter(
+      getAllUC,
+      getCompletedUC,
+      getIncompletedUC,
+      addTodoUC,
+      markTodoCompletedUC,
+      markTodoIncompletedUC,
+      removeTodoUC,
+      removeCompletedTodosUC,
+      markAllTodosAsCompletedUC,
+      markAllTodosAsIncompletedUC,
+    );
 
-      jest.spyOn(getAllUC, 'execute').mockReturnValue(of(db));
-    });
+    jest.spyOn(getAllUC, 'execute').mockReturnValue(of(db));
+  });
 
   describe('🍕, 🍅, 🧀, 🌶️, 🍄', () => {
     it('should initially return empty array', (done) => {
