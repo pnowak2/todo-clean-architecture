@@ -1,4 +1,5 @@
 Publish it
+* Write article on medium
 
 * Add exception handling 
   * Provide exception model in domain
