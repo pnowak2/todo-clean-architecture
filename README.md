@@ -8,7 +8,7 @@ Run `npm install` or `yarn` in root folder to install dependencies, then perform
 
 ## Build
 
-Run `npm run build` to build the project. The build artifacts will be stored in the `lib/` directory.
+Run `npm run build` to build the project.
 
 ## Running unit tests
 
