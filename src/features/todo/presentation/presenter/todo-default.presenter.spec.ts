@@ -1,71 +1,92 @@
-import { of } from 'rxjs';
 import { skip } from 'rxjs/operators';
-import { TodoEntity } from '../../domain/entity/todo.entity';
-import { AddTodoUseCase } from '../../domain/usecase/add-todo.usecase';
-import { GetAllTodosUseCase } from '../../domain/usecase/get-all-todos.usecase';
-import { GetCompletedTodosUseCase } from '../../domain/usecase/get-completed-todos.usecase';
-import { GetIncompletedTodosUseCase } from '../../domain/usecase/get-incompleted-todos.usecase';
-import { MarkAllTodosAsCompletedUseCase } from '../../domain/usecase/mark-all-todos-as-completed.usecase';
-import { MarkAllTodosAsIncompletedUseCase } from '../../domain/usecase/mark-all-todos-as-incompleted.usecase';
-import { MarkTodoAsCompletedUseCase } from '../../domain/usecase/mark-todo-as-complete.usecase';
-import { MarkTodoAsIncompletedUseCase } from '../../domain/usecase/mark-todo-as-incomplete.usecase';
-import { RemoveCompletedTodosUseCase } from '../../domain/usecase/remove-completed-todos.usecas';
-import { RemoveTodoUseCase } from '../../domain/usecase/remove-todo-id.usecase';
+import { TodoMockModel } from '../../data/repository/inmemory/model/todo-mock.model';
+import { TodoInMemoryRepository } from './../../data/repository/inmemory/todo.inmemory.repository';
 import { TodoDefaultPresenter } from './todo-default.presenter';
 import { TodoPresenter } from './todo.presenter';
 
 describe('Todo Presenter', () => {
   let todoPresenter: TodoPresenter;
 
-  const item1: TodoEntity = { id: '1', name: 'foo', completed: false };
-  const item2: TodoEntity = { id: '2', name: 'bar', completed: true };
-  const db: TodoEntity[] = [item1, item2];
+  const item1 = ({ id: '1', title: 'todo 1', completed: true });
+  const item2 = ({ id: '2', title: 'todo 2', completed: false });
+  const db: TodoMockModel[] = [item1, item2];
 
   beforeEach(() => {
-    const getAllUC = new GetAllTodosUseCase(null);
-    const getCompletedUC = new GetCompletedTodosUseCase(null);
-    const getIncompletedUC = new GetIncompletedTodosUseCase(null);
-    const addTodoUC = new AddTodoUseCase(null);
-    const markTodoCompletedUC = new MarkTodoAsCompletedUseCase(null);
-    const markTodoIncompletedUC = new MarkTodoAsIncompletedUseCase(null);
-    const removeTodoUC = new RemoveTodoUseCase(null);
-    const removeCompletedTodosUC = new RemoveCompletedTodosUseCase(null);
-    const markAllTodosAsCompletedUC = new MarkAllTodosAsCompletedUseCase(null);
-    const markAllTodosAsIncompletedUC = new MarkAllTodosAsIncompletedUseCase(null);
-
-    todoPresenter = new TodoDefaultPresenter(
-      getAllUC,
-      getCompletedUC,
-      getIncompletedUC,
-      addTodoUC,
-      markTodoCompletedUC,
-      markTodoIncompletedUC,
-      removeTodoUC,
-      removeCompletedTodosUC,
-      markAllTodosAsCompletedUC,
-      markAllTodosAsIncompletedUC,
-    );
-
-    jest.spyOn(getAllUC, 'execute').mockReturnValue(of(db));
+    todoPresenter = new TodoDefaultPresenter(new TodoInMemoryRepository(db));
   });
 
-  describe('🍕, 🍅, 🧀, 🌶️, 🍄', () => {
-    it('should initially return empty array', (done) => {
-      todoPresenter.todos$.subscribe(todos => {
-        expect(todos).toEqual([]);
-        done();
+  describe('Initial State', () => {
+    describe('Todos Observable', () => {
+      it('should return empty array of todos', (done) => {
+        todoPresenter.todos$.subscribe(todos => {
+          expect(todos).toEqual([]);
+          done();
+        });
       });
     });
 
-    it('should return proper items on getting all items', (done) => {
-      todoPresenter.todos$.pipe(skip(1)).subscribe(todos => {
-        expect(todos).toHaveLength(2);
-        expect(todos[0]).toEqual(item1);
-        expect(todos[1]).toEqual(item2);
-        done();
+    describe('Incompleted Todos Count Observable', () => {
+      it('should return zero', (done) => {
+        todoPresenter.incompletedTodosCount$.subscribe(count => {
+          expect(count).toEqual(0);
+          done();
+        });
       });
+    });
 
-      todoPresenter.getAllTodos();
+    describe('Filter Observable', () => {
+      it('should return "all"', (done) => {
+        todoPresenter.filter$.subscribe(filter => {
+          expect(filter).toEqual('all');
+          done();
+        });
+      });
+    });
+  });
+
+  describe('Get All Items', () => {
+    describe('Todos Observable', () => {
+      it('should return proper todos from repository', (done) => {
+        todoPresenter.todos$.pipe(skip(1)).subscribe(todos => {
+          expect(todos).toHaveLength(2);
+
+          expect(todos[0].id).toEqual(item1.id);
+          expect(todos[0].name).toEqual(item1.title);
+          expect(todos[0].completed).toEqual(item1.completed);
+          expect(todos[0].editing).toBeFalsy();
+
+          expect(todos[1].id).toEqual(item2.id);
+          expect(todos[1].name).toEqual(item2.title);
+          expect(todos[1].completed).toEqual(item2.completed);
+          expect(todos[1].editing).toBeFalsy();
+
+          done();
+        });
+
+        todoPresenter.getAllTodos();
+      });
+    });
+
+    describe('Incompleted Todos Count Observable', () => {
+      it('should return proper counts of todos', (done) => {
+        todoPresenter.incompletedTodosCount$.pipe(skip(1)).subscribe(count => {
+          expect(count).toEqual(1);
+          done();
+        });
+
+        todoPresenter.getAllTodos();
+      });
+    });
+
+    describe('Filter Observable', () => {
+      it('should return "all"', (done) => {
+        todoPresenter.filter$.pipe(skip(1)).subscribe(filter => {
+          expect(filter).toEqual('all');
+          done();
+        });
+
+        todoPresenter.getAllTodos();
+      });
     });
   });
 });
