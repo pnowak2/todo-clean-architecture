@@ -50,6 +50,7 @@ export class TodoDefaultPresenter implements TodoPresenter {
     this.removeTodoUC = new RemoveTodoUseCase(this.todoRepository);
     this.removeCompletedTodosUC = new RemoveCompletedTodosUseCase(this.todoRepository);
 
+    // state selectors
     this.todos$ = this.dispatch.asObservable().pipe(map(state => state.todos));
     this.filter$ = this.dispatch.asObservable().pipe(map(state => state.filter));
     this.incompletedTodosCount$ = this.todos$.pipe(
