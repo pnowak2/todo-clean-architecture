@@ -16,7 +16,7 @@ describe('Todo Presenter', () => {
   });
 
   describe('Initial State', () => {
-    describe('Todos Observable', () => {
+    describe('Todos', () => {
       it('should return empty array of todos', (done) => {
         todoPresenter.todos$.subscribe(todos => {
           expect(todos).toEqual([]);
@@ -25,7 +25,7 @@ describe('Todo Presenter', () => {
       });
     });
 
-    describe('Incompleted Todos Count Observable', () => {
+    describe('Incompleted Todos Count', () => {
       it('should return zero', (done) => {
         todoPresenter.incompletedTodosCount$.subscribe(count => {
           expect(count).toEqual(0);
@@ -34,7 +34,7 @@ describe('Todo Presenter', () => {
       });
     });
 
-    describe('Filter Observable', () => {
+    describe('Filter', () => {
       it('should return "all"', (done) => {
         todoPresenter.filter$.subscribe(filter => {
           expect(filter).toEqual('all');
@@ -44,8 +44,8 @@ describe('Todo Presenter', () => {
     });
   });
 
-  describe('Get All Items', () => {
-    describe('Todos Observable', () => {
+  describe('Get All Todos', () => {
+    describe('Todos', () => {
       it('should return proper todos from repository', (done) => {
         todoPresenter.todos$.pipe(skip(1)).subscribe(todos => {
           expect(todos).toHaveLength(2);
@@ -67,7 +67,7 @@ describe('Todo Presenter', () => {
       });
     });
 
-    describe('Incompleted Todos Count Observable', () => {
+    describe('Incompleted Todos Count', () => {
       it('should return proper counts of todos', (done) => {
         todoPresenter.incompletedTodosCount$.pipe(skip(1)).subscribe(count => {
           expect(count).toEqual(1);
@@ -78,7 +78,7 @@ describe('Todo Presenter', () => {
       });
     });
 
-    describe('Filter Observable', () => {
+    describe('Filter', () => {
       it('should return "all"', (done) => {
         todoPresenter.filter$.pipe(skip(1)).subscribe(filter => {
           expect(filter).toEqual('all');
@@ -86,6 +86,47 @@ describe('Todo Presenter', () => {
         });
 
         todoPresenter.getAllTodos();
+      });
+    });
+  });
+
+  describe('Get Completed Todos', () => {
+    describe('Todos', () => {
+      it('should return proper todos from repository', (done) => {
+        todoPresenter.todos$.pipe(skip(1)).subscribe(todos => {
+          expect(todos).toHaveLength(1);
+
+          expect(todos[0].id).toEqual(item1.id);
+          expect(todos[0].name).toEqual(item1.title);
+          expect(todos[0].completed).toEqual(item1.completed);
+          expect(todos[0].editing).toBeFalsy();
+
+          done();
+        });
+
+        todoPresenter.getCompletedTodos();
+      });
+    });
+
+    xdescribe('Incompleted Todos Count', () => {
+      it('should return proper counts of todos', (done) => {
+        todoPresenter.incompletedTodosCount$.pipe(skip(1)).subscribe(count => {
+          expect(count).toEqual(1);
+          done();
+        });
+
+        todoPresenter.getCompletedTodos();
+      });
+    });
+
+    xdescribe('Filter', () => {
+      it('should return "completed"', (done) => {
+        todoPresenter.filter$.pipe(skip(1)).subscribe(filter => {
+          expect(filter).toEqual('completed');
+          done();
+        });
+
+        todoPresenter.getCompletedTodos();
       });
     });
   });
