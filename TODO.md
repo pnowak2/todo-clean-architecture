@@ -27,6 +27,10 @@ Give following Presentation layers
   * https://github.com/SBoudrias/Inquirer.js
   * blessed nodejs library
 * Desktop App via Electron
+  * photon ui kit (macos look like)
+  * microsoft fabric https://developer.microsoft.com/en-us/fabric#/controls/web/checkbox
+  * integration with angular / react / vue
+
 
 Provide alternative view frameworks
 
@@ -36,7 +40,8 @@ Provide alternative view frameworks
 * https://auth0.com/blog/ngrx-facades-pros-and-cons/
 * Redux / MobX
 
-
+* Firebase repo and authentication to todo
+  https://www.freecodecamp.org/news/creating-a-crud-to-do-app-using-ionic-4/
 
 
 
