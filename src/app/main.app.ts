@@ -1,4 +1,5 @@
 import { Observable } from 'rxjs';
+import { TodoMockModel } from '../features/todo/data/repository/inmemory/model/todo-mock.model';
 import { TodoInMemoryRepository } from '../features/todo/data/repository/inmemory/todo.inmemory.repository';
 import { TodoRepository } from '../features/todo/domain/repository/todo.repository';
 import { AddTodoUseCase } from '../features/todo/domain/usecase/add-todo.usecase';
@@ -23,8 +24,15 @@ export class TerminalApp {
   private todoApp: TodoPresenter;
 
   constructor() {
+
+    // Can represent different model in DB/REST than our domain model
+    const db: TodoMockModel[] = [
+      new TodoMockModel({ id: '1', title: 'todo 1', completed: true }),
+      new TodoMockModel({ id: '2', title: 'todo 2', completed: false }),
+      new TodoMockModel({ id: '3', title: 'todo 3', completed: false }),
+    ];
     // Dependency injection configuration
-    const inMemoryTodoRepo: TodoRepository = new TodoInMemoryRepository();
+    const inMemoryTodoRepo: TodoRepository = new TodoInMemoryRepository(db);
     const getAllTodosUC: GetAllTodosUseCase = new GetAllTodosUseCase(inMemoryTodoRepo);
     const getCompletedTodosUC: GetCompletedTodosUseCase = new GetCompletedTodosUseCase(inMemoryTodoRepo);
     const getIncompletedTodosUC: GetIncompletedTodosUseCase = new GetIncompletedTodosUseCase(inMemoryTodoRepo);
