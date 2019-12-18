@@ -56,6 +56,8 @@ https://nx.dev/angular/getting-started/getting-started
 
 *From mail sent to myself*
 
+https://github.com/rakshit444/news-sample-app
+
 https://github.com/benarso/angular-cleaner-architecture/tree/master/src/app/todo/presentation
 
 https://github.com/benarso/angular-cleaner-architecture/tree/master/src/app/todo/presentation
