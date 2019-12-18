@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { TodoVM } from './state/todos.state';
+import { TodoVM } from '../viewmodel/todos.viewmodel';
 
 export abstract class TodoPresenter {
   abstract todos$: Observable<TodoVM[]>;

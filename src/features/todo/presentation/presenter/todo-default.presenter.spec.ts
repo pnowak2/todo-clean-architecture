@@ -1,16 +1,16 @@
 import { of } from 'rxjs';
 import { skip } from 'rxjs/operators';
-import { TodoEntity } from '../domain/entity/todo.entity';
-import { AddTodoUseCase } from '../domain/usecase/add-todo.usecase';
-import { GetAllTodosUseCase } from '../domain/usecase/get-all-todos.usecase';
-import { GetCompletedTodosUseCase } from '../domain/usecase/get-completed-todos.usecase';
-import { GetIncompletedTodosUseCase } from '../domain/usecase/get-incompleted-todos.usecase';
-import { MarkAllTodosAsCompletedUseCase } from '../domain/usecase/mark-all-todos-as-completed.usecase';
-import { MarkAllTodosAsIncompletedUseCase } from '../domain/usecase/mark-all-todos-as-incompleted.usecase';
-import { MarkTodoAsCompletedUseCase } from '../domain/usecase/mark-todo-as-complete.usecase';
-import { MarkTodoAsIncompletedUseCase } from '../domain/usecase/mark-todo-as-incomplete.usecase';
-import { RemoveCompletedTodosUseCase } from '../domain/usecase/remove-completed-todos.usecas';
-import { RemoveTodoUseCase } from '../domain/usecase/remove-todo-id.usecase';
+import { TodoEntity } from '../../domain/entity/todo.entity';
+import { AddTodoUseCase } from '../../domain/usecase/add-todo.usecase';
+import { GetAllTodosUseCase } from '../../domain/usecase/get-all-todos.usecase';
+import { GetCompletedTodosUseCase } from '../../domain/usecase/get-completed-todos.usecase';
+import { GetIncompletedTodosUseCase } from '../../domain/usecase/get-incompleted-todos.usecase';
+import { MarkAllTodosAsCompletedUseCase } from '../../domain/usecase/mark-all-todos-as-completed.usecase';
+import { MarkAllTodosAsIncompletedUseCase } from '../../domain/usecase/mark-all-todos-as-incompleted.usecase';
+import { MarkTodoAsCompletedUseCase } from '../../domain/usecase/mark-todo-as-complete.usecase';
+import { MarkTodoAsIncompletedUseCase } from '../../domain/usecase/mark-todo-as-incomplete.usecase';
+import { RemoveCompletedTodosUseCase } from '../../domain/usecase/remove-completed-todos.usecas';
+import { RemoveTodoUseCase } from '../../domain/usecase/remove-todo-id.usecase';
 import { TodoDefaultPresenter } from './todo-default.presenter';
 import { TodoPresenter } from './todo.presenter';
 

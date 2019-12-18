@@ -1,6 +1,6 @@
-import { Mapper } from '../../../core/base/mapper';
-import { TodoEntity } from '../domain/entity/todo.entity';
-import { TodoVM } from './state/todos.state';
+import { Mapper } from '../../../../core/common/mapper';
+import { TodoEntity } from '../../domain/entity/todo.entity';
+import { TodoVM } from '../viewmodel/todos.viewmodel';
 
 export class TodoViewModelMapper implements Mapper<TodoEntity, TodoVM> {
   mapFrom(input: TodoEntity): TodoVM {

@@ -11,9 +11,9 @@ import { MarkTodoAsCompletedUseCase } from '../features/todo/domain/usecase/mark
 import { MarkTodoAsIncompletedUseCase } from '../features/todo/domain/usecase/mark-todo-as-incomplete.usecase';
 import { RemoveCompletedTodosUseCase } from '../features/todo/domain/usecase/remove-completed-todos.usecas';
 import { RemoveTodoUseCase } from '../features/todo/domain/usecase/remove-todo-id.usecase';
-import { TodoVM } from '../features/todo/presentation/state/todos.state';
-import { TodoDefaultPresenter } from '../features/todo/presentation/todo-default.presenter';
-import { TodoPresenter } from '../features/todo/presentation/todo.presenter';
+import { TodoDefaultPresenter } from '../features/todo/presentation/presenter/todo-default.presenter';
+import { TodoPresenter } from '../features/todo/presentation/presenter/todo.presenter';
+import { TodoVM } from '../features/todo/presentation/viewmodel/todos.viewmodel';
 
 export class TerminalApp {
   private todos$: Observable<TodoVM[]>;

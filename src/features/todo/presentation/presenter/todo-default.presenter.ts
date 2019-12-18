@@ -1,18 +1,18 @@
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
-import { Presenter } from '../../../core/presentation/presenter';
-import { AddTodoUseCase } from '../domain/usecase/add-todo.usecase';
-import { GetAllTodosUseCase } from '../domain/usecase/get-all-todos.usecase';
-import { GetCompletedTodosUseCase } from '../domain/usecase/get-completed-todos.usecase';
-import { GetIncompletedTodosUseCase } from '../domain/usecase/get-incompleted-todos.usecase';
-import { MarkAllTodosAsCompletedUseCase } from '../domain/usecase/mark-all-todos-as-completed.usecase';
-import { MarkAllTodosAsIncompletedUseCase } from '../domain/usecase/mark-all-todos-as-incompleted.usecase';
-import { MarkTodoAsCompletedUseCase } from '../domain/usecase/mark-todo-as-complete.usecase';
-import { MarkTodoAsIncompletedUseCase } from '../domain/usecase/mark-todo-as-incomplete.usecase';
-import { RemoveCompletedTodosUseCase } from '../domain/usecase/remove-completed-todos.usecas';
-import { RemoveTodoUseCase } from '../domain/usecase/remove-todo-id.usecase';
-import { TodoState, TodoVM } from './state/todos.state';
-import { TodoViewModelMapper } from './todo.mapper';
+import { Presenter } from '../../../../core/presentation/presenter';
+import { AddTodoUseCase } from '../../domain/usecase/add-todo.usecase';
+import { GetAllTodosUseCase } from '../../domain/usecase/get-all-todos.usecase';
+import { GetCompletedTodosUseCase } from '../../domain/usecase/get-completed-todos.usecase';
+import { GetIncompletedTodosUseCase } from '../../domain/usecase/get-incompleted-todos.usecase';
+import { MarkAllTodosAsCompletedUseCase } from '../../domain/usecase/mark-all-todos-as-completed.usecase';
+import { MarkAllTodosAsIncompletedUseCase } from '../../domain/usecase/mark-all-todos-as-incompleted.usecase';
+import { MarkTodoAsCompletedUseCase } from '../../domain/usecase/mark-todo-as-complete.usecase';
+import { MarkTodoAsIncompletedUseCase } from '../../domain/usecase/mark-todo-as-incomplete.usecase';
+import { RemoveCompletedTodosUseCase } from '../../domain/usecase/remove-completed-todos.usecas';
+import { RemoveTodoUseCase } from '../../domain/usecase/remove-todo-id.usecase';
+import { TodoViewModelMapper } from '../mapper/todo.mapper';
+import { TodoState, TodoVM } from '../viewmodel/todos.viewmodel';
 import { TodoPresenter } from './todo.presenter';
 
 export class TodoDefaultPresenter extends Presenter implements TodoPresenter {
