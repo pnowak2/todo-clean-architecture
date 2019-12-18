@@ -1,6 +1,6 @@
-import { Mapper } from '../../../../../core/common/mapper';
-import { TodoEntity } from '../../../domain/entity/todo.entity';
-import { TodoMockModel } from './todo-mock.model';
+import { Mapper } from '../../../../../../core/common/mapper';
+import { TodoEntity } from '../../../../domain/entity/todo.entity';
+import { TodoMockModel } from './../model/todo-mock.model';
 
 export class TodoMockMapper implements Mapper<TodoEntity, TodoMockModel> {
   mapFrom(input: TodoEntity): TodoMockModel {

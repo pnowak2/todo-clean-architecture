@@ -2,9 +2,10 @@ import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { TodoEntity } from '../../../domain/entity/todo.entity';
 import { TodoRepository } from '../../../domain/repository/todo.repository';
-import { TodoMockMapper } from './todo-mock.mapper';
-import { TodoMockModel } from './todo-mock.model';
+import { TodoMockMapper } from './mapper/todo-mock.mapper';
+import { TodoMockModel } from './model/todo-mock.model';
 
+// Can represent different model in DB/REST than our domain model
 let todosDB: TodoMockModel[] = [
   new TodoMockModel({ id: '1', title: 'todo 1', completed: true }),
   new TodoMockModel({ id: '2', title: 'todo 2', completed: false }),

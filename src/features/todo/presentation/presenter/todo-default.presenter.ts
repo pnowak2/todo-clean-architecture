@@ -12,12 +12,12 @@ import { MarkTodoAsIncompletedUseCase } from '../../domain/usecase/mark-todo-as-
 import { RemoveCompletedTodosUseCase } from '../../domain/usecase/remove-completed-todos.usecas';
 import { RemoveTodoUseCase } from '../../domain/usecase/remove-todo-id.usecase';
 import { TodoViewModelMapper } from '../mapper/todo.mapper';
-import { TodoState, TodoVM } from '../viewmodel/todos.viewmodel';
+import { TodoStateVM, TodoVM } from '../viewmodel/todos.viewmodel';
 import { TodoPresenter } from './todo.presenter';
 
 export class TodoDefaultPresenter extends Presenter implements TodoPresenter {
-  private state = new TodoState();
-  private dispatch = new BehaviorSubject<TodoState>(this.state);
+  private state = new TodoStateVM();
+  private dispatch = new BehaviorSubject<TodoStateVM>(this.state);
   private mapper = new TodoViewModelMapper();
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
