@@ -29,6 +29,7 @@ Give following Presentation layers
 * Desktop App via Electron
   * photon ui kit (macos look like)
   * microsoft fabric https://developer.microsoft.com/en-us/fabric#/controls/web/checkbox
+  * tutorial on fabric with todo app step by step https://developer.microsoft.com/en-us/fabric#/get-started
   * integration with angular / react / vue
 
 
