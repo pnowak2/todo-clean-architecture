@@ -1,5 +1,5 @@
-import { BehaviorSubject, combineLatest, Observable, zip } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { BehaviorSubject, forkJoin, Observable } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { TodoRepository } from '../../domain/repository/todo.repository';
 import { AddTodoUseCase } from '../../domain/usecase/add-todo.usecase';
 import { FilterTodosUseCase } from '../../domain/usecase/filter-todos.usecase';
@@ -65,7 +65,7 @@ export class TodoDefaultPresenter implements TodoPresenter {
     const todos$ = this.getAllTodosUC.execute();
     const count$ = this.getIncompletedTodosCountUC.execute();
 
-    zip(todos$, count$).subscribe(([todos, count]) => {
+    forkJoin(todos$, count$).subscribe(([todos, count]) => {
       this.dispatch.next(
         (this.state = {
           ...this.state,
@@ -81,7 +81,7 @@ export class TodoDefaultPresenter implements TodoPresenter {
     const todos$ = this.getCompletedTodosUC.execute();
     const count$ = this.getIncompletedTodosCountUC.execute();
 
-    zip(todos$, count$).subscribe(([todos, count]) => {
+    forkJoin(todos$, count$).subscribe(([todos, count]) => {
       this.dispatch.next(
         (this.state = {
           ...this.state,
@@ -97,7 +97,7 @@ export class TodoDefaultPresenter implements TodoPresenter {
     const todos$ = this.getIncompletedTodosUC.execute();
     const count$ = this.getIncompletedTodosCountUC.execute();
 
-    zip(todos$, count$).subscribe(([todos, count]) => {
+    forkJoin(todos$, count$).subscribe(([todos, count]) => {
       this.dispatch.next(
         (this.state = {
           ...this.state,
@@ -110,80 +110,101 @@ export class TodoDefaultPresenter implements TodoPresenter {
   }
 
   addTodo(name: string) {
-    this.addTodoUC
-      .execute(name)
+    this.addTodoUC.execute(name)
       .pipe(
-        map(todo => this.mapper.mapFrom(todo)),
-      )
-      .subscribe(todo => {
-        this.updateTodos([...this.state.todos, todo]);
-      });
+        switchMap(() => this.filterTodosUC.execute(this.state.filter))
+      ).subscribe(todos => {
+        this.dispatch.next(
+          (this.state = {
+            ...this.state,
+            todos: todos.map(this.mapper.mapFrom)
+          })
+        )
+      })
   }
 
   markTodoAsCompleted(id: string) {
-    this.markTodoAsCompletedUC
-      .execute(id)
+    this.markTodoAsCompletedUC.execute(id)
       .pipe(
-        map(todo => this.mapper.mapFrom(todo)),
-      )
-      .subscribe(() => {
-        this.getAllTodos();
-      });
+        switchMap(() => this.filterTodosUC.execute(this.state.filter))
+      ).subscribe(todos => {
+        this.dispatch.next(
+          (this.state = {
+            ...this.state,
+            todos: todos.map(this.mapper.mapFrom)
+          })
+        )
+      })
   }
 
   markTodoAsIncompleted(id: string) {
-    this.markTodoAsIncompletedUC
-      .execute(id)
+    this.markTodoAsIncompletedUC.execute(id)
       .pipe(
-        map(todo => this.mapper.mapFrom(todo)),
-      )
-      .subscribe(() => {
-        this.getAllTodos();
-      });
+        switchMap(() => this.filterTodosUC.execute(this.state.filter))
+      ).subscribe(todos => {
+        this.dispatch.next(
+          (this.state = {
+            ...this.state,
+            todos: todos.map(this.mapper.mapFrom)
+          })
+        )
+      })
   }
 
   markAllTodosAsCompleted() {
-    this.markAllTodosAsCompletedUC
-      .execute()
+    this.markAllTodosAsCompletedUC.execute()
       .pipe(
-        map(todos => todos.map(this.mapper.mapFrom)),
-      )
-      .subscribe(() => {
-        this.getAllTodos();
-      });
+        switchMap(() => this.filterTodosUC.execute(this.state.filter))
+      ).subscribe(todos => {
+        this.dispatch.next(
+          (this.state = {
+            ...this.state,
+            todos: todos.map(this.mapper.mapFrom)
+          })
+        )
+      })
   }
 
   markAllTodosAsIncompleted() {
-    this.markAllTodosAsIncompletedUC
-      .execute()
+    this.markAllTodosAsIncompletedUC.execute()
       .pipe(
-        map(todos => todos.map(this.mapper.mapFrom)),
-      )
-      .subscribe(() => {
-        this.getAllTodos();
-      });
+        switchMap(() => this.filterTodosUC.execute(this.state.filter))
+      ).subscribe(todos => {
+        this.dispatch.next(
+          (this.state = {
+            ...this.state,
+            todos: todos.map(this.mapper.mapFrom)
+          })
+        )
+      })
   }
 
   removeTodo(id: string) {
-    this.removeTodoUC
-      .execute(id)
+    this.removeTodoUC.execute(id)
       .pipe(
-        map(todo => this.mapper.mapFrom(todo)),
-      )
-      .subscribe(() => {
-        this.getAllTodos();
-      });
+        switchMap(() => this.filterTodosUC.execute(this.state.filter))
+      ).subscribe(todos => {
+        this.dispatch.next(
+          (this.state = {
+            ...this.state,
+            todos: todos.map(this.mapper.mapFrom)
+          })
+        )
+      })
   }
 
   removeCompletedTodos() {
-    this.removeCompletedTodosUC
-      .execute()
+    this.removeCompletedTodosUC.execute()
       .pipe(
-        map(todos => todos.map(this.mapper.mapFrom)),
-      )
-      .subscribe(() => {
-        this.getAllTodos();
-      });
+        switchMap(() => this.filterTodosUC.execute(this.state.filter))
+      ).subscribe(todos => {
+        this.dispatch.next(
+          (this.state = {
+            ...this.state,
+            todos: todos.map(this.mapper.mapFrom)
+          })
+        )
+      })
   }
 
   private updateTodos(todos: TodoVM[]) {
