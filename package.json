@@ -1,6 +1,6 @@
 {
   "name": "@domisoft/todo-clean-architecture",
-  "version": "1.0.7-snapshot",
+  "version": "1.0.7",
   "description": "todo project following uncle bob clean architecture patterns",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
