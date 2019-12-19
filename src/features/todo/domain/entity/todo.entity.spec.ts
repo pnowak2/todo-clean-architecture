@@ -2,7 +2,6 @@ import { TodoEntity } from './todo.entity';
 
 describe('Todo Entity', () => {
   it('should be properly initialized', () => {
-
     const model = new TodoEntity({
       id: '1',
       name: 'foo',

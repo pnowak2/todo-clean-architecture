@@ -20,9 +20,7 @@ export class TodoLocalStorageRepository implements TodoRepository {
   }
 
   public getActiveTodosCount(): Observable<number> {
-    return this.getActiveTodos().pipe(
-      map(todos => todos.length)
-    );
+    return this.getActiveTodos().pipe(map(todos => todos.length));
   }
 
   public addTodo(name: string): Observable<TodoEntity> {

@@ -6,7 +6,7 @@ import { TodoRepository } from '../repository/todo.repository';
 export type FilterType = 'active' | 'completed' | 'all' | null;
 
 export class FilterTodosUseCase implements UseCase<FilterType, TodoEntity[]> {
-  constructor(private todoRepository: TodoRepository) { }
+  constructor(private todoRepository: TodoRepository) {}
 
   execute(filter: FilterType): Observable<TodoEntity[]> {
     if (filter === 'active') {

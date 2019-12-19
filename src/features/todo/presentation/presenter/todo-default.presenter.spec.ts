@@ -7,8 +7,8 @@ import { TodoPresenter } from './todo.presenter';
 describe('Todo Presenter', () => {
   let todoPresenter: TodoPresenter;
 
-  const item1 = ({ id: '1', title: 'todo 1', completed: true });
-  const item2 = ({ id: '2', title: 'todo 2', completed: false });
+  const item1 = { id: '1', title: 'todo 1', completed: true };
+  const item2 = { id: '2', title: 'todo 2', completed: false };
   const db: TodoMockDto[] = [item1, item2];
 
   beforeEach(() => {
@@ -17,7 +17,7 @@ describe('Todo Presenter', () => {
 
   describe('Initial State', () => {
     describe('Todos', () => {
-      it('should return empty array of todos', (done) => {
+      it('should return empty array of todos', done => {
         todoPresenter.todos$.subscribe(todos => {
           expect(todos).toEqual([]);
           done();
@@ -26,7 +26,7 @@ describe('Todo Presenter', () => {
     });
 
     describe('Active Todos Count', () => {
-      it('should return zero', (done) => {
+      it('should return zero', done => {
         todoPresenter.activeTodosCount$.subscribe(count => {
           expect(count).toEqual(0);
           done();
@@ -35,7 +35,7 @@ describe('Todo Presenter', () => {
     });
 
     describe('Filter', () => {
-      it('should return "all"', (done) => {
+      it('should return "all"', done => {
         todoPresenter.filter$.subscribe(filter => {
           expect(filter).toEqual('all');
           done();
@@ -46,7 +46,7 @@ describe('Todo Presenter', () => {
 
   describe('Get All Todos', () => {
     describe('Todos', () => {
-      it('should return proper todos from repository', (done) => {
+      it('should return proper todos from repository', done => {
         todoPresenter.todos$.pipe(skip(1)).subscribe(todos => {
           expect(todos).toHaveLength(2);
 
@@ -68,7 +68,7 @@ describe('Todo Presenter', () => {
     });
 
     describe('Active Todos Count', () => {
-      it('should return proper counts of todos', (done) => {
+      it('should return proper counts of todos', done => {
         todoPresenter.activeTodosCount$.pipe(skip(1)).subscribe(count => {
           expect(count).toEqual(1);
           done();
@@ -79,7 +79,7 @@ describe('Todo Presenter', () => {
     });
 
     describe('Filter', () => {
-      it('should return "all"', (done) => {
+      it('should return "all"', done => {
         todoPresenter.filter$.pipe(skip(1)).subscribe(filter => {
           expect(filter).toEqual('all');
           done();
@@ -92,7 +92,7 @@ describe('Todo Presenter', () => {
 
   describe('Get Completed Todos', () => {
     describe('Todos', () => {
-      it('should return proper todos from repository', (done) => {
+      it('should return proper todos from repository', done => {
         todoPresenter.todos$.pipe(skip(1)).subscribe(todos => {
           expect(todos).toHaveLength(1);
 
@@ -109,7 +109,7 @@ describe('Todo Presenter', () => {
     });
 
     describe('Active Todos Count', () => {
-      it('should return proper counts of todos', (done) => {
+      it('should return proper counts of todos', done => {
         todoPresenter.activeTodosCount$.pipe(skip(1)).subscribe(count => {
           expect(count).toEqual(1);
           done();
@@ -120,7 +120,7 @@ describe('Todo Presenter', () => {
     });
 
     describe('Filter', () => {
-      it('should return "completed"', (done) => {
+      it('should return "completed"', done => {
         todoPresenter.filter$.pipe(skip(1)).subscribe(filter => {
           expect(filter).toEqual('completed');
           done();

@@ -72,8 +72,8 @@ export class TodoDefaultPresenter implements TodoPresenter {
           todos: todos.map(this.mapper.mapFrom),
           filter: 'all',
           activeTodosCount: count,
-        })
-      )
+        }),
+      );
     });
   }
 
@@ -88,8 +88,8 @@ export class TodoDefaultPresenter implements TodoPresenter {
           todos: todos.map(this.mapper.mapFrom),
           filter: 'completed',
           activeTodosCount: count,
-        })
-      )
+        }),
+      );
     });
   }
 
@@ -104,8 +104,8 @@ export class TodoDefaultPresenter implements TodoPresenter {
           todos: todos.map(this.mapper.mapFrom),
           filter: 'active',
           activeTodosCount: count,
-        })
-      )
+        }),
+      );
     });
   }
 
@@ -119,9 +119,9 @@ export class TodoDefaultPresenter implements TodoPresenter {
         (this.state = {
           ...this.state,
           todos: todos.map(this.mapper.mapFrom),
-          activeTodosCount: count
-        })
-      )
+          activeTodosCount: count,
+        }),
+      );
     });
   }
 
@@ -135,9 +135,9 @@ export class TodoDefaultPresenter implements TodoPresenter {
         (this.state = {
           ...this.state,
           todos: todos.map(this.mapper.mapFrom),
-          activeTodosCount: count
-        })
-      )
+          activeTodosCount: count,
+        }),
+      );
     });
   }
 
@@ -151,9 +151,9 @@ export class TodoDefaultPresenter implements TodoPresenter {
         (this.state = {
           ...this.state,
           todos: todos.map(this.mapper.mapFrom),
-          activeTodosCount: count
-        })
-      )
+          activeTodosCount: count,
+        }),
+      );
     });
   }
 
@@ -167,9 +167,9 @@ export class TodoDefaultPresenter implements TodoPresenter {
         (this.state = {
           ...this.state,
           todos: todos.map(this.mapper.mapFrom),
-          activeTodosCount: count
-        })
-      )
+          activeTodosCount: count,
+        }),
+      );
     });
   }
 
@@ -183,9 +183,9 @@ export class TodoDefaultPresenter implements TodoPresenter {
         (this.state = {
           ...this.state,
           todos: todos.map(this.mapper.mapFrom),
-          activeTodosCount: count
-        })
-      )
+          activeTodosCount: count,
+        }),
+      );
     });
   }
 
@@ -199,9 +199,9 @@ export class TodoDefaultPresenter implements TodoPresenter {
         (this.state = {
           ...this.state,
           todos: todos.map(this.mapper.mapFrom),
-          activeTodosCount: count
-        })
-      )
+          activeTodosCount: count,
+        }),
+      );
     });
   }
 
@@ -215,9 +215,9 @@ export class TodoDefaultPresenter implements TodoPresenter {
         (this.state = {
           ...this.state,
           todos: todos.map(this.mapper.mapFrom),
-          activeTodosCount: count
-        })
-      )
+          activeTodosCount: count,
+        }),
+      );
     });
   }
 
