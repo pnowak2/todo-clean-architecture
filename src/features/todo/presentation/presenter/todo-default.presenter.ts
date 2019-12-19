@@ -1,4 +1,4 @@
-import { BehaviorSubject, forkJoin, Observable } from 'rxjs';
+import { BehaviorSubject, forkJoin, Observable, concat } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { TodoRepository } from '../../domain/repository/todo.repository';
 import { AddTodoUseCase } from '../../domain/usecase/add-todo.usecase';
@@ -110,17 +110,19 @@ export class TodoDefaultPresenter implements TodoPresenter {
   }
 
   addTodo(name: string) {
-    this.addTodoUC.execute(name)
-      .pipe(
-        switchMap(() => this.filterTodosUC.execute(this.state.filter))
-      ).subscribe(todos => {
+    const add$ = this.addTodoUC.execute(name);
+    const count$ = this.getIncompletedTodosCountUC.execute();
+    const todos$ = this.filterTodosUC.execute(this.state.filter);
+
+    forkJoin(add$, count$, todos$).subscribe(([, count, todos]) => {
         this.dispatch.next(
           (this.state = {
             ...this.state,
-            todos: todos.map(this.mapper.mapFrom)
+            todos: todos.map(this.mapper.mapFrom),
+            incompletedTodosCount: count
           })
         )
-      })
+    });
   }
 
   markTodoAsCompleted(id: string) {
