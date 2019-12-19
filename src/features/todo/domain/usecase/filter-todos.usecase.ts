@@ -10,7 +10,7 @@ export class FilterTodosUseCase implements UseCase<FilterType, TodoEntity[]> {
 
   execute(filter: FilterType): Observable<TodoEntity[]> {
     if (filter === 'active') {
-      return this.todoRepository.getIncompletedTodos();
+      return this.todoRepository.getActiveTodos();
     } else if (filter === 'completed') {
       return this.todoRepository.getCompletedTodos();
     } else {

@@ -25,9 +25,9 @@ describe('Todo Presenter', () => {
       });
     });
 
-    describe('Incompleted Todos Count', () => {
+    describe('Active Todos Count', () => {
       it('should return zero', (done) => {
-        todoPresenter.incompletedTodosCount$.subscribe(count => {
+        todoPresenter.activeTodosCount$.subscribe(count => {
           expect(count).toEqual(0);
           done();
         });
@@ -67,9 +67,9 @@ describe('Todo Presenter', () => {
       });
     });
 
-    describe('Incompleted Todos Count', () => {
+    describe('Active Todos Count', () => {
       it('should return proper counts of todos', (done) => {
-        todoPresenter.incompletedTodosCount$.pipe(skip(1)).subscribe(count => {
+        todoPresenter.activeTodosCount$.pipe(skip(1)).subscribe(count => {
           expect(count).toEqual(1);
           done();
         });
@@ -108,9 +108,9 @@ describe('Todo Presenter', () => {
       });
     });
 
-    describe('Incompleted Todos Count', () => {
+    describe('Active Todos Count', () => {
       it('should return proper counts of todos', (done) => {
-        todoPresenter.incompletedTodosCount$.pipe(skip(1)).subscribe(count => {
+        todoPresenter.activeTodosCount$.pipe(skip(1)).subscribe(count => {
           expect(count).toEqual(1);
           done();
         });

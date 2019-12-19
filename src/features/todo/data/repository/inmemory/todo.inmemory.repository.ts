@@ -24,24 +24,17 @@ export class TodoInMemoryRepository implements TodoRepository {
       );
   }
 
-  public getIncompletedTodos(): Observable<TodoEntity[]> {
+  public getActiveTodos(): Observable<TodoEntity[]> {
     return of(this.data.filter(todo => !todo.completed))
       .pipe(
         map(mocks => mocks.map(this.mapper.mapTo))
       );
   }
 
-  public getIncompletedTodosCount(): Observable<number> {
-    return this.getIncompletedTodos().pipe(
+  public getActiveTodosCount(): Observable<number> {
+    return this.getActiveTodos().pipe(
       map(todos => todos.length)
     );
-  }
-
-  public searchTodos(keyword: string): Observable<TodoEntity[]> {
-    return this.getAllTodos()
-      .pipe(
-        map(todos => todos.filter(todo => todo.name.includes(keyword)))
-      );
   }
 
   public addTodo(name: string): Observable<TodoEntity> {
@@ -72,10 +65,10 @@ export class TodoInMemoryRepository implements TodoRepository {
   }
 
   public removeCompletedTodos(): Observable<TodoEntity[]> {
-    const incompletedTodos = this.data.filter(todo => !todo.completed);
-    this.data = [...incompletedTodos];
+    const activeTodos = this.data.filter(todo => !todo.completed);
+    this.data = [...activeTodos];
 
-    return of(incompletedTodos)
+    return of(activeTodos)
       .pipe(
         map(mocks => mocks.map(this.mapper.mapTo))
       );
@@ -100,7 +93,7 @@ export class TodoInMemoryRepository implements TodoRepository {
       );
   }
 
-  public markAllTodosAsIncompleted(): Observable<TodoEntity[]> {
+  public markAllTodosAsActive(): Observable<TodoEntity[]> {
     this.data = this.data.map(todo => ({ ...todo, completed: false }));
 
     return of(this.data)

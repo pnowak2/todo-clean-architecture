@@ -15,18 +15,14 @@ export class TodoLocalStorageRepository implements TodoRepository {
     throw Error('not implemented');
   }
 
-  public getIncompletedTodos(): Observable<TodoEntity[]> {
+  public getActiveTodos(): Observable<TodoEntity[]> {
     throw Error('not implemented');
   }
 
-  public getIncompletedTodosCount(): Observable<number> {
-    return this.getIncompletedTodos().pipe(
+  public getActiveTodosCount(): Observable<number> {
+    return this.getActiveTodos().pipe(
       map(todos => todos.length)
     );
-  }
-
-  public searchTodos(keyword: string): Observable<TodoEntity[]> {
-    throw Error('not implemented');
   }
 
   public addTodo(name: string): Observable<TodoEntity> {
@@ -59,7 +55,7 @@ export class TodoLocalStorageRepository implements TodoRepository {
     throw Error('not implemented');
   }
 
-  public markAllTodosAsIncompleted(): Observable<TodoEntity[]> {
+  public markAllTodosAsActive(): Observable<TodoEntity[]> {
     throw Error('not implemented');
   }
 }

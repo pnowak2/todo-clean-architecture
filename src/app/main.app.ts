@@ -12,8 +12,8 @@ export class TerminalApp {
       console.log('todos', todos);
     });
 
-    this.todoApp.incompletedTodosCount$.subscribe(todosCount => {
-      console.log('incompleted todos count', todosCount);
+    this.todoApp.activeTodosCount$.subscribe(todosCount => {
+      console.log('active todos count', todosCount);
     });
 
     this.todoApp.filter$.subscribe(filter => {
@@ -24,7 +24,7 @@ export class TerminalApp {
   public run() {
     this.todoApp.getAllTodos();
     this.todoApp.getCompletedTodos();
-    this.todoApp.getIncompletedTodos();
+    this.todoApp.getActiveTodos();
 
     this.todoApp.addTodo('new todo');
     this.todoApp.addTodo('another new todo');

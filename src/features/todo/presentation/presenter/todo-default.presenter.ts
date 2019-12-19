@@ -3,14 +3,14 @@ import { map, switchMap } from 'rxjs/operators';
 import { TodoRepository } from '../../domain/repository/todo.repository';
 import { AddTodoUseCase } from '../../domain/usecase/add-todo.usecase';
 import { FilterTodosUseCase } from '../../domain/usecase/filter-todos.usecase';
+import { GetActiveTodosCountUseCase } from '../../domain/usecase/get-active-todos-count.usecase';
+import { GetActiveTodosUseCase } from '../../domain/usecase/get-active-todos.usecase';
 import { GetAllTodosUseCase } from '../../domain/usecase/get-all-todos.usecase';
 import { GetCompletedTodosUseCase } from '../../domain/usecase/get-completed-todos.usecase';
-import { GetIncompletedTodosCountUseCase } from '../../domain/usecase/get-incompleted-todos-count.usecase';
-import { GetIncompletedTodosUseCase } from '../../domain/usecase/get-incompleted-todos.usecase';
+import { MarkAllTodosAsActiveUseCase } from '../../domain/usecase/mark-all-todos-as-active.usecase';
 import { MarkAllTodosAsCompletedUseCase } from '../../domain/usecase/mark-all-todos-as-completed.usecase';
-import { MarkAllTodosAsIncompletedUseCase } from '../../domain/usecase/mark-all-todos-as-incompleted.usecase';
-import { MarkTodoAsCompletedUseCase } from '../../domain/usecase/mark-todo-as-complete.usecase';
-import { MarkTodoAsIncompletedUseCase } from '../../domain/usecase/mark-todo-as-incomplete.usecase';
+import { MarkTodoAsActiveUseCase } from '../../domain/usecase/mark-todo-as-active.usecase';
+import { MarkTodoAsCompletedUseCase } from '../../domain/usecase/mark-todo-as-completed.usecase';
 import { RemoveCompletedTodosUseCase } from '../../domain/usecase/remove-completed-todos.usecas';
 import { RemoveTodoUseCase } from '../../domain/usecase/remove-todo-id.usecase';
 import { TodoViewModelMapper } from '../mapper/todo.mapper';
@@ -19,7 +19,7 @@ import { TodoPresenter } from './todo.presenter';
 
 export class TodoDefaultPresenter implements TodoPresenter {
   todos$: Observable<TodoVM[]>;
-  incompletedTodosCount$: Observable<number>;
+  activeTodosCount$: Observable<number>;
   filter$: Observable<string>;
 
   // internal state
@@ -31,39 +31,39 @@ export class TodoDefaultPresenter implements TodoPresenter {
   private filterTodosUC: FilterTodosUseCase;
   private getAllTodosUC: GetAllTodosUseCase;
   private getCompletedTodosUC: GetCompletedTodosUseCase;
-  private getIncompletedTodosUC: GetIncompletedTodosUseCase;
-  private getIncompletedTodosCountUC: GetIncompletedTodosCountUseCase;
+  private getActiveTodosUC: GetActiveTodosUseCase;
+  private getActiveTodosCountUC: GetActiveTodosCountUseCase;
   private addTodoUC: AddTodoUseCase;
   private markTodoAsCompletedUC: MarkTodoAsCompletedUseCase;
-  private markTodoAsIncompletedUC: MarkTodoAsIncompletedUseCase;
+  private markTodoAsActiveUC: MarkTodoAsActiveUseCase;
   private removeTodoUC: RemoveTodoUseCase;
   private removeCompletedTodosUC: RemoveCompletedTodosUseCase;
   private markAllTodosAsCompletedUC: MarkAllTodosAsCompletedUseCase;
-  private markAllTodosAsIncompletedUC: MarkAllTodosAsIncompletedUseCase;
+  private markAllTodosAsActiveUC: MarkAllTodosAsActiveUseCase;
 
   constructor(private repository: TodoRepository) {
     this.filterTodosUC = new FilterTodosUseCase(this.repository);
     this.getAllTodosUC = new GetAllTodosUseCase(this.repository);
     this.getCompletedTodosUC = new GetCompletedTodosUseCase(this.repository);
-    this.getIncompletedTodosUC = new GetIncompletedTodosUseCase(this.repository);
-    this.getIncompletedTodosCountUC = new GetIncompletedTodosCountUseCase(this.repository);
+    this.getActiveTodosUC = new GetActiveTodosUseCase(this.repository);
+    this.getActiveTodosCountUC = new GetActiveTodosCountUseCase(this.repository);
     this.addTodoUC = new AddTodoUseCase(this.repository);
     this.markTodoAsCompletedUC = new MarkTodoAsCompletedUseCase(this.repository);
-    this.markTodoAsIncompletedUC = new MarkTodoAsIncompletedUseCase(this.repository);
+    this.markTodoAsActiveUC = new MarkTodoAsActiveUseCase(this.repository);
     this.markAllTodosAsCompletedUC = new MarkAllTodosAsCompletedUseCase(this.repository);
-    this.markAllTodosAsIncompletedUC = new MarkAllTodosAsIncompletedUseCase(this.repository);
+    this.markAllTodosAsActiveUC = new MarkAllTodosAsActiveUseCase(this.repository);
     this.removeTodoUC = new RemoveTodoUseCase(this.repository);
     this.removeCompletedTodosUC = new RemoveCompletedTodosUseCase(this.repository);
 
     // state selectors
     this.todos$ = this.dispatch.asObservable().pipe(map(state => state.todos));
     this.filter$ = this.dispatch.asObservable().pipe(map(state => state.filter));
-    this.incompletedTodosCount$ = this.dispatch.asObservable().pipe(map(state => state.incompletedTodosCount));
+    this.activeTodosCount$ = this.dispatch.asObservable().pipe(map(state => state.activeTodosCount));
   }
 
   getAllTodos() {
     const todos$ = this.getAllTodosUC.execute();
-    const count$ = this.getIncompletedTodosCountUC.execute();
+    const count$ = this.getActiveTodosCountUC.execute();
 
     forkJoin(todos$, count$).subscribe(([todos, count]) => {
       this.dispatch.next(
@@ -71,7 +71,7 @@ export class TodoDefaultPresenter implements TodoPresenter {
           ...this.state,
           todos: todos.map(this.mapper.mapFrom),
           filter: 'all',
-          incompletedTodosCount: count,
+          activeTodosCount: count,
         })
       )
     });
@@ -79,7 +79,7 @@ export class TodoDefaultPresenter implements TodoPresenter {
 
   getCompletedTodos() {
     const todos$ = this.getCompletedTodosUC.execute();
-    const count$ = this.getIncompletedTodosCountUC.execute();
+    const count$ = this.getActiveTodosCountUC.execute();
 
     forkJoin(todos$, count$).subscribe(([todos, count]) => {
       this.dispatch.next(
@@ -87,15 +87,15 @@ export class TodoDefaultPresenter implements TodoPresenter {
           ...this.state,
           todos: todos.map(this.mapper.mapFrom),
           filter: 'completed',
-          incompletedTodosCount: count,
+          activeTodosCount: count,
         })
       )
     });
   }
 
-  getIncompletedTodos() {
-    const todos$ = this.getIncompletedTodosUC.execute();
-    const count$ = this.getIncompletedTodosCountUC.execute();
+  getActiveTodos() {
+    const todos$ = this.getActiveTodosUC.execute();
+    const count$ = this.getActiveTodosCountUC.execute();
 
     forkJoin(todos$, count$).subscribe(([todos, count]) => {
       this.dispatch.next(
@@ -103,7 +103,7 @@ export class TodoDefaultPresenter implements TodoPresenter {
           ...this.state,
           todos: todos.map(this.mapper.mapFrom),
           filter: 'active',
-          incompletedTodosCount: count,
+          activeTodosCount: count,
         })
       )
     });
@@ -111,7 +111,7 @@ export class TodoDefaultPresenter implements TodoPresenter {
 
   addTodo(name: string) {
     const add$ = this.addTodoUC.execute(name);
-    const count$ = this.getIncompletedTodosCountUC.execute();
+    const count$ = this.getActiveTodosCountUC.execute();
     const todos$ = this.filterTodosUC.execute(this.state.filter);
 
     forkJoin(add$, count$, todos$).subscribe(([, count, todos]) => {
@@ -119,7 +119,7 @@ export class TodoDefaultPresenter implements TodoPresenter {
           (this.state = {
             ...this.state,
             todos: todos.map(this.mapper.mapFrom),
-            incompletedTodosCount: count
+            activeTodosCount: count
           })
         )
     });
@@ -139,8 +139,8 @@ export class TodoDefaultPresenter implements TodoPresenter {
       })
   }
 
-  markTodoAsIncompleted(id: string) {
-    this.markTodoAsIncompletedUC.execute(id)
+  markTodoAsActive(id: string) {
+    this.markTodoAsActiveUC.execute(id)
       .pipe(
         switchMap(() => this.filterTodosUC.execute(this.state.filter))
       ).subscribe(todos => {
@@ -167,8 +167,8 @@ export class TodoDefaultPresenter implements TodoPresenter {
       })
   }
 
-  markAllTodosAsIncompleted() {
-    this.markAllTodosAsIncompletedUC.execute()
+  markAllTodosAsActive() {
+    this.markAllTodosAsActiveUC.execute()
       .pipe(
         switchMap(() => this.filterTodosUC.execute(this.state.filter))
       ).subscribe(todos => {

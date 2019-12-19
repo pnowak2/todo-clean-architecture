@@ -3,10 +3,10 @@ import { UseCase } from '../../../../core/domain/usecase/usecase';
 import { TodoEntity } from '../entity/todo.entity';
 import { TodoRepository } from '../repository/todo.repository';
 
-export class GetIncompletedTodosUseCase implements UseCase<void, TodoEntity[]> {
+export class GetActiveTodosUseCase implements UseCase<void, TodoEntity[]> {
   constructor(private todoRepository: TodoRepository) {}
 
   execute(): Observable<TodoEntity[]> {
-    return this.todoRepository.getIncompletedTodos();
+    return this.todoRepository.getActiveTodos();
   }
 }

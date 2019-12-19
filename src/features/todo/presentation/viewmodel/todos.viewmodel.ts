@@ -2,7 +2,7 @@
 export class TodoStateVM {
   filter: 'active' | 'completed' | 'all' = 'all';
   todos: TodoVM[] = [];
-  incompletedTodosCount: number = 0;
+  activeTodosCount: number = 0;
 }
 
 export interface TodoVM {

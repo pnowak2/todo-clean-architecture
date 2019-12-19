@@ -4,17 +4,17 @@ import { TodoVM } from '../viewmodel/todos.viewmodel';
 
 export abstract class TodoPresenter {
   abstract todos$: Observable<TodoVM[]>;
-  abstract incompletedTodosCount$: Observable<number>;
+  abstract activeTodosCount$: Observable<number>;
   abstract filter$: Observable<string>;
 
   abstract getAllTodos(): void;
   abstract getCompletedTodos(): void;
-  abstract getIncompletedTodos(): void;
+  abstract getActiveTodos(): void;
   abstract addTodo(name: string): void;
   abstract markTodoAsCompleted(id: string): void;
-  abstract markTodoAsIncompleted(id: string): void;
+  abstract markTodoAsActive(id: string): void;
   abstract markAllTodosAsCompleted(): void;
-  abstract markAllTodosAsIncompleted(): void;
+  abstract markAllTodosAsActive(): void;
   abstract removeTodo(id: string): void;
   abstract removeCompletedTodos(): void;
 }
