@@ -28,6 +28,8 @@ export class TerminalApp {
 
     this.todoApp.addTodo('new todo');
     this.todoApp.addTodo('another new todo');
+
+    this.todoApp.removeTodo('2');
   }
 }
 

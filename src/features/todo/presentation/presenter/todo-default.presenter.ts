@@ -115,98 +115,110 @@ export class TodoDefaultPresenter implements TodoPresenter {
     const todos$ = this.filterTodosUC.execute(this.state.filter);
 
     forkJoin(add$, count$, todos$).subscribe(([, count, todos]) => {
-        this.dispatch.next(
-          (this.state = {
-            ...this.state,
-            todos: todos.map(this.mapper.mapFrom),
-            activeTodosCount: count
-          })
-        )
+      this.dispatch.next(
+        (this.state = {
+          ...this.state,
+          todos: todos.map(this.mapper.mapFrom),
+          activeTodosCount: count
+        })
+      )
     });
   }
 
   markTodoAsCompleted(id: string) {
-    this.markTodoAsCompletedUC.execute(id)
-      .pipe(
-        switchMap(() => this.filterTodosUC.execute(this.state.filter))
-      ).subscribe(todos => {
-        this.dispatch.next(
-          (this.state = {
-            ...this.state,
-            todos: todos.map(this.mapper.mapFrom)
-          })
-        )
-      })
+    const mark$ = this.markTodoAsCompletedUC.execute(id);
+    const count$ = this.getActiveTodosCountUC.execute();
+    const todos$ = this.filterTodosUC.execute(this.state.filter);
+
+    forkJoin(mark$, count$, todos$).subscribe(([, count, todos]) => {
+      this.dispatch.next(
+        (this.state = {
+          ...this.state,
+          todos: todos.map(this.mapper.mapFrom),
+          activeTodosCount: count
+        })
+      )
+    });
   }
 
   markTodoAsActive(id: string) {
-    this.markTodoAsActiveUC.execute(id)
-      .pipe(
-        switchMap(() => this.filterTodosUC.execute(this.state.filter))
-      ).subscribe(todos => {
-        this.dispatch.next(
-          (this.state = {
-            ...this.state,
-            todos: todos.map(this.mapper.mapFrom)
-          })
-        )
-      })
+    const mark$ = this.markTodoAsActiveUC.execute(id);
+    const count$ = this.getActiveTodosCountUC.execute();
+    const todos$ = this.filterTodosUC.execute(this.state.filter);
+
+    forkJoin(mark$, count$, todos$).subscribe(([, count, todos]) => {
+      this.dispatch.next(
+        (this.state = {
+          ...this.state,
+          todos: todos.map(this.mapper.mapFrom),
+          activeTodosCount: count
+        })
+      )
+    });
   }
 
   markAllTodosAsCompleted() {
-    this.markAllTodosAsCompletedUC.execute()
-      .pipe(
-        switchMap(() => this.filterTodosUC.execute(this.state.filter))
-      ).subscribe(todos => {
-        this.dispatch.next(
-          (this.state = {
-            ...this.state,
-            todos: todos.map(this.mapper.mapFrom)
-          })
-        )
-      })
+    const mark$ = this.markAllTodosAsCompletedUC.execute();
+    const count$ = this.getActiveTodosCountUC.execute();
+    const todos$ = this.filterTodosUC.execute(this.state.filter);
+
+    forkJoin(mark$, count$, todos$).subscribe(([, count, todos]) => {
+      this.dispatch.next(
+        (this.state = {
+          ...this.state,
+          todos: todos.map(this.mapper.mapFrom),
+          activeTodosCount: count
+        })
+      )
+    });
   }
 
   markAllTodosAsActive() {
-    this.markAllTodosAsActiveUC.execute()
-      .pipe(
-        switchMap(() => this.filterTodosUC.execute(this.state.filter))
-      ).subscribe(todos => {
-        this.dispatch.next(
-          (this.state = {
-            ...this.state,
-            todos: todos.map(this.mapper.mapFrom)
-          })
-        )
-      })
+    const mark$ = this.markAllTodosAsActiveUC.execute();
+    const count$ = this.getActiveTodosCountUC.execute();
+    const todos$ = this.filterTodosUC.execute(this.state.filter);
+
+    forkJoin(mark$, count$, todos$).subscribe(([, count, todos]) => {
+      this.dispatch.next(
+        (this.state = {
+          ...this.state,
+          todos: todos.map(this.mapper.mapFrom),
+          activeTodosCount: count
+        })
+      )
+    });
   }
 
   removeTodo(id: string) {
-    this.removeTodoUC.execute(id)
-      .pipe(
-        switchMap(() => this.filterTodosUC.execute(this.state.filter))
-      ).subscribe(todos => {
-        this.dispatch.next(
-          (this.state = {
-            ...this.state,
-            todos: todos.map(this.mapper.mapFrom)
-          })
-        )
-      })
+    const remove$ = this.removeTodoUC.execute(id);
+    const count$ = this.getActiveTodosCountUC.execute();
+    const todos$ = this.filterTodosUC.execute(this.state.filter);
+
+    forkJoin(remove$, count$, todos$).subscribe(([, count, todos]) => {
+      this.dispatch.next(
+        (this.state = {
+          ...this.state,
+          todos: todos.map(this.mapper.mapFrom),
+          activeTodosCount: count
+        })
+      )
+    });
   }
 
   removeCompletedTodos() {
-    this.removeCompletedTodosUC.execute()
-      .pipe(
-        switchMap(() => this.filterTodosUC.execute(this.state.filter))
-      ).subscribe(todos => {
-        this.dispatch.next(
-          (this.state = {
-            ...this.state,
-            todos: todos.map(this.mapper.mapFrom)
-          })
-        )
-      })
+    const remove$ = this.removeCompletedTodosUC.execute();
+    const count$ = this.getActiveTodosCountUC.execute();
+    const todos$ = this.filterTodosUC.execute(this.state.filter);
+
+    forkJoin(remove$, count$, todos$).subscribe(([, count, todos]) => {
+      this.dispatch.next(
+        (this.state = {
+          ...this.state,
+          todos: todos.map(this.mapper.mapFrom),
+          activeTodosCount: count
+        })
+      )
+    });
   }
 
   private updateTodos(todos: TodoVM[]) {
