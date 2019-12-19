@@ -92,14 +92,18 @@ export class TodoInMemoryRepository implements TodoRepository {
   }
 
   public markAllTodosAsCompleted(): Observable<TodoEntity[]> {
-    return of(this.data.map(todo => ({ ...todo, completed: true })))
+    this.data = this.data.map(todo => ({ ...todo, completed: true }));
+
+    return of(this.data)
       .pipe(
         map(mocks => mocks.map(this.mapper.mapTo))
       );
   }
 
   public markAllTodosAsIncompleted(): Observable<TodoEntity[]> {
-    return of(this.data.map(todo => ({ ...todo, completed: false })))
+    this.data = this.data.map(todo => ({ ...todo, completed: false }));
+
+    return of(this.data)
       .pipe(
         map(mocks => mocks.map(this.mapper.mapTo))
       );
