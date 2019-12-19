@@ -1,3 +1,4 @@
+import { combineLatest, zip } from 'rxjs';
 import { TodoMockModel } from '../features/todo/data/repository/inmemory/model/todo-mock.model';
 import { TodoInMemoryRepository } from '../features/todo/data/repository/inmemory/todo.inmemory.repository';
 import { TodoRepository } from '../features/todo/domain/repository/todo.repository';
@@ -8,21 +9,23 @@ export class TerminalApp {
   private todoApp: TodoPresenter = new TodoDefaultPresenter(this.todoRepository);
 
   constructor(private todoRepository: TodoRepository) {
-    this.todoApp.todos$.subscribe(todos => {
-      console.log('todos', todos);
-    });
-
-    this.todoApp.incompletedTodosCount$.subscribe(todosCount => {
-      console.log('incompleted todos count', todosCount);
-    });
-
-    this.todoApp.filter$.subscribe(filter => {
+    zip(
+      this.todoApp.todos$,
+      this.todoApp.incompletedTodosCount$,
+      this.todoApp.filter$
+    ).subscribe(([todos, count, filter]) => {
+      console.log('-----')
       console.log('filter', filter);
+      console.log('todos', todos);
+      console.log('incompleted todos count', count);
     });
   }
 
   public run() {
     this.todoApp.getAllTodos();
+    this.todoApp.getCompletedTodos();
+    this.todoApp.getIncompletedTodos();
+    this.todoApp.markTodoAsCompleted('2');
   }
 }
 

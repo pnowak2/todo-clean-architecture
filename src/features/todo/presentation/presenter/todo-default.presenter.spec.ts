@@ -108,7 +108,7 @@ describe('Todo Presenter', () => {
       });
     });
 
-    xdescribe('Incompleted Todos Count', () => {
+    describe('Incompleted Todos Count', () => {
       it('should return proper counts of todos', (done) => {
         todoPresenter.incompletedTodosCount$.pipe(skip(1)).subscribe(count => {
           expect(count).toEqual(1);
@@ -119,7 +119,7 @@ describe('Todo Presenter', () => {
       });
     });
 
-    xdescribe('Filter', () => {
+    describe('Filter', () => {
       it('should return "completed"', (done) => {
         todoPresenter.filter$.pipe(skip(1)).subscribe(filter => {
           expect(filter).toEqual('completed');

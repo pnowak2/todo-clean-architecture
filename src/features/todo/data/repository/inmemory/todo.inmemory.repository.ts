@@ -31,6 +31,12 @@ export class TodoInMemoryRepository implements TodoRepository {
       );
   }
 
+  public getIncompletedTodosCount(): Observable<number> {
+    return this.getIncompletedTodos().pipe(
+      map(todos => todos.length)
+    );
+  }
+
   public searchTodos(keyword: string): Observable<TodoEntity[]> {
     return this.getAllTodos()
       .pipe(

@@ -3,15 +3,15 @@ import { UseCase } from '../../../../core/domain/usecase/usecase';
 import { TodoEntity } from '../entity/todo.entity';
 import { TodoRepository } from '../repository/todo.repository';
 
-export type FilterType = 'active' | 'completed' | null;
+export type FilterType = 'active' | 'completed' | 'all' | null;
 
-export class SearchTodosUseCase implements UseCase<FilterType, TodoEntity[]> {
+export class FilterTodosUseCase implements UseCase<FilterType, TodoEntity[]> {
   constructor(private todoRepository: TodoRepository) { }
 
-  execute(filterType: FilterType): Observable<TodoEntity[]> {
-    if (filterType === 'active') {
+  execute(filter: FilterType): Observable<TodoEntity[]> {
+    if (filter === 'active') {
       return this.todoRepository.getIncompletedTodos();
-    } else if (filterType === 'completed') {
+    } else if (filter === 'completed') {
       return this.todoRepository.getCompletedTodos();
     } else {
       return this.todoRepository.getAllTodos();

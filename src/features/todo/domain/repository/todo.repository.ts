@@ -5,6 +5,7 @@ export abstract class TodoRepository {
   public abstract getAllTodos(): Observable<TodoEntity[]>;
   public abstract getCompletedTodos(): Observable<TodoEntity[]>;
   public abstract getIncompletedTodos(): Observable<TodoEntity[]>;
+  public abstract getIncompletedTodosCount(): Observable<number>;
   public abstract searchTodos(keyword: string): Observable<TodoEntity[]>;
   public abstract addTodo(name: string): Observable<TodoEntity>;
   public abstract removeTodo(id: string): Observable<TodoEntity>;

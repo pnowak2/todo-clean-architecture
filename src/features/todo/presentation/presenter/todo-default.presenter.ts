@@ -1,10 +1,11 @@
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable, zip } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Presenter } from '../../../../core/presentation/presenter';
 import { TodoRepository } from '../../domain/repository/todo.repository';
 import { AddTodoUseCase } from '../../domain/usecase/add-todo.usecase';
+import { FilterTodosUseCase } from '../../domain/usecase/filter-todos.usecase';
 import { GetAllTodosUseCase } from '../../domain/usecase/get-all-todos.usecase';
 import { GetCompletedTodosUseCase } from '../../domain/usecase/get-completed-todos.usecase';
+import { GetIncompletedTodosCountUseCase } from '../../domain/usecase/get-incompleted-todos-count.usecase';
 import { GetIncompletedTodosUseCase } from '../../domain/usecase/get-incompleted-todos.usecase';
 import { MarkAllTodosAsCompletedUseCase } from '../../domain/usecase/mark-all-todos-as-completed.usecase';
 import { MarkAllTodosAsIncompletedUseCase } from '../../domain/usecase/mark-all-todos-as-incompleted.usecase';
@@ -27,9 +28,11 @@ export class TodoDefaultPresenter implements TodoPresenter {
   private mapper = new TodoViewModelMapper();
 
   // use cases
+  private filterTodosUC: FilterTodosUseCase;
   private getAllTodosUC: GetAllTodosUseCase;
   private getCompletedTodosUC: GetCompletedTodosUseCase;
   private getIncompletedTodosUC: GetIncompletedTodosUseCase;
+  private getIncompletedTodosCountUC: GetIncompletedTodosCountUseCase;
   private addTodoUC: AddTodoUseCase;
   private markTodoAsCompletedUC: MarkTodoAsCompletedUseCase;
   private markTodoAsIncompletedUC: MarkTodoAsIncompletedUseCase;
@@ -38,58 +41,72 @@ export class TodoDefaultPresenter implements TodoPresenter {
   private markAllTodosAsCompletedUC: MarkAllTodosAsCompletedUseCase;
   private markAllTodosAsIncompletedUC: MarkAllTodosAsIncompletedUseCase;
 
-  constructor(private todoRepository: TodoRepository) {
-    this.getAllTodosUC = new GetAllTodosUseCase(this.todoRepository);
-    this.getCompletedTodosUC = new GetCompletedTodosUseCase(this.todoRepository);
-    this.getIncompletedTodosUC = new GetIncompletedTodosUseCase(this.todoRepository);
-    this.addTodoUC = new AddTodoUseCase(this.todoRepository);
-    this.markTodoAsCompletedUC = new MarkTodoAsCompletedUseCase(this.todoRepository);
-    this.markTodoAsIncompletedUC = new MarkTodoAsIncompletedUseCase(this.todoRepository);
-    this.markAllTodosAsCompletedUC = new MarkAllTodosAsCompletedUseCase(this.todoRepository);
-    this.markAllTodosAsIncompletedUC = new MarkAllTodosAsIncompletedUseCase(this.todoRepository);
-    this.removeTodoUC = new RemoveTodoUseCase(this.todoRepository);
-    this.removeCompletedTodosUC = new RemoveCompletedTodosUseCase(this.todoRepository);
+  constructor(private repository: TodoRepository) {
+    this.filterTodosUC = new FilterTodosUseCase(this.repository);
+    this.getAllTodosUC = new GetAllTodosUseCase(this.repository);
+    this.getCompletedTodosUC = new GetCompletedTodosUseCase(this.repository);
+    this.getIncompletedTodosUC = new GetIncompletedTodosUseCase(this.repository);
+    this.getIncompletedTodosCountUC = new GetIncompletedTodosCountUseCase(this.repository);
+    this.addTodoUC = new AddTodoUseCase(this.repository);
+    this.markTodoAsCompletedUC = new MarkTodoAsCompletedUseCase(this.repository);
+    this.markTodoAsIncompletedUC = new MarkTodoAsIncompletedUseCase(this.repository);
+    this.markAllTodosAsCompletedUC = new MarkAllTodosAsCompletedUseCase(this.repository);
+    this.markAllTodosAsIncompletedUC = new MarkAllTodosAsIncompletedUseCase(this.repository);
+    this.removeTodoUC = new RemoveTodoUseCase(this.repository);
+    this.removeCompletedTodosUC = new RemoveCompletedTodosUseCase(this.repository);
 
     // state selectors
     this.todos$ = this.dispatch.asObservable().pipe(map(state => state.todos));
     this.filter$ = this.dispatch.asObservable().pipe(map(state => state.filter));
-    this.incompletedTodosCount$ = this.todos$.pipe(
-      map(todos => todos.filter(todo => !todo.completed)),
-      map(todos => todos.length),
-    );
+    this.incompletedTodosCount$ = this.dispatch.asObservable().pipe(map(state => state.incompletedTodosCount));
   }
 
   getAllTodos() {
-    this.getAllTodosUC
-      .execute()
-      .pipe(
-        map(todos => todos.map(this.mapper.mapFrom)),
+    const todos$ = this.getAllTodosUC.execute();
+    const count$ = this.getIncompletedTodosCountUC.execute();
+
+    zip(todos$, count$).subscribe(([todos, count]) => {
+      this.dispatch.next(
+        (this.state = {
+          ...this.state,
+          todos: todos.map(this.mapper.mapFrom),
+          filter: 'all',
+          incompletedTodosCount: count,
+        })
       )
-      .subscribe(todos => {
-        this.updateTodos(todos);
-      });
+    });
   }
 
   getCompletedTodos() {
-    this.getCompletedTodosUC
-      .execute()
-      .pipe(
-        map(todos => todos.map(this.mapper.mapFrom)),
+    const todos$ = this.getCompletedTodosUC.execute();
+    const count$ = this.getIncompletedTodosCountUC.execute();
+
+    zip(todos$, count$).subscribe(([todos, count]) => {
+      this.dispatch.next(
+        (this.state = {
+          ...this.state,
+          todos: todos.map(this.mapper.mapFrom),
+          filter: 'completed',
+          incompletedTodosCount: count,
+        })
       )
-      .subscribe(todos => {
-        this.updateTodos(todos);
-      });
+    });
   }
 
   getIncompletedTodos() {
-    this.getIncompletedTodosUC
-      .execute()
-      .pipe(
-        map(todos => todos.map(this.mapper.mapFrom)),
+    const todos$ = this.getIncompletedTodosUC.execute();
+    const count$ = this.getIncompletedTodosCountUC.execute();
+
+    zip(todos$, count$).subscribe(([todos, count]) => {
+      this.dispatch.next(
+        (this.state = {
+          ...this.state,
+          todos: todos.map(this.mapper.mapFrom),
+          filter: 'active',
+          incompletedTodosCount: count,
+        })
       )
-      .subscribe(todos => {
-        this.updateTodos(todos);
-      });
+    });
   }
 
   addTodo(name: string) {

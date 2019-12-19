@@ -2,6 +2,7 @@ import { Observable, of } from 'rxjs';
 import { LocalStorageService } from '../../../../../core/domain/service/localstorage.service';
 import { TodoEntity } from '../../../domain/entity/todo.entity';
 import { TodoRepository } from '../../../domain/repository/todo.repository';
+import { map } from 'rxjs/operators';
 
 export class TodoLocalStorageRepository implements TodoRepository {
   constructor(private localStorageService: LocalStorageService) {}
@@ -16,6 +17,12 @@ export class TodoLocalStorageRepository implements TodoRepository {
 
   public getIncompletedTodos(): Observable<TodoEntity[]> {
     throw Error('not implemented');
+  }
+
+  public getIncompletedTodosCount(): Observable<number> {
+    return this.getIncompletedTodos().pipe(
+      map(todos => todos.length)
+    );
   }
 
   public searchTodos(keyword: string): Observable<TodoEntity[]> {
