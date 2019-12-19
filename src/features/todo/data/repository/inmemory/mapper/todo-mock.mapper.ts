@@ -1,13 +1,13 @@
 import { Mapper } from '../../../../../../core/common/mapper';
 import { TodoEntity } from '../../../../domain/entity/todo.entity';
-import { TodoMockModel } from './../model/todo-mock.model';
+import { TodoMockDto } from '../dto/todo-mock.dto';
 
-export class TodoMockMapper implements Mapper<TodoEntity, TodoMockModel> {
-  mapFrom(input: TodoEntity): TodoMockModel {
+export class TodoMockMapper implements Mapper<TodoEntity, TodoMockDto> {
+  mapFrom(input: TodoEntity): TodoMockDto {
     return { id: input.id, title: input.name, completed: input.completed };
   }
 
-  mapTo(input: TodoMockModel): TodoEntity {
+  mapTo(input: TodoMockDto): TodoEntity {
     return { id: input.id, name: input.title, completed: input.completed };
   }
 }

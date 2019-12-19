@@ -1,5 +1,4 @@
 import { Observable } from 'rxjs';
-import { Presenter } from '../../../../core/presentation/presenter';
 import { TodoVM } from '../viewmodel/todos.viewmodel';
 
 export abstract class TodoPresenter {

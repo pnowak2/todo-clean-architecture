@@ -1,5 +1,5 @@
 import { skip } from 'rxjs/operators';
-import { TodoMockModel } from '../../data/repository/inmemory/model/todo-mock.model';
+import { TodoMockDto } from '../../data/repository/inmemory/dto/todo-mock.dto';
 import { TodoInMemoryRepository } from './../../data/repository/inmemory/todo.inmemory.repository';
 import { TodoDefaultPresenter } from './todo-default.presenter';
 import { TodoPresenter } from './todo.presenter';
@@ -9,7 +9,7 @@ describe('Todo Presenter', () => {
 
   const item1 = ({ id: '1', title: 'todo 1', completed: true });
   const item2 = ({ id: '2', title: 'todo 2', completed: false });
-  const db: TodoMockModel[] = [item1, item2];
+  const db: TodoMockDto[] = [item1, item2];
 
   beforeEach(() => {
     todoPresenter = new TodoDefaultPresenter(new TodoInMemoryRepository(db));

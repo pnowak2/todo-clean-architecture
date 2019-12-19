@@ -2,11 +2,11 @@ import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { TodoEntity } from '../../../domain/entity/todo.entity';
 import { TodoRepository } from '../../../domain/repository/todo.repository';
+import { TodoMockDto } from './dto/todo-mock.dto';
 import { TodoMockMapper } from './mapper/todo-mock.mapper';
-import { TodoMockModel } from './model/todo-mock.model';
 
 export class TodoInMemoryRepository implements TodoRepository {
-  constructor(private data: TodoMockModel[] = []) { }
+  constructor(private data: TodoMockDto[] = []) { }
 
   private mapper = new TodoMockMapper();
 

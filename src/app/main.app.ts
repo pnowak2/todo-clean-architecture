@@ -1,4 +1,4 @@
-import { TodoMockModel } from '../features/todo/data/repository/inmemory/model/todo-mock.model';
+import { TodoMockDto } from '../features/todo/data/repository/inmemory/dto/todo-mock.dto';
 import { TodoInMemoryRepository } from '../features/todo/data/repository/inmemory/todo.inmemory.repository';
 import { TodoRepository } from '../features/todo/domain/repository/todo.repository';
 import { TodoDefaultPresenter } from '../features/todo/presentation/presenter/todo-default.presenter';
@@ -34,8 +34,8 @@ export class TerminalApp {
 }
 
 const db = [
-  new TodoMockModel({ id: '1', title: 'todo 1', completed: true }),
-  new TodoMockModel({ id: '2', title: 'todo 2', completed: false }),
-  new TodoMockModel({ id: '3', title: 'todo 3', completed: false }),
+  new TodoMockDto({ id: '1', title: 'todo 1', completed: true }),
+  new TodoMockDto({ id: '2', title: 'todo 2', completed: false }),
+  new TodoMockDto({ id: '3', title: 'todo 3', completed: false }),
 ];
 new TerminalApp(new TodoInMemoryRepository(db)).run();

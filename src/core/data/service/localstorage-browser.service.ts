@@ -1,15 +1,14 @@
 import { LocalStorageService } from '../../domain/service/localstorage.service';
 
-interface ICache {
+interface Cache {
   [key: string]: any;
 }
 
 export class LocalStorageBrowserService implements LocalStorageService {
-  private cache: ICache;
+  private cache: Cache;
 
-  constructor(private localStorage: Storage, private keyPrefix: string = 'app') {
+  constructor(private localStorage: Storage, private keyPrefix: string = 'todo-app') {
     this.cache = {};
-    this.keyPrefix = 'app';
 
     window.addEventListener('storage', this.handleStorageEvent.bind(this));
   }

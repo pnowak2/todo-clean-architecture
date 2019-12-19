@@ -1,9 +1,9 @@
-export class TodoMockModel {
+export class TodoMockDto {
     id: string;
     title: string; // <-- different as in todo domain entity
     completed: boolean;
 
-    constructor(params: TodoMockModel) {
+    constructor(params: TodoMockDto) {
         Object.assign(this, params);
     }
 }
