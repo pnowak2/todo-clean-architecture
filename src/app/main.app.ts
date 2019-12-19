@@ -3,7 +3,6 @@ import { TodoInMemoryRepository } from '../features/todo/data/repository/inmemor
 import { TodoRepository } from '../features/todo/domain/repository/todo.repository';
 import { TodoDefaultPresenter } from '../features/todo/presentation/presenter/todo-default.presenter';
 import { TodoPresenter } from '../features/todo/presentation/presenter/todo.presenter';
-import { combineLatest } from 'rxjs';
 
 export class TerminalApp {
   private todoApp: TodoPresenter = new TodoDefaultPresenter(this.todoRepository);
