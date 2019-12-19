@@ -1,63 +1,107 @@
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Todo } from '../../../domain/model/todo.model';
+import { TodoEntity } from '../../../domain/entity/todo.entity';
 import { TodoRepository } from '../../../domain/repository/todo.repository';
-
-let todosDB = [
-  new Todo({ id: '1', name: 'todo 1', completed: true }),
-  new Todo({ id: '2', name: 'todo 2' }),
-  new Todo({ id: '3', name: 'todo 3' }),
-];
+import { TodoMockMapper } from './mapper/todo-mock.mapper';
+import { TodoMockModel } from './model/todo-mock.model';
 
 export class TodoInMemoryRepository implements TodoRepository {
-  public getAllTodos(): Observable<Todo[]> {
-    return of(todosDB);
+  constructor(private data: TodoMockModel[] = []) { }
+
+  private mapper = new TodoMockMapper();
+
+  public getAllTodos(): Observable<TodoEntity[]> {
+    return of(this.data)
+      .pipe(
+        map(mocks => mocks.map(this.mapper.mapTo))
+      );
   }
 
-  public getCompletedTodos(): Observable<Todo[]> {
-    return of(todosDB.filter(todo => todo.completed));
+  public getCompletedTodos(): Observable<TodoEntity[]> {
+    return of(this.data.filter(todo => todo.completed))
+      .pipe(
+        map(mocks => mocks.map(this.mapper.mapTo))
+      );
   }
 
-  public getIncompletedTodos(): Observable<Todo[]> {
-    return of(todosDB.filter(todo => !todo.completed));
+  public getIncompletedTodos(): Observable<TodoEntity[]> {
+    return of(this.data.filter(todo => !todo.completed))
+      .pipe(
+        map(mocks => mocks.map(this.mapper.mapTo))
+      );
   }
 
-  public searchTodos(keyword: string): Observable<Todo[]> {
-    return this.getAllTodos().pipe(map(todos => todos.filter(todo => todo.name.includes(keyword))));
+  public getIncompletedTodosCount(): Observable<number> {
+    return this.getIncompletedTodos().pipe(
+      map(todos => todos.length)
+    );
   }
 
-  public addTodo(name: string): Observable<Todo> {
+  public searchTodos(keyword: string): Observable<TodoEntity[]> {
+    return this.getAllTodos()
+      .pipe(
+        map(todos => todos.filter(todo => todo.name.includes(keyword)))
+      );
+  }
+
+  public addTodo(name: string): Observable<TodoEntity> {
     const id = 'item-' + new Date().getTime();
-    const todo: Todo = { id, name };
+    const todo: TodoEntity = { id, name };
 
-    todosDB.push(todo);
+    this.data.push(this.mapper.mapFrom(todo));
     return of(todo);
   }
 
-  public getTodoById(id: string): Observable<Todo> {
-    return of(todosDB.find(todo => todo.id === id));
+  public getTodoById(id: string): Observable<TodoEntity> {
+    return of(this.data.find(todo => todo.id === id))
+      .pipe(
+        map(this.mapper.mapTo)
+      )
   }
 
-  public removeTodo(id: string): Observable<Todo> {
-    const idx = todosDB.findIndex(t => t.id === id);
-    const todo = todosDB.find(t => t.id === id);
+  public removeTodo(id: string): Observable<TodoEntity> {
+    const idx = this.data.findIndex(t => t.id === id);
+    const todo = this.data.find(t => t.id === id);
 
-    todosDB.splice(idx, 1);
+    this.data.splice(idx, 1);
 
-    return of(todo);
+    return of(todo)
+      .pipe(
+        map(this.mapper.mapTo)
+      );
   }
 
-  public removeCompletedTodos(): Observable<Todo[]> {
-    const incompletedTodos = todosDB.filter(todo => !todo.completed);
-    todosDB = [...incompletedTodos];
+  public removeCompletedTodos(): Observable<TodoEntity[]> {
+    const incompletedTodos = this.data.filter(todo => !todo.completed);
+    this.data = [...incompletedTodos];
 
-    return of(incompletedTodos);
+    return of(incompletedTodos)
+      .pipe(
+        map(mocks => mocks.map(this.mapper.mapTo))
+      );
   }
 
-  public markTodoAsCompleted(id: string, isCompleted: boolean): Observable<Todo> {
-    const todo = todosDB.find(t => t.id === id);
+  public markTodoAsCompleted(id: string, isCompleted: boolean): Observable<TodoEntity> {
+    const todo = this.data.find(t => t.id === id);
     todo.completed = isCompleted;
 
-    return of(todo);
+    return of(todo)
+      .pipe(
+        map(this.mapper.mapTo)
+      );
+  }
+
+  public markAllTodosAsCompleted(): Observable<TodoEntity[]> {
+    return of(this.data.map(todo => ({ ...todo, completed: true })))
+      .pipe(
+        map(mocks => mocks.map(this.mapper.mapTo))
+      );
+  }
+
+  public markAllTodosAsIncompleted(): Observable<TodoEntity[]> {
+    return of(this.data.map(todo => ({ ...todo, completed: false })))
+      .pipe(
+        map(mocks => mocks.map(this.mapper.mapTo))
+      );
   }
 }

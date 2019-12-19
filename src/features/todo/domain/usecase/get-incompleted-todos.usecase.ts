@@ -1,12 +1,12 @@
 import { Observable } from 'rxjs';
 import { UseCase } from '../../../../core/domain/usecase/usecase';
-import { Todo } from '../model/todo.model';
+import { TodoEntity } from '../entity/todo.entity';
 import { TodoRepository } from '../repository/todo.repository';
 
-export class GetIncompletedTodosUseCase implements UseCase<void, Todo[]> {
+export class GetIncompletedTodosUseCase implements UseCase<void, TodoEntity[]> {
   constructor(private todoRepository: TodoRepository) {}
 
-  execute(): Observable<Todo[]> {
+  execute(): Observable<TodoEntity[]> {
     return this.todoRepository.getIncompletedTodos();
   }
 }

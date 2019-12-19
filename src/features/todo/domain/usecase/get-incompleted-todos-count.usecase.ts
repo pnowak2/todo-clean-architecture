@@ -1,12 +1,11 @@
 import { Observable } from 'rxjs';
 import { UseCase } from '../../../../core/domain/usecase/usecase';
-import { Todo } from '../model/todo.model';
 import { TodoRepository } from '../repository/todo.repository';
 
-export class SearchTodosUseCase implements UseCase<string, Todo[]> {
+export class GetIncompletedTodosCountUseCase implements UseCase<void, number> {
   constructor(private todoRepository: TodoRepository) {}
 
-  execute(keyword: string): Observable<Todo[]> {
-    return this.todoRepository.searchTodos(keyword);
+  execute(): Observable<number> {
+    return this.todoRepository.getIncompletedTodosCount();
   }
 }

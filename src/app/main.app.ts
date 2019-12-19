@@ -1,71 +1,39 @@
-import { Observable } from 'rxjs';
+import { TodoMockModel } from '../features/todo/data/repository/inmemory/model/todo-mock.model';
 import { TodoInMemoryRepository } from '../features/todo/data/repository/inmemory/todo.inmemory.repository';
 import { TodoRepository } from '../features/todo/domain/repository/todo.repository';
-import { AddTodoUseCase } from '../features/todo/domain/usecase/add-todo.usecase';
-import { GetAllTodosUseCase } from '../features/todo/domain/usecase/get-all-todos.usecase';
-import { GetCompletedTodosUseCase } from '../features/todo/domain/usecase/get-completed-todos.usecase';
-import { GetIncompletedTodosUseCase } from '../features/todo/domain/usecase/get-incompleted-todos.usecase';
-import { MarkTodoAsCompletedUseCase } from '../features/todo/domain/usecase/mark-todo-as-complete.usecase';
-import { MarkTodoAsIncompletedUseCase } from '../features/todo/domain/usecase/mark-todo-as-incomplete.usecase';
-import { RemoveCompletedTodosUseCase } from '../features/todo/domain/usecase/remove-completed-todos.usecas';
-import { RemoveTodoUseCase } from '../features/todo/domain/usecase/remove-todo-id.usecase';
-import { TodoVM } from '../features/todo/presentation/state/todos.state';
-import { TodoDefaultPresenter } from '../features/todo/presentation/todo-default.presenter';
-import { TodoPresenter } from '../features/todo/presentation/todo.presenter';
+import { TodoDefaultPresenter } from '../features/todo/presentation/presenter/todo-default.presenter';
+import { TodoPresenter } from '../features/todo/presentation/presenter/todo.presenter';
 
 export class TerminalApp {
-  private todos$: Observable<TodoVM[]>;
-  private todosCount$: Observable<number>;
-  private incompletedTodosCount$: Observable<number>;
+  private todoApp: TodoPresenter = new TodoDefaultPresenter(this.todoRepository);
 
-  private todoPresenter: TodoPresenter;
-
-  constructor() {
-    // Dependency injection configuration
-    const inMemoryTodoRepo: TodoRepository = new TodoInMemoryRepository();
-    const getAllTodosUC: GetAllTodosUseCase = new GetAllTodosUseCase(inMemoryTodoRepo);
-    const getCompletedTodosUC: GetCompletedTodosUseCase = new GetCompletedTodosUseCase(inMemoryTodoRepo);
-    const getIncompletedTodosUC: GetIncompletedTodosUseCase = new GetIncompletedTodosUseCase(inMemoryTodoRepo);
-    const addTodoUC: AddTodoUseCase = new AddTodoUseCase(inMemoryTodoRepo);
-    const markTodoAsCompletedUC: MarkTodoAsCompletedUseCase = new MarkTodoAsCompletedUseCase(inMemoryTodoRepo);
-    const markTodoAsIncompletedUC: MarkTodoAsIncompletedUseCase = new MarkTodoAsIncompletedUseCase(inMemoryTodoRepo);
-    const removeTodoUC: RemoveTodoUseCase = new RemoveTodoUseCase(inMemoryTodoRepo);
-    const removeCompletedTodosUC: RemoveCompletedTodosUseCase = new RemoveCompletedTodosUseCase(inMemoryTodoRepo);
-
-    this.todoPresenter = new TodoDefaultPresenter(
-      getAllTodosUC,
-      getCompletedTodosUC,
-      getIncompletedTodosUC,
-      addTodoUC,
-      markTodoAsCompletedUC,
-      markTodoAsIncompletedUC,
-      removeTodoUC,
-      removeCompletedTodosUC,
-    );
-
-    // View observables binding
-    this.todos$ = this.todoPresenter.todos$;
-    this.todosCount$ = this.todoPresenter.todosCount$;
-    this.incompletedTodosCount$ = this.todoPresenter.incompletedTodosCount$;
-
-    // Presenter reactive subscriptions
-    this.todos$.subscribe(todos => {
+  constructor(private todoRepository: TodoRepository) {
+    this.todoApp.todos$.subscribe(todos => {
       console.log('todos', todos);
     });
 
-    this.todosCount$.subscribe(todosCount => {
-      console.log('todos count', todosCount);
+    this.todoApp.incompletedTodosCount$.subscribe(todosCount => {
+      console.log('incompleted todos count', todosCount);
     });
 
-    this.incompletedTodosCount$.subscribe(todosCount => {
-      console.log('incompleted todos count', todosCount);
+    this.todoApp.filter$.subscribe(filter => {
+      console.log('filter', filter);
     });
   }
 
   public run() {
-    // UI Events/Code
-    this.todoPresenter.getAllTodos();
+    this.todoApp.getAllTodos();
+    this.todoApp.getCompletedTodos();
+    this.todoApp.getIncompletedTodos();
+
+    this.todoApp.addTodo('new todo');
+    this.todoApp.addTodo('another new todo');
   }
 }
 
-new TerminalApp().run();
+const db = [
+  new TodoMockModel({ id: '1', title: 'todo 1', completed: true }),
+  new TodoMockModel({ id: '2', title: 'todo 2', completed: false }),
+  new TodoMockModel({ id: '3', title: 'todo 3', completed: false }),
+];
+new TerminalApp(new TodoInMemoryRepository(db)).run();

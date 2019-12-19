@@ -1,9 +1,9 @@
-export class Todo {
+export class TodoEntity {
   id: string;
   name: string;
   completed?: boolean;
 
-  constructor(params: Todo) {
+  constructor(params: TodoEntity) {
     Object.assign(this, params);
   }
 }
