@@ -109,7 +109,7 @@ export class TodoDefaultPresenter implements TodoPresenter {
     });
   }
 
-  addTodo(name: string) {
+  addTodo(name: string): Observable<TodoVM> {
     const add$ = this.addTodoUC.execute({ name });
     const count$ = this.getActiveTodosCountUC.execute();
     const todos$ = this.filterTodosUC.execute({ filter: this.state.filter });
@@ -123,6 +123,8 @@ export class TodoDefaultPresenter implements TodoPresenter {
         }),
       );
     });
+
+    return add$.pipe(map(this.mapper.mapFrom));
   }
 
   markTodoAsCompleted(id: string) {

@@ -9,7 +9,7 @@ export abstract class TodoPresenter {
   abstract getAllTodos(): void;
   abstract getCompletedTodos(): void;
   abstract getActiveTodos(): void;
-  abstract addTodo(name: string): void;
+  abstract addTodo(name: string): Observable<TodoVM>;
   abstract markTodoAsCompleted(id: string): void;
   abstract markTodoAsActive(id: string): void;
   abstract markAllTodosAsCompleted(): void;
