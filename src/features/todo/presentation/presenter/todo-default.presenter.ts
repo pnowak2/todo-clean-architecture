@@ -1,5 +1,5 @@
 import { BehaviorSubject, forkJoin, Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { TodoRepository } from '../../domain/repository/todo.repository';
 import { AddTodoUseCase } from '../../domain/usecase/add-todo.usecase';
 import { FilterTodosUseCase } from '../../domain/usecase/filter-todos.usecase';
@@ -110,9 +110,9 @@ export class TodoDefaultPresenter implements TodoPresenter {
   }
 
   addTodo(name: string) {
-    const add$ = this.addTodoUC.execute(name);
+    const add$ = this.addTodoUC.execute({ name });
     const count$ = this.getActiveTodosCountUC.execute();
-    const todos$ = this.filterTodosUC.execute(this.state.filter);
+    const todos$ = this.filterTodosUC.execute({ filter: this.state.filter });
 
     forkJoin(add$, count$, todos$).subscribe(([, count, todos]) => {
       this.dispatch.next(
@@ -126,9 +126,9 @@ export class TodoDefaultPresenter implements TodoPresenter {
   }
 
   markTodoAsCompleted(id: string) {
-    const mark$ = this.markTodoAsCompletedUC.execute(id);
+    const mark$ = this.markTodoAsCompletedUC.execute({ id });
     const count$ = this.getActiveTodosCountUC.execute();
-    const todos$ = this.filterTodosUC.execute(this.state.filter);
+    const todos$ = this.filterTodosUC.execute({ filter: this.state.filter });
 
     forkJoin(mark$, count$, todos$).subscribe(([, count, todos]) => {
       this.dispatch.next(
@@ -142,9 +142,9 @@ export class TodoDefaultPresenter implements TodoPresenter {
   }
 
   markTodoAsActive(id: string) {
-    const mark$ = this.markTodoAsActiveUC.execute(id);
+    const mark$ = this.markTodoAsActiveUC.execute({ id });
     const count$ = this.getActiveTodosCountUC.execute();
-    const todos$ = this.filterTodosUC.execute(this.state.filter);
+    const todos$ = this.filterTodosUC.execute({ filter: this.state.filter });
 
     forkJoin(mark$, count$, todos$).subscribe(([, count, todos]) => {
       this.dispatch.next(
@@ -160,7 +160,7 @@ export class TodoDefaultPresenter implements TodoPresenter {
   markAllTodosAsCompleted() {
     const mark$ = this.markAllTodosAsCompletedUC.execute();
     const count$ = this.getActiveTodosCountUC.execute();
-    const todos$ = this.filterTodosUC.execute(this.state.filter);
+    const todos$ = this.filterTodosUC.execute({ filter: this.state.filter });
 
     forkJoin(mark$, count$, todos$).subscribe(([, count, todos]) => {
       this.dispatch.next(
@@ -176,7 +176,7 @@ export class TodoDefaultPresenter implements TodoPresenter {
   markAllTodosAsActive() {
     const mark$ = this.markAllTodosAsActiveUC.execute();
     const count$ = this.getActiveTodosCountUC.execute();
-    const todos$ = this.filterTodosUC.execute(this.state.filter);
+    const todos$ = this.filterTodosUC.execute({ filter: this.state.filter });
 
     forkJoin(mark$, count$, todos$).subscribe(([, count, todos]) => {
       this.dispatch.next(
@@ -190,9 +190,9 @@ export class TodoDefaultPresenter implements TodoPresenter {
   }
 
   removeTodo(id: string) {
-    const remove$ = this.removeTodoUC.execute(id);
+    const remove$ = this.removeTodoUC.execute({ id });
     const count$ = this.getActiveTodosCountUC.execute();
-    const todos$ = this.filterTodosUC.execute(this.state.filter);
+    const todos$ = this.filterTodosUC.execute({ filter: this.state.filter });
 
     forkJoin(remove$, count$, todos$).subscribe(([, count, todos]) => {
       this.dispatch.next(
@@ -208,7 +208,7 @@ export class TodoDefaultPresenter implements TodoPresenter {
   removeCompletedTodos() {
     const remove$ = this.removeCompletedTodosUC.execute();
     const count$ = this.getActiveTodosCountUC.execute();
-    const todos$ = this.filterTodosUC.execute(this.state.filter);
+    const todos$ = this.filterTodosUC.execute({ filter: this.state.filter });
 
     forkJoin(remove$, count$, todos$).subscribe(([, count, todos]) => {
       this.dispatch.next(
