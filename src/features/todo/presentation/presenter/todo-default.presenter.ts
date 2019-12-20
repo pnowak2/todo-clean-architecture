@@ -61,7 +61,7 @@ export class TodoDefaultPresenter implements TodoPresenter {
     this.activeTodosCount$ = this.dispatch.asObservable().pipe(map(state => state.activeTodosCount));
   }
 
-  getAllTodos() {
+  getAllTodos(): Observable<TodoVM[]> {
     const todos$ = this.getAllTodosUC.execute();
     const count$ = this.getActiveTodosCountUC.execute();
 
@@ -75,6 +75,8 @@ export class TodoDefaultPresenter implements TodoPresenter {
         }),
       );
     });
+
+    return todos$.pipe(map(todos => todos.map(this.mapper.mapFrom)));
   }
 
   getCompletedTodos() {

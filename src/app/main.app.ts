@@ -24,7 +24,9 @@ export class TerminalApp {
   }
 
   public run() {
-    this.todoApp.getAllTodos();
+    this.todoApp.getAllTodos().subscribe(todos => {
+      console.log('--- listing todos length ---', todos.length)
+    });
     this.todoApp.addTodo('new todo').pipe(
       catchError(err => {
         console.log('--- error occured ---', err);
