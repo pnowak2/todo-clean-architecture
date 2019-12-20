@@ -1,6 +1,5 @@
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Result } from '../../../../../core/domain/common/result';
 import { LocalStorageService } from '../../../../../core/domain/service/localstorage.service';
 import { TodoEntity } from '../../../domain/entity/todo.entity';
 import { TodoRepository } from '../../../domain/repository/todo.repository';
@@ -26,11 +25,11 @@ export class TodoLocalStorageRepository implements TodoRepository {
 
   public addTodo(name: string): Observable<TodoEntity> {
     const todos: TodoEntity[] = this.localStorageService.getItem('todos') || [];
-    const todoOrError: Result<TodoEntity> = TodoEntity.create({ id: Math.random().toString(), name });
+    const todo = TodoEntity.create({ id: Math.random().toString(), name });
 
-    this.localStorageService.setItem('todos', [...todos, todoOrError.getValue()]);
+    this.localStorageService.setItem('todos', [...todos, todo]);
 
-    return of(todoOrError.getValue());
+    return of(todo);
   }
 
   public getTodoById(id: string): Observable<TodoEntity> {
