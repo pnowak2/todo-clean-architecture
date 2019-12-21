@@ -112,21 +112,23 @@ export class TodoDefaultPresenter implements TodoPresenter {
   }
 
   addTodo(name: string): Observable<TodoVM> {
-    const add$ = this.addTodoUC.execute({ name });
+    const add$ = this.addTodoUC.execute({ name }).pipe(map(this.mapper.mapFrom));
     const count$ = this.getActiveTodosCountUC.execute();
-    const todos$ = this.filterTodosUC.execute({ filter: this.state.filter });
+    const todos$ = this.filterTodosUC.execute({ filter: this.state.filter }).pipe(
+      map(todos => todos.map(this.mapper.mapFrom))
+    );
 
-    forkJoin(add$, count$, todos$).subscribe(([, count, todos]) => {
+    forkJoin(add$, count$, todos$).subscribe(([todo, activeTodosCount, todos]) => {
       this.dispatch.next(
         (this.state = {
           ...this.state,
-          todos: todos.map(this.mapper.mapFrom),
-          activeTodosCount: count,
+          todos,
+          activeTodosCount,
         }),
       );
     });
 
-    return add$.pipe(map(this.mapper.mapFrom));
+    return add$;
   }
 
   markTodoAsCompleted(id: string) {
