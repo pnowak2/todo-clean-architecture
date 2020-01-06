@@ -21,6 +21,7 @@ Give following Presentation layers
 * Ionic
 * Terminal UI nodejs app
   * https://github.com/druc/todo-cli
+  * https://github.com/dalenguyen/todo-cli
   * api inspiration https://github.com/darrikonn/td-cli/blob/master/API.md
   * https://itnext.io/how-to-create-your-own-typescript-cli-with-node-js-1faf7095ef89
   * https://itnext.io/create-your-own-advanced-cli-with-typescript-5868ae3df397
