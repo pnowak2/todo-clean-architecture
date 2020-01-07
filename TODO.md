@@ -52,7 +52,10 @@ Resources
 
 DDD Articles and repos
 
+Repos
 * https://github.com/stemmlerjs/white-label
+* https://github.com/stemmlerjs/ddd-forum
+
 * https://medium.com/inato/expressive-error-handling-in-typescript-and-benefits-for-domain-driven-design-70726e061c86
 * https://khalilstemmler.com/articles/enterprise-typescript-nodejs/handling-errors-result-class/
 * https://khalilstemmler.com/articles/enterprise-typescript-nodejs/functional-error-handling/
