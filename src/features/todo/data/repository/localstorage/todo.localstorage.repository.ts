@@ -24,13 +24,13 @@ export class TodoLocalStorageRepository implements TodoRepository {
     return this.getActiveTodos().pipe(map(todos => todos.length));
   }
 
-  public addTodo(name: string): Observable<TodoEntity> {
+  public addTodo(name: string): Observable<Result<TodoEntity>> {
     const todos: TodoEntity[] = this.localStorageService.getItem('todos') || [];
     const todoOrError: Result<TodoEntity> = TodoEntity.create({ id: Math.random().toString(), name });
 
     this.localStorageService.setItem('todos', [...todos, todoOrError.getValue()]);
 
-    return of(todoOrError.getValue());
+    return of(todoOrError);
   }
 
   public getTodoById(id: string): Observable<TodoEntity> {

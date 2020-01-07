@@ -38,12 +38,12 @@ export class TodoInMemoryRepository implements TodoRepository {
     );
   }
 
-  public addTodo(name: string): Observable<TodoEntity> {
+  public addTodo(name: string): Observable<Result<TodoEntity>> {
     const id = 'item-' + new Date().getTime();
     const todoOrError: Result<TodoEntity> = TodoEntity.create({ id, name });
 
     this.data.push(this.mapper.mapFrom(todoOrError.getValue()));
-    return of(todoOrError.getValue());
+    return of(todoOrError);
   }
 
   public getTodoById(id: string): Observable<TodoEntity> {

@@ -116,7 +116,7 @@ export class TodoDefaultPresenter implements TodoPresenter {
     const count$ = this.getActiveTodosCountUC.execute();
     const todos$ = this.filterTodosUC.execute({ filter: this.state.filter });
 
-    forkJoin(add$, count$, todos$).subscribe(([, count, todos]) => {
+    forkJoin(add$, count$, todos$).subscribe(([todo, count, todos]) => {
       this.dispatch.next(
         (this.state = {
           ...this.state,
@@ -126,7 +126,7 @@ export class TodoDefaultPresenter implements TodoPresenter {
       );
     });
 
-    return add$.pipe(map(this.mapper.mapFrom));
+    return add$.pipe(map(todo => this.mapper.mapFrom(todo.getValue())));
   }
 
   markTodoAsCompleted(id: string) {

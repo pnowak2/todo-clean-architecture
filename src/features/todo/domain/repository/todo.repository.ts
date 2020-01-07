@@ -1,4 +1,5 @@
 import { Observable } from 'rxjs';
+import { Result } from '../../../../core/domain/common/result';
 import { TodoEntity } from '../entity/todo.entity';
 
 export abstract class TodoRepository {
@@ -6,7 +7,7 @@ export abstract class TodoRepository {
   public abstract getCompletedTodos(): Observable<TodoEntity[]>;
   public abstract getActiveTodos(): Observable<TodoEntity[]>;
   public abstract getActiveTodosCount(): Observable<number>;
-  public abstract addTodo(name: string): Observable<TodoEntity>;
+  public abstract addTodo(name: string): Observable<Result<TodoEntity>>;
   public abstract removeTodo(id: string): Observable<TodoEntity>;
   public abstract removeCompletedTodos(): Observable<TodoEntity[]>;
   public abstract getTodoById(id: string): Observable<TodoEntity>;
