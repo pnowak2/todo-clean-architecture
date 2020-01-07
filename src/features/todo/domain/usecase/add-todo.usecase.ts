@@ -16,6 +16,7 @@ type Response = Either<
   Result<TodoEntity>
 >
 
+// https://github.com/stemmlerjs/ddd-forum/blob/master/src/modules/forum/useCases/post/createPost/CreatePost.ts
 export class AddTodoUseCase implements UseCase<Request, Response> {
   constructor(private todoRepository: TodoRepository) { }
 
