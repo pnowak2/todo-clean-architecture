@@ -1,11 +1,11 @@
 export class Result<T> {
   public isSuccess: boolean;
   public isFailure: boolean;
-  public error: string;
+  public error: T | string;
 
   private value: T;
 
-  private constructor(isSuccess: boolean, error?: string, value?: T) {
+  public constructor(isSuccess: boolean, error?: T | string, value?: T) {
     if (isSuccess && error) {
       throw new Error('InvalidOperation: A result cannot be successful and contain an error');
     }
@@ -31,11 +31,11 @@ export class Result<T> {
   }
 
   public static ok<U>(value?: U): Result<U> {
-    return new Result(true, null, value);
+    return new Result<U>(true, null, value);
   }
 
-  public static fail<U>(error: string): Result<U> {
-    return new Result(false, error);
+  public static fail<U>(error: any): Result<U> {
+    return new Result<U>(false, error);
   }
 
   public static combine(results: Array<Result<any>>): Result<any> {

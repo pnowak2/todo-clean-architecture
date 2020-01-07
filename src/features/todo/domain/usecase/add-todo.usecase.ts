@@ -1,17 +1,27 @@
 import { Observable } from 'rxjs';
+import { Either } from '../../../../core/domain/common/either';
 import { Result } from '../../../../core/domain/common/result';
 import { UseCase } from '../../../../core/domain/usecase/usecase';
 import { TodoEntity } from '../entity/todo.entity';
+import { CreateTodoError } from '../error/todo.error';
 import { TodoRepository } from '../repository/todo.repository';
 
-export interface AddTodoUseCaseDTO {
+export interface Request {
   name: string;
 }
 
-export class AddTodoUseCase implements UseCase<AddTodoUseCaseDTO, Result<TodoEntity>> {
-  constructor(private todoRepository: TodoRepository) {}
+type Response = Either<
+  Result<CreateTodoError.NameInvalidError>
+  ,
+  Result<TodoEntity>
+>
 
-  execute(request: AddTodoUseCaseDTO): Observable<Result<TodoEntity>> {
-    return this.todoRepository.addTodo(request.name);
+export class AddTodoUseCase implements UseCase<Request, Response> {
+  constructor(private todoRepository: TodoRepository) { }
+
+  execute(request: Request): Observable<Response> {
+    const todoOrError = this.todoRepository.addTodo(request.name);
+
+    return todoOrError;
   }
 }
