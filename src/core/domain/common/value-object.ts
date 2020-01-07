@@ -2,21 +2,29 @@ interface ValueObjectProps {
   [index: string]: any;
 }
 
-export abstract class ValueObject<T extends ValueObjectProps> {
-  public readonly props: T;
+/**
+ * @desc ValueObjects are objects that we determine their
+ * equality through their structrual property.
+ */
 
-  constructor (props: T) {
-    this.props = Object.freeze(props);
+export abstract class ValueObject<T extends ValueObjectProps> {
+  public props: T;
+
+  constructor(props: T) {
+    const baseProps: any = {
+      ...props,
+    }
+
+    this.props = baseProps;
   }
 
-  public equals (vo?: ValueObject<T>) : boolean {
+  public equals(vo?: ValueObject<T>): boolean {
     if (vo === null || vo === undefined) {
       return false;
     }
     if (vo.props === undefined) {
       return false;
     }
-
-    return Object.keys(vo).every(key => vo[key] = this.props[key]);
+    return JSON.stringify(this.props) === JSON.stringify(vo.props);
   }
 }
