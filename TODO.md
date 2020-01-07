@@ -50,6 +50,17 @@ Provide alternative view frameworks
 
 Resources
 
+DDD Articles and repos
+
+* https://github.com/stemmlerjs/white-label
+* https://medium.com/inato/expressive-error-handling-in-typescript-and-benefits-for-domain-driven-design-70726e061c86
+* https://khalilstemmler.com/articles/enterprise-typescript-nodejs/handling-errors-result-class/
+* https://khalilstemmler.com/articles/enterprise-typescript-nodejs/functional-error-handling/
+* https://khalilstemmler.com/articles/typescript-value-object/
+* https://khalilstemmler.com/wiki/anemic-domain-model/
+* https://khalilstemmler.com/articles/enterprise-typescript-nodejs/application-layer-use-cases/
+
+
 
 *Other project i started*
 https://github.com/benarso/angular-cleaner-architecture/blob/master/src/app/todo/presentation/presenter/todo-presenter.service.ts
