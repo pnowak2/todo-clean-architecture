@@ -1,14 +1,14 @@
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { LocalStorageService } from '../../../../../core/domain/service/localstorage.service';
+import { PersistencyService } from '../../../../../shared/domain/service/persistency.service';
 import { TodoEntity } from '../../../domain/entity/todo.entity';
 import { TodoRepository } from '../../../domain/repository/todo.repository';
 
 export class TodoLocalStorageRepository implements TodoRepository {
-  constructor(private localStorageService: LocalStorageService) {}
+  constructor(private persistencyService: PersistencyService) {}
 
   public getAllTodos(): Observable<TodoEntity[]> {
-    return of(this.localStorageService.getItem('todos'));
+    return of(this.persistencyService.getItem('todos'));
   }
 
   public getCompletedTodos(): Observable<TodoEntity[]> {
@@ -24,16 +24,16 @@ export class TodoLocalStorageRepository implements TodoRepository {
   }
 
   public addTodo(name: string): Observable<TodoEntity> {
-    const todos: TodoEntity[] = this.localStorageService.getItem('todos') || [];
+    const todos: TodoEntity[] = this.persistencyService.getItem('todos') || [];
     const todo = TodoEntity.create({ id: Math.random().toString(), name });
 
-    this.localStorageService.setItem('todos', [...todos, todo]);
+    this.persistencyService.setItem('todos', [...todos, todo]);
 
     return of(todo);
   }
 
   public getTodoById(id: string): Observable<TodoEntity> {
-    const todos: TodoEntity[] = this.localStorageService.getItem('todos');
+    const todos: TodoEntity[] = this.persistencyService.getItem('todos');
     return of(todos.find(todo => todo.id === id));
   }
 

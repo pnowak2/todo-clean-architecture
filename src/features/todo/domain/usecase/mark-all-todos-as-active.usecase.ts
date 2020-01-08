@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { UseCase } from '../../../../core/domain/usecase/usecase';
+import { UseCase } from '../../../../shared/core/usecase';
 import { TodoEntity } from '../entity/todo.entity';
 import { TodoRepository } from '../repository/todo.repository';
 

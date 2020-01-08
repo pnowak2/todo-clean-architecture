@@ -1,10 +1,10 @@
-import { LocalStorageService } from '../../domain/service/localstorage.service';
+import { PersistencyService } from '../../domain/service/persistency.service';
 
 interface Cache {
   [key: string]: any;
 }
 
-export class LocalStorageBrowserService implements LocalStorageService {
+export class LocalStorageBrowserService implements PersistencyService {
   private cache: Cache;
 
   constructor(private localStorage: Storage, private keyPrefix: string = 'todo-app') {

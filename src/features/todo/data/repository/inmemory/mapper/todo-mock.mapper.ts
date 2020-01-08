@@ -1,4 +1,4 @@
-import { Mapper } from '../../../../../../core/common/mapper';
+import { Mapper } from '../../../../../../shared/core/mapper';
 import { TodoEntity } from '../../../../domain/entity/todo.entity';
 import { TodoMockDto } from '../dto/todo-mock.dto';
 
