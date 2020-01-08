@@ -33,6 +33,10 @@ export class TodoEntity extends Entity<TodoProps> {
       return Result.fail(guardResult.message);
     }
 
+    if(props.name.trim() === '') {
+      return Result.fail('Name cannot be blank');
+    }
+
     const todo = new TodoEntity({
       ...props
     }, id);
