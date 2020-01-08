@@ -1,5 +1,6 @@
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Result } from '../../../../../shared/core/Result';
 import { TodoEntity } from '../../../domain/entity/todo.entity';
 import { TodoRepository } from '../../../domain/repository/todo.repository';
 import { TodoMockDto } from './dto/todo-mock.dto';
@@ -37,12 +38,10 @@ export class TodoInMemoryRepository implements TodoRepository {
     );
   }
 
-  public addTodo(name: string): Observable<TodoEntity> {
-    const id = 'item-' + new Date().getTime();
-    const todo: TodoEntity = TodoEntity.create({ id, name });
-
-    this.data.push(this.mapper.mapFrom(todo));
-    return of(todo);
+  public addTodo(name: string): Observable<void> {
+    const todo: Result<TodoEntity> = TodoEntity.create({ name });
+    this.data.push(this.mapper.mapFrom(todo.getValue()));
+    return of();
   }
 
   public getTodoById(id: string): Observable<TodoEntity> {

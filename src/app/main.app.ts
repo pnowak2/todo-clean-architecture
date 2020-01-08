@@ -24,17 +24,8 @@ export class TerminalApp {
   }
 
   public run() {
-    this.todoApp.getAllTodos().subscribe(todos => {
-      console.log('--- listing todos length ---', todos.length)
-    });
-    this.todoApp.addTodo('new todo').pipe(
-      catchError(err => {
-        console.log('--- error occured ---', err);
-        return of([]);
-      })
-    ).subscribe(todo => {
-      console.log('--- added todo ---', todo);
-    })
+    this.todoApp.getAllTodos();
+    this.todoApp.addTodo('new todo')
   }
 }
 

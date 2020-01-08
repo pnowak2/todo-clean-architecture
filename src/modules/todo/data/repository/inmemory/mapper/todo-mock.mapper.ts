@@ -1,11 +1,12 @@
 import { Mapper } from '../../../../../../shared/core/mapper';
+import { UniqueEntityID } from '../../../../../../shared/domain/unique-entity-id';
 import { TodoEntity } from '../../../../domain/entity/todo.entity';
 import { TodoMockDto } from '../dto/todo-mock.dto';
 
 export class TodoMockMapper implements Mapper<TodoEntity, TodoMockDto> {
   mapFrom(input: TodoEntity): TodoMockDto {
     return {
-      id: input.id,
+      id: input.todoId.id.toString(),
       title: input.name,
       completed: input.completed
     };
@@ -13,11 +14,10 @@ export class TodoMockMapper implements Mapper<TodoEntity, TodoMockDto> {
 
   mapTo(input: TodoMockDto): TodoEntity {
     const todo = TodoEntity.create({
-      id: input.id,
       name: input.title,
       completed: input.completed
-    });
+    }, new UniqueEntityID(input.id));
 
-    return todo;
+    return todo.getValue();
   }
 }

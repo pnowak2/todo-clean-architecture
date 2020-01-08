@@ -1,13 +1,42 @@
-export class TodoEntity {
-  id: string;
+import { Guard } from '../../../../shared/core/guard';
+import { Result } from '../../../../shared/core/Result';
+import { Entity } from '../../../../shared/domain/entity';
+import { UniqueEntityID } from '../../../../shared/domain/unique-entity-id';
+import { TodoIdEntity } from './todo-id.entity';
+
+export interface TodoProps {
   name: string;
   completed?: boolean;
+}
 
-  private constructor(params: TodoEntity) {
-    Object.assign(this, params);
+export class TodoEntity extends Entity<TodoProps> {
+  get todoId(): TodoIdEntity {
+    return TodoIdEntity.create(this._id).getValue();
   }
 
-  static create(params: TodoEntity) {
-    return new this(params);
+  get name() {
+    return this.props.name;
+  }
+
+  get completed() {
+    return this.props.completed;
+  }
+
+  private constructor(props: TodoProps, id?: UniqueEntityID) {
+    super(props, id);
+  }
+
+  static create(props: TodoProps, id?: UniqueEntityID): Result<TodoEntity> {
+    const guardResult = Guard.againstNullOrUndefined(props.name, 'name');
+
+    if(!guardResult.succeeded) {
+      return Result.fail(guardResult.message);
+    }
+
+    const todo = new TodoEntity({
+      ...props
+    }, id);
+
+    return Result.ok<TodoEntity>(todo);
   }
 }

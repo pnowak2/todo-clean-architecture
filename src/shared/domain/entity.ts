@@ -5,11 +5,11 @@ const isEntity = (v: any): v is Entity<any> => {
 };
 
 export abstract class Entity<T> {
-  protected readonly identifier: UniqueEntityID;
+  protected readonly _id: UniqueEntityID;
   public readonly props: T;
 
   constructor (props: T, id?: UniqueEntityID) {
-    this.identifier = id ? id : new UniqueEntityID();
+    this._id = id ? id : new UniqueEntityID();
     this.props = props;
   }
 
@@ -26,6 +26,6 @@ export abstract class Entity<T> {
       return false;
     }
 
-    return this.identifier.equals(object.identifier);
+    return this._id.equals(object._id);
   }
 }
