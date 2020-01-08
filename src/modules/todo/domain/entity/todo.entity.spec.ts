@@ -29,13 +29,22 @@ describe('Todo Entity', () => {
   });
 
   describe('Invalid', () => {
+    it('should guard against undefined name', () => {
+      const todo = TodoEntity.create({
+        name: undefined
+      });
+
+      expect(todo.isFailure).toBe(true);
+      expect(todo.error).toEqual('name is null or undefined');
+    });
+
     it('should guard against empty name', () => {
       const todo = TodoEntity.create({
         name: ''
       });
 
       expect(todo.isFailure).toBe(true);
-      expect(todo.error).toEqual('Name cannot be blank');
+      expect(todo.error).toEqual('name cannot be blank');
     });
 
     it('should guard against blank name', () => {
@@ -44,7 +53,7 @@ describe('Todo Entity', () => {
       });
 
       expect(todo.isFailure).toBe(true);
-      expect(todo.error).toEqual('Name cannot be blank');
+      expect(todo.error).toEqual('name cannot be blank');
     });
   });
 });

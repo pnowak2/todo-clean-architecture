@@ -34,7 +34,7 @@ export class TodoEntity extends Entity<TodoProps> {
     }
 
     if(props.name.trim() === '') {
-      return Result.fail('Name cannot be blank');
+      return Result.fail('name cannot be blank');
     }
 
     const todo = new TodoEntity({
