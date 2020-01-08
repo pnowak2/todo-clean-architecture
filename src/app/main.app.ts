@@ -1,10 +1,10 @@
 import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { TodoMockDto } from '../features/todo/data/repository/inmemory/dto/todo-mock.dto';
-import { TodoInMemoryRepository } from '../features/todo/data/repository/inmemory/todo.inmemory.repository';
-import { TodoRepository } from '../features/todo/domain/repository/todo.repository';
-import { TodoDefaultPresenter } from '../features/todo/presentation/presenter/todo-default.presenter';
-import { TodoPresenter } from '../features/todo/presentation/presenter/todo.presenter';
+import { TodoMockDto } from '../modules/todo/data/repository/inmemory/dto/todo-mock.dto';
+import { TodoInMemoryRepository } from '../modules/todo/data/repository/inmemory/todo.inmemory.repository';
+import { TodoRepository } from '../modules/todo/domain/repository/todo.repository';
+import { TodoDefaultPresenter } from '../modules/todo/presentation/presenter/todo-default.presenter';
+import { TodoPresenter } from '../modules/todo/presentation/presenter/todo.presenter';
 
 export class TerminalApp {
   private todoApp: TodoPresenter = new TodoDefaultPresenter(this.todoRepository);
