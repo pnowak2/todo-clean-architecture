@@ -6,6 +6,11 @@ import { GetCompletedTodosUseCase } from './get-completed-todos.usecase';
 
 describe('Get All Todos Use Case', () => {
 
+  // const repo: TodoRepository = {
+  //   getAllTodos: jest.fn().mockReturnValueOnce(of([])) as any,
+  //   getCompletedTodos: jest.fn() as any,
+  // } as TodoRepository;
+
   const repo: TodoRepository = {
     getAllTodos() {
       return of([
@@ -36,6 +41,16 @@ describe('Get All Todos Use Case', () => {
       ]);
     }
   } as TodoRepository;
+
+  // it('get all', (done) => {
+  //   const getAllTodosUC = new GetAllTodosUseCase(repo);
+
+  //   getAllTodosUC.execute().subscribe(todos => {
+  //     expect(repo.getAllTodos).toHaveBeenCalled();
+  //     expect(todos).toEqual([]);
+  //     done();
+  //   });
+  // });
 
   it('get all', (done) => {
     const getAllTodosUC = new GetAllTodosUseCase(repo);
