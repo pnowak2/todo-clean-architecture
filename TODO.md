@@ -20,6 +20,8 @@ Give following Presentation layers
 * Svelte
 * Ionic
 * Terminal UI nodejs app
+  * https://github.com/druc/todo-cli
+  * https://github.com/dalenguyen/todo-cli
   * api inspiration https://github.com/darrikonn/td-cli/blob/master/API.md
   * https://itnext.io/how-to-create-your-own-typescript-cli-with-node-js-1faf7095ef89
   * https://itnext.io/create-your-own-advanced-cli-with-typescript-5868ae3df397
@@ -47,6 +49,20 @@ Provide alternative view frameworks
 
 
 Resources
+
+DDD Articles and repos
+
+Repos
+* https://github.com/stemmlerjs/white-label
+* https://github.com/stemmlerjs/ddd-forum
+
+* https://medium.com/inato/expressive-error-handling-in-typescript-and-benefits-for-domain-driven-design-70726e061c86
+* https://khalilstemmler.com/articles/enterprise-typescript-nodejs/handling-errors-result-class/
+* https://khalilstemmler.com/articles/enterprise-typescript-nodejs/functional-error-handling/
+* https://khalilstemmler.com/articles/typescript-value-object/
+* https://khalilstemmler.com/wiki/anemic-domain-model/
+* https://khalilstemmler.com/articles/enterprise-typescript-nodejs/application-layer-use-cases/
+
 
 
 *Other project i started*

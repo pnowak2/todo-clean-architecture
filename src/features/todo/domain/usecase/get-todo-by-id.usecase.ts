@@ -3,10 +3,14 @@ import { UseCase } from '../../../../core/domain/usecase/usecase';
 import { TodoEntity } from '../entity/todo.entity';
 import { TodoRepository } from '../repository/todo.repository';
 
-export class GetTodoByIdUseCase implements UseCase<string, TodoEntity> {
+export interface GetTodoByIdUseCaseDto {
+  id: string;
+}
+
+export class GetTodoByIdUseCase implements UseCase<GetTodoByIdUseCaseDto, TodoEntity> {
   constructor(private todoRepository: TodoRepository) {}
 
-  execute(id: string): Observable<TodoEntity> {
-    return this.todoRepository.getTodoById(id);
+  execute(request: GetTodoByIdUseCaseDto): Observable<TodoEntity> {
+    return this.todoRepository.getTodoById(request.id);
   }
 }

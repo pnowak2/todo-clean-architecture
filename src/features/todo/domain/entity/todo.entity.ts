@@ -3,7 +3,11 @@ export class TodoEntity {
   name: string;
   completed?: boolean;
 
-  constructor(params: TodoEntity) {
+  private constructor(params: TodoEntity) {
     Object.assign(this, params);
+  }
+
+  static create(params: TodoEntity) {
+    return new this(params);
   }
 }

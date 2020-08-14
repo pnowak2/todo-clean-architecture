@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
 
-export interface UseCase<T, K> {
-  execute(input: T): Observable<K>;
+export interface UseCase<Request, Response> {
+  execute(request?: Request): Observable<Response> | Response;
 }

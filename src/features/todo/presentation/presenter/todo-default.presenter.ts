@@ -61,20 +61,24 @@ export class TodoDefaultPresenter implements TodoPresenter {
     this.activeTodosCount$ = this.dispatch.asObservable().pipe(map(state => state.activeTodosCount));
   }
 
-  getAllTodos() {
-    const todos$ = this.getAllTodosUC.execute();
+  getAllTodos(): Observable<TodoVM[]> {
+    const todos$ = this.getAllTodosUC.execute().pipe(
+      map(todos => todos.map(this.mapper.mapFrom))
+    );
     const count$ = this.getActiveTodosCountUC.execute();
 
-    forkJoin(todos$, count$).subscribe(([todos, count]) => {
+    forkJoin(todos$, count$).subscribe(([todos, activeTodosCount]) => {
       this.dispatch.next(
         (this.state = {
           ...this.state,
-          todos: todos.map(this.mapper.mapFrom),
+          todos,
           filter: 'all',
-          activeTodosCount: count,
+          activeTodosCount,
         }),
       );
     });
+
+    return todos$;
   }
 
   getCompletedTodos() {
@@ -109,26 +113,32 @@ export class TodoDefaultPresenter implements TodoPresenter {
     });
   }
 
-  addTodo(name: string) {
-    const add$ = this.addTodoUC.execute(name);
+  addTodo(name: string): Observable<TodoVM> {
+    const add$ = this.addTodoUC.execute({ name }).pipe(map(this.mapper.mapFrom));
     const count$ = this.getActiveTodosCountUC.execute();
-    const todos$ = this.filterTodosUC.execute(this.state.filter);
+    const todos$ = this.filterTodosUC.execute({ filter: this.state.filter }).pipe(
+      map(todos => todos.map(this.mapper.mapFrom))
+    );
 
-    forkJoin(add$, count$, todos$).subscribe(([, count, todos]) => {
+    add$.pipe(
+      switchMap(() => forkJoin(count$, todos$))
+    ).subscribe(([activeTodosCount, todos]) => {
       this.dispatch.next(
         (this.state = {
           ...this.state,
-          todos: todos.map(this.mapper.mapFrom),
-          activeTodosCount: count,
+          todos,
+          activeTodosCount,
         }),
       );
     });
+
+    return add$;
   }
 
   markTodoAsCompleted(id: string) {
-    const mark$ = this.markTodoAsCompletedUC.execute(id);
+    const mark$ = this.markTodoAsCompletedUC.execute({ id });
     const count$ = this.getActiveTodosCountUC.execute();
-    const todos$ = this.filterTodosUC.execute(this.state.filter);
+    const todos$ = this.filterTodosUC.execute({ filter: this.state.filter });
 
     forkJoin(mark$, count$, todos$).subscribe(([, count, todos]) => {
       this.dispatch.next(
@@ -142,9 +152,9 @@ export class TodoDefaultPresenter implements TodoPresenter {
   }
 
   markTodoAsActive(id: string) {
-    const mark$ = this.markTodoAsActiveUC.execute(id);
+    const mark$ = this.markTodoAsActiveUC.execute({ id });
     const count$ = this.getActiveTodosCountUC.execute();
-    const todos$ = this.filterTodosUC.execute(this.state.filter);
+    const todos$ = this.filterTodosUC.execute({ filter: this.state.filter });
 
     forkJoin(mark$, count$, todos$).subscribe(([, count, todos]) => {
       this.dispatch.next(
@@ -160,7 +170,7 @@ export class TodoDefaultPresenter implements TodoPresenter {
   markAllTodosAsCompleted() {
     const mark$ = this.markAllTodosAsCompletedUC.execute();
     const count$ = this.getActiveTodosCountUC.execute();
-    const todos$ = this.filterTodosUC.execute(this.state.filter);
+    const todos$ = this.filterTodosUC.execute({ filter: this.state.filter });
 
     forkJoin(mark$, count$, todos$).subscribe(([, count, todos]) => {
       this.dispatch.next(
@@ -176,7 +186,7 @@ export class TodoDefaultPresenter implements TodoPresenter {
   markAllTodosAsActive() {
     const mark$ = this.markAllTodosAsActiveUC.execute();
     const count$ = this.getActiveTodosCountUC.execute();
-    const todos$ = this.filterTodosUC.execute(this.state.filter);
+    const todos$ = this.filterTodosUC.execute({ filter: this.state.filter });
 
     forkJoin(mark$, count$, todos$).subscribe(([, count, todos]) => {
       this.dispatch.next(
@@ -190,9 +200,9 @@ export class TodoDefaultPresenter implements TodoPresenter {
   }
 
   removeTodo(id: string) {
-    const remove$ = this.removeTodoUC.execute(id);
+    const remove$ = this.removeTodoUC.execute({ id });
     const count$ = this.getActiveTodosCountUC.execute();
-    const todos$ = this.filterTodosUC.execute(this.state.filter);
+    const todos$ = this.filterTodosUC.execute({ filter: this.state.filter });
 
     forkJoin(remove$, count$, todos$).subscribe(([, count, todos]) => {
       this.dispatch.next(
@@ -208,7 +218,7 @@ export class TodoDefaultPresenter implements TodoPresenter {
   removeCompletedTodos() {
     const remove$ = this.removeCompletedTodosUC.execute();
     const count$ = this.getActiveTodosCountUC.execute();
-    const todos$ = this.filterTodosUC.execute(this.state.filter);
+    const todos$ = this.filterTodosUC.execute({ filter: this.state.filter });
 
     forkJoin(remove$, count$, todos$).subscribe(([, count, todos]) => {
       this.dispatch.next(

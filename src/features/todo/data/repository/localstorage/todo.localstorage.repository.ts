@@ -25,7 +25,7 @@ export class TodoLocalStorageRepository implements TodoRepository {
 
   public addTodo(name: string): Observable<TodoEntity> {
     const todos: TodoEntity[] = this.localStorageService.getItem('todos') || [];
-    const todo = new TodoEntity({ id: Math.random().toString(), name });
+    const todo = TodoEntity.create({ id: Math.random().toString(), name });
 
     this.localStorageService.setItem('todos', [...todos, todo]);
 

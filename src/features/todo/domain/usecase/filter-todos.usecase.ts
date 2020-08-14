@@ -5,13 +5,16 @@ import { TodoRepository } from '../repository/todo.repository';
 
 export type FilterType = 'active' | 'completed' | 'all' | null;
 
-export class FilterTodosUseCase implements UseCase<FilterType, TodoEntity[]> {
+export interface FilterTodosUseCaseDTO {
+  filter: FilterType;
+}
+export class FilterTodosUseCase implements UseCase<FilterTodosUseCaseDTO, TodoEntity[]> {
   constructor(private todoRepository: TodoRepository) {}
 
-  execute(filter: FilterType): Observable<TodoEntity[]> {
-    if (filter === 'active') {
+  execute(request: FilterTodosUseCaseDTO): Observable<TodoEntity[]> {
+    if (request.filter === 'active') {
       return this.todoRepository.getActiveTodos();
-    } else if (filter === 'completed') {
+    } else if (request.filter === 'completed') {
       return this.todoRepository.getCompletedTodos();
     } else {
       return this.todoRepository.getAllTodos();

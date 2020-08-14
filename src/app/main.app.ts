@@ -1,3 +1,5 @@
+import { of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { TodoMockDto } from '../features/todo/data/repository/inmemory/dto/todo-mock.dto';
 import { TodoInMemoryRepository } from '../features/todo/data/repository/inmemory/todo.inmemory.repository';
 import { TodoRepository } from '../features/todo/domain/repository/todo.repository';
@@ -22,14 +24,17 @@ export class TerminalApp {
   }
 
   public run() {
-    this.todoApp.getAllTodos();
-    this.todoApp.getCompletedTodos();
-    this.todoApp.getActiveTodos();
-
-    this.todoApp.addTodo('new todo');
-    this.todoApp.addTodo('another new todo');
-
-    this.todoApp.removeTodo('2');
+    this.todoApp.getAllTodos().subscribe(todos => {
+      console.log('--- listing todos length ---', todos.length)
+    });
+    this.todoApp.addTodo('new todo').pipe(
+      catchError(err => {
+        console.log('--- error occured ---', err);
+        return of([]);
+      })
+    ).subscribe(todo => {
+      console.log('--- added todo ---', todo);
+    })
   }
 }
 
@@ -38,4 +43,5 @@ const db = [
   new TodoMockDto({ id: '2', title: 'todo 2', completed: false }),
   new TodoMockDto({ id: '3', title: 'todo 3', completed: false }),
 ];
+
 new TerminalApp(new TodoInMemoryRepository(db)).run();
