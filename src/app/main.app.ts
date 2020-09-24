@@ -1,7 +1,7 @@
 import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { TodoMockDto } from '../features/todo/data/repository/inmemory/dto/todo-mock.dto';
-import { TodoInMemoryRepository } from '../features/todo/data/repository/inmemory/todo.inmemory.repository';
+import { TodoMockDto } from '../features/todo/infrastructure/repository/inmemory/dto/todo-mock.dto';
+import { TodoInMemoryRepository } from '../features/todo/infrastructure/repository/inmemory/todo.inmemory.repository';
 import { TodoRepository } from '../features/todo/domain/repository/todo.repository';
 import { TodoDefaultPresenter } from '../features/todo/presentation/presenter/todo-default.presenter';
 import { TodoPresenter } from '../features/todo/presentation/presenter/todo.presenter';
